@@ -5,31 +5,22 @@ function analyse_CheckSNR2_aston(date)
 %visually evoked responses. Calculates SNR, saves to file. Works with data
 %on local disk or on server, depending on the date.
 % date='240717_B2';
-best=1;
 switch(date)
     case '280818_B1_aston'
-        whichDir=1;
+        whichDir=2;
         best=0;
 end
 if whichDir==1%local copy available
     topDir='D:\aston_data';
 elseif whichDir==2%local copy deleted; use server copy
-    if best==1
-        topDir='X:\best';
-    elseif best==0
-        topDir='X:\other';
-    end
+    topDir='X:\aston';
 end
 copyRemotely=0;%make a copy to the remote directory?
 if copyRemotely==1
-    if best==1
-        copyDir='X:\best';
-    elseif best==0
-        copyDir='X:\other';
-    end
+    copyDir='X:\aston';
 end
 stimDur=400/1000;%in seconds
-allInstanceInd=1:4;
+allInstanceInd=1:8;
 preStimDur=300/1000;%length of pre-stimulus-onset period, in s
 postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;
@@ -40,7 +31,7 @@ for instanceCount=1:length(allInstanceInd)
     instanceNEVFileName=fullfile(topDir,date,[instanceName,'.nev']);
     NEV=openNEV(instanceNEVFileName);
     instanceNS6FileName=fullfile(topDir,date,[instanceName,'.ns6']);
-    readRaw=1;
+    readRaw=0;
     if readRaw==1
         NS=openNSx(instanceNS6FileName);
         sampFreq=NS.MetaTags.SamplingFreq;
@@ -180,7 +171,7 @@ for instanceCount=1:length(allInstanceInd)
         set(gca,'ylim',[min(meanChannelMUA(channelInd,2:end)) max(meanChannelMUA(channelInd,:))]);
         title(num2str(channelInd));
     end
-    plot1024=0;
+    plot1024=1;
     for figInd=1:4
         figure(figInd)
         set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
