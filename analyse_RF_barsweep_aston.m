@@ -1,17 +1,17 @@
-function analyse_RF_barsweep
-%29/5/17
+function analyse_RF_barsweep_aston
+%28/8/18
 %Written by Xing. Extracts MUA data from raw .NS6 file, during presentation
 %of sweeping white bar stimuli for RF mapping.
 stimDurms=1000;%in ms
 stimDur=stimDurms/1000;%in seconds
-date='280617_B1';
+date='280818_B2_aston';
 processRaw=1;
 if processRaw==1
-    for instanceInd=1:2
+    for instanceInd=5:8
         instanceName=['instance',num2str(instanceInd)];
-        instanceNEVFileName=['D:\data\',date,'\',instanceName,'.nev'];
+        instanceNEVFileName=['D:\aston_data\',date,'\',instanceName,'.nev'];
         NEV=openNEV(instanceNEVFileName);
-        instanceNS6FileName=['D:\data\',date,'\',instanceName,'.ns6'];
+        instanceNS6FileName=['D:\aston_data\',date,'\',instanceName,'.ns6'];
         NS=openNSx(instanceNS6FileName);%200 s
         % NS=openNSx('t:1:6000000');%200 s
         sampFreq=NS.MetaTags.SamplingFreq;
@@ -99,7 +99,7 @@ if processRaw==1
                 channelDataMUA{channelInd}(trialInd,:)=MUA;
             end
         end
-        fileName=fullfile('D:\data',date,['MUA_',instanceName,'.mat']);
+        fileName=fullfile('D:\aston_data',date,['MUA_',instanceName,'.mat']);
         save(fileName,'channelDataMUA','trialStimConds');
         
         %Average across trials and plot activity:
@@ -118,7 +118,7 @@ if processRaw==1
                 %         allStimCondChannelDataMUA{stimCond-2}=stimCondChannelDataMUA;
                 %     plot(meanChannelMUA(channelInd,:))
             end
-            fileName=fullfile('D:\data',date,['mean_MUA_',instanceName,'cond',num2str(stimCond-2)','.mat']);
+            fileName=fullfile('D:\aston_data',date,['mean_MUA_',instanceName,'cond',num2str(stimCond-2)','.mat']);
             save(fileName,'meanChannelMUA');
             
             for channelInd=1:NS.MetaTags.ChannelCount
@@ -140,12 +140,12 @@ if processRaw==1
 end
 
 %to draw plots from previously processed data:
-loadData=1;
+loadData=0;
 if loadData==1
     for instanceInd=1:8
         instanceName=['instance',num2str(instanceInd)];
         %     instanceName='instance1';
-        fileName=['D:\data\',date,'\MUA_',instanceName,'.mat'];
+        fileName=['D:\aston_data\',date,'\MUA_',instanceName,'.mat'];
         load(fileName)
         sampFreq=30000;
         stimDurms=1000;%in ms
@@ -162,7 +162,7 @@ if loadData==1
                 meanChannelMUA(channelInd,:)=mean(stimCondChannelDataMUA,1);
                 %     plot(meanChannelMUA(channelInd,:))
             end
-            fileName=fullfile('D:\data',date,['mean_MUA_',instanceName,'cond',num2str(stimCond-2)','.mat']);
+            fileName=fullfile('D:\aston_data',date,['mean_MUA_',instanceName,'cond',num2str(stimCond-2)','.mat']);
             save(fileName,'meanChannelMUA');
             
             for channelInd=1:128
@@ -181,7 +181,7 @@ if loadData==1
         for figInd=1:4
             figure(figInd)
             set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-            pathname=fullfile('D:\data',date,[instanceName,'_',num2str(figInd)]);
+            pathname=fullfile('D:\aston_data',date,[instanceName,'_',num2str(figInd)]);
             print(pathname,'-dtiff');
         end
         close all
