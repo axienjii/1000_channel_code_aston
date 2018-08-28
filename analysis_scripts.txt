@@ -1,0 +1,11 @@
+analyse_RF_barsweep			process raw data
+analyse_RF_barsweep_coordinates		calculate RF coordinates
+plot_all_RFs				draw plots for all channels, colour coding for cortical location of array
+plot_array_RFs				colour coding for individual electrodes on each array
+
+ana_RF_flashgrid_xing2			extract MUA for RF mapping using white square stimuli
+
+Folders:
+Z:\Shared\MFILES\RF_mapping
+
+Modified openNSx at lines 370 and 371, to suppress prompt for user input when attemtping to read a too-high number of data points from a file
