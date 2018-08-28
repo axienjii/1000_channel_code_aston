@@ -7,7 +7,7 @@ stimDur=stimDurms/1000;%in seconds
 date='280818_B2_aston';
 processRaw=1;
 if processRaw==1
-    for instanceInd=5:8
+    for instanceInd=1:4
         instanceName=['instance',num2str(instanceInd)];
         instanceNEVFileName=['D:\aston_data\',date,'\',instanceName,'.nev'];
         NEV=openNEV(instanceNEVFileName);
@@ -140,9 +140,9 @@ if processRaw==1
 end
 
 %to draw plots from previously processed data:
-loadData=0;
+loadData=1;
 if loadData==1
-    for instanceInd=1:8
+    for instanceInd=1:4
         instanceName=['instance',num2str(instanceInd)];
         %     instanceName='instance1';
         fileName=['D:\aston_data\',date,'\MUA_',instanceName,'.mat'];
