@@ -46,7 +46,7 @@ switch(date)
     case('280818')
         load(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
         impedanceAllChannelsNew=impedanceAllChannels;
-        previousDate='';
+%         previousDate='';
 %         load(['C:\Users\User\Documents\impedance_values\',previousDate,'\impedanceAllChannels.mat'],'impedanceAllChannels');
 %         impedanceAllChannelsPrevious=impedanceAllChannels;
         %column 1: impedance
@@ -56,23 +56,23 @@ switch(date)
         titleText=['red: ',previousDate,'; blue: ',date];
 end
 figure;hold on
-% length(find(impedanceAllChannelsPrevious(:,1)>800))%number of channels with too-high impedances values during hand-tightening, 485
+length(find(impedanceAllChannelsPrevious(:,1)>800))%number of channels with too-high impedances values during hand-tightening, 485
 length(find(impedanceAllChannelsNew(:,1)>800))%number of channels with too-high impedances values using a torque wrench, 111
-% for i=1:size(impedanceAllChannelsNew,1)
-%     plot([1 2],[impedanceAllChannelsPrevious(i,1),impedanceAllChannelsNew(i,1)]);
-% end
+for i=1:size(impedanceAllChannelsNew,1)
+    plot([1 2],[impedanceAllChannelsPrevious(i,1),impedanceAllChannelsNew(i,1)]);
+end
 set(gca,'XTick',[1 2])
 set(gca,'XTickLabel',xLabelsConds)
 xlim([0.5 2.5]);
-pathname=fullfile('X:\aston\aston_impedance_values\',date,['impedance_changes_',previousDate,'_to_',date]);
+pathname=fullfile('C:\Users\User\Documents\impedance_values\',date,['impedance_changes_',previousDate,'_to_',date]);
 print(pathname,'-dtiff');
 
 figure;hold on
 bins=0:50:7000; 
-% hist(impedanceAllChannelsPrevious(:,1),bins); 
-% h = findobj(gca,'Type','patch'); 
-% set(h,'EdgeColor','none') 
-% set(h,'FaceColor','r','facealpha',0.5) 
+hist(impedanceAllChannelsPrevious(:,1),bins); 
+h = findobj(gca,'Type','patch'); 
+set(h,'EdgeColor','none') 
+set(h,'FaceColor','r','facealpha',0.5) 
 hold on 
 hist(impedanceAllChannelsNew(:,1),bins); 
 h = findobj(gca,'Type','patch'); 
@@ -80,16 +80,16 @@ set(h,'facealpha',0.5,'EdgeColor','none')
 xlim([0 7000]); 
 set(gca,'box','off'); 
 title(titleText)
-pathname=fullfile('X:\aston\aston_impedance_values\',date,'impedance_histograms');
+pathname=fullfile('C:\Users\User\Documents\impedance_values\',date,'impedance_histograms');
 print(pathname,'-dtiff');
 
 %zoom in on cluster of lower impedance values
 figure;hold on
 bins=0:10:7000;
-% hist(impedanceAllChannelsPrevious(:,1),bins); 
-% h = findobj(gca,'Type','patch'); 
-% set(h,'EdgeColor','none') 
-% set(h,'FaceColor','r','facealpha',0.5) 
+hist(impedanceAllChannelsPrevious(:,1),bins); 
+h = findobj(gca,'Type','patch'); 
+set(h,'EdgeColor','none') 
+set(h,'FaceColor','r','facealpha',0.5) 
 hold on 
 hist(impedanceAllChannelsNew(:,1),bins); 
 h = findobj(gca,'Type','patch'); 
@@ -98,7 +98,7 @@ xlim([0 7000]);
 set(gca,'box','off'); 
 xlim([0 1400]); 
 ylim([0 70]); 
-pathname=fullfile('X:\aston\aston_impedance_values\',date,'impedance_histograms_zoom_lower_values');
+pathname=fullfile('C:\Users\User\Documents\impedance_values\',date,'impedance_histograms_zoom_lower_values');
 print(pathname,'-dtiff');
 
 %identify electrodes with lowest impedance values:
@@ -222,28 +222,28 @@ array16=chInfo(chInfo(:,7)==16,:);
 plot(array16(:,1),array16(:,2),'x','Color',colind(16,:));
 %some channels with low impedance on array 16
 
-array1=chInfo(chInfo(:,7)==1,:);
-array2=chInfo(chInfo(:,7)==2,:);
-array3=chInfo(chInfo(:,7)==3,:);
-array4=chInfo(chInfo(:,7)==4,:);
-array5=chInfo(chInfo(:,7)==5,:);
-array6=chInfo(chInfo(:,7)==6,:);
-array7=chInfo(chInfo(:,7)==7,:);
-array8=chInfo(chInfo(:,7)==8,:);
-array9=chInfo(chInfo(:,7)==9,:);
-array10=chInfo(chInfo(:,7)==10,:);
-array11=chInfo(chInfo(:,7)==11,:);
-array12=chInfo(chInfo(:,7)==12,:);
-array13=chInfo(chInfo(:,7)==13,:);
-array14=chInfo(chInfo(:,7)==14,:);
-array15=chInfo(chInfo(:,7)==15,:);
-array16=chInfo(chInfo(:,7)==16,:);
+% array1=chInfo(chInfo(:,7)==1,:);
+% array2=chInfo(chInfo(:,7)==2,:);
+% array3=chInfo(chInfo(:,7)==3,:);
+% array4=chInfo(chInfo(:,7)==4,:);
+% array5=chInfo(chInfo(:,7)==5,:);
+% array6=chInfo(chInfo(:,7)==6,:);
+% array7=chInfo(chInfo(:,7)==7,:);
+% array8=chInfo(chInfo(:,7)==8,:);
+% array9=chInfo(chInfo(:,7)==9,:);
+% array10=chInfo(chInfo(:,7)==10,:);
+% array11=chInfo(chInfo(:,7)==11,:);
+% array12=chInfo(chInfo(:,7)==12,:);
+% array13=chInfo(chInfo(:,7)==13,:);
+% array14=chInfo(chInfo(:,7)==14,:);
+% array15=chInfo(chInfo(:,7)==15,:);
+% array16=chInfo(chInfo(:,7)==16,:);
 % for arrayInd=1:16
-%    save(['X:\aston\aston_impedance_values\280818\max10000kohms_array',num2str(arrayInd),'.mat'],['array',num2str(arrayInd)]); 
+%    save(['C:\Users\User\Documents\impedance_values\280218\max10000kohms_array',num2str(arrayInd),'.mat'],['array',num2str(arrayInd)]); 
 % end
 
-for arrayInd=1:16
-   save(['X:\aston\aston_impedance_values\280818\array',num2str(arrayInd),'.mat'],['array',num2str(arrayInd)]); 
+for arrayInd=8:16
+   save(['C:\Users\User\Documents\impedance_values\280218\array',num2str(arrayInd),'.mat'],['array',num2str(arrayInd)]); 
 end
 figure;plot(array12(1:12,1),array12(1:12,2),'ko');
 hold on
