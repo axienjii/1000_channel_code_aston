@@ -32,11 +32,11 @@ for instanceInd=1:8
     for i=1:length(indStart)
         array(i)=str2num(A(indStart(i)+4:indHyphen(i)-1));
         electrode(i)=str2num(A(indHyphen(i)+1:indHyphen(i)+4));
-        impedance(i)=str2num(A(indEnd(i)-4:indEnd(i)-1));
+        impedance(i)=str2num(A(indEnd(i)-5:indEnd(i)-1));
     end
     allArray=[allArray array];
     allElectrode=[allElectrode electrode];
-    allImpedance=[allImpedance impedance];
+    allImpedance=[allImpedance impedance];                       
 end
 impedanceAllChannels=[allImpedance' allArray' allElectrode'];
 save(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
@@ -122,7 +122,7 @@ a=find(sortImpedanceAllChannels(:,5)>25);
 b=find(sortImpedanceAllChannels(:,5)<40);
 goodLocationInd=intersect(a,b);
 goodLocationImpedances=sortImpedanceAllChannels(goodLocationInd,:);
-% save(['C:\Users\User\Documents\impedance_values\',date,'\goodLocationImpedances.mat'],'goodLocationImpedances')
+save(['X:\aston\aston_impedance_values\',date,'\goodLocationImpedances.mat'],'goodLocationImpedances')
 
 figure;hold on
 impThreshold=10000;
@@ -185,7 +185,7 @@ axis square
 xlim([0 200]);
 ylim([-200 0]);
 title('low-high impedance: dark-light; V1: red; V4: blue');
-pathname=fullfile('C:\Users\User\Documents\impedance_values\',date,['RFs_channels_impedance_below_',num2str(impThreshold),'kOhms_vals']);
+pathname=fullfile('X:\aston\aston_impedance_values\',date,['RFs_channels_impedance_below_',num2str(impThreshold),'kOhms_vals']);
 set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
 % print(pathname,'-dtiff','-r300');
     
@@ -238,21 +238,7 @@ array13=chInfo(chInfo(:,7)==13,:);
 array14=chInfo(chInfo(:,7)==14,:);
 array15=chInfo(chInfo(:,7)==15,:);
 array16=chInfo(chInfo(:,7)==16,:);
-% for arrayInd=1:16
-%    save(['X:\aston\aston_impedance_values\280818\max10000kohms_array',num2str(arrayInd),'.mat'],['array',num2str(arrayInd)]); 
-% end
 
 for arrayInd=1:16
    save(['X:\aston\aston_impedance_values\280818\array',num2str(arrayInd),'.mat'],['array',num2str(arrayInd)]); 
 end
-figure;plot(array12(1:12,1),array12(1:12,2),'ko');
-hold on
-for ind=1:12
-    plot(array12(ind,1),array12(ind,2),'go');
-    text(array12(ind,1),array12(ind,2),num2str(ind));
-    pause(2);
-end
-a=[1 6 10 12 8 4 9];a=sort(a);
-array12selectedChs=array12(a,:);
-% save('C:\Users\User\Documents\impedance_values\170717\array12selectedChs.mat','array12selectedChs')
-pauseHere=1;
