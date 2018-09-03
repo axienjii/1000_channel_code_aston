@@ -5,7 +5,7 @@ function analyse_microstim_attention(date,allInstanceInd,analyseEyeData)
 %StimB encodes distractor onset, whlie TargetB encodes target onset.
 
 interleaved=0;%set interleaved to 0, if trigger pulse was sent using microB. set interleaved to 1, if stimulation was sent by calling stimulator.play function
-drummingOn=0;%for sessions after 9/4/18, drumming with only 2 targets was uesd 
+drummingOn=0;%for sessions after 9/4/18, drumming with only 2 targets was used 
 localDisk=1;
 if localDisk==1
     rootdir='D:\data\';
@@ -96,6 +96,16 @@ if analyseConds==1
             syncPulseCh=141;%analog input 8, records sync pulse from array 16   
             syncPulseThreshold=24000;    
         case '310718_B1'
+            setElectrodes=20;%0118_B & B?
+            setArrays=16;
+            setInd=[];
+            numTargets=[];
+            electrodePairs=[];
+            currentThresholdChs=134;
+            visualOnly=1;  
+            syncPulseCh=141;%analog input 8, records sync pulse from array 16   
+            syncPulseThreshold=1000;  
+        case '290818_B1'
             setElectrodes=20;%0118_B & B?
             setArrays=16;
             setInd=[];
@@ -328,6 +338,7 @@ if processRaw==1
         end
         %read in neuronal data, only for V4:
         if instanceInd==1
+            neuronalChsV4=33:96;
             if strcmp(date,'130718_B1')||strcmp(date,'240718_B13')||strcmp(date,'310718_B1')
                 neuronalChsV4=33:96;
             elseif strcmp(date,'130718_B3')

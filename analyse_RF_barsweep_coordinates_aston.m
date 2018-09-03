@@ -1,5 +1,5 @@
-function analyse_RF_barsweep_coordinates
-%31/5/17
+function analyse_RF_barsweep_coordinates_aston
+%28/8/18
 %Modified by Xing from ana_RF_barsweep_singlechannel.m, to obtain RF
 %coordinates from 1000-channel data.
 %Analyses data from bar sweeps using runstim_RF_barsweep
@@ -30,45 +30,38 @@ preStimDur=300/1000;%length of pre-stimulus-onset period, in s
 postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;
 
-date='260617_B1';
+% date='280818_B2_aston';
+date='290818_B1_aston';
 switch(date)%x & y co-ordinates of centre-point
-    case '060617_B2'
+    case '280818_B2_aston'
         x0 = 70;
         y0 = -70;
-        speed = 250/1000; %this is speed in pixels per ms
-    case '060617_B4'
-        x0 = 100;
-        y0 = -100;
-        speed = 250/1000; 
-    case '260617_B1'
-        x0 = 70;
-        y0 = -70;
-        speed = 500/1000; 
-    case '280617_B1'
+        speed = 20*pixperdeg/1000; %this is speed in pixels per ms
+    case '290818_B1_aston'
         x0 = 30;
         y0 = -30;
-        speed = 100/1000; 
+        speed = 4*pixperdeg/1000; 
 end
 bardist = speed*bardur;
 
 manualChannels=[];
-doManualChecks=1;
+doManualChecks=0;
 
 colInd=jet(128);
-for instanceInd=7
+for instanceInd=1:8
     instanceName=['instance',num2str(instanceInd)];
     Ons = zeros(1,4);
     Offs = zeros(1,4);
     for stimCond = 1:4
         %Get trials with this motion direction
-        fileName=fullfile('D:\data',date,['mean_MUA_',instanceName,'cond',num2str(stimCond)','.mat']);
+        fileName=fullfile('D:\aston_data',date,['mean_MUA_',instanceName,'cond',num2str(stimCond)','.mat']);
         load(fileName)
         meanChannelMUAconds{stimCond}=meanChannelMUA;
     end
     stimCondCol='rgbk';
     SigDif=[];
     channelSNR=[];
-    for channelInd=[41];%[1:32 97:128]
+    for channelInd=1:128
         MUAmAllConds=[];
         for stimCond = 1:4
             MUAm=meanChannelMUAconds{stimCond}(channelInd,:);%each value corresponds to 1 ms
@@ -315,9 +308,9 @@ for instanceInd=7
             xlim([-80 220]);
             ylim([-200 60]);
     end
-    pathname=fullfile('D:\data',date,[instanceName,'_RFs_SNR',num2str(SNRthreshold)]);
+    pathname=fullfile('D:\aston_data',date,[instanceName,'_RFs_SNR',num2str(SNRthreshold)]);
     if plotAreas==0
-        pathname=fullfile('D:\data',date,[instanceName,'_RFs_coords_only_SNR',num2str(SNRthreshold)]);
+        pathname=fullfile('D:\aston_data',date,[instanceName,'_RFs_coords_only_SNR',num2str(SNRthreshold)]);
     end
     print(pathname,'-dtiff');
     
@@ -326,7 +319,7 @@ for instanceInd=7
         for figInd=1:4
             figure(figInd)
             set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-            pathname=fullfile('D:\data',date,[instanceName,'_',num2str(figInd)]);
+            pathname=fullfile('D:\aston_data',date,[instanceName,'_',num2str(figInd)]);
             print(pathname,'-dtiff');
         end
     end
@@ -340,7 +333,7 @@ for instanceInd=7
     meanChannelSNR=mean(channelSNR,2);
     countGoodSNR=find(meanChannelSNR>4);
     length(countGoodSNR)
-    fileName=fullfile('D:\data',date,['RFs_',instanceName,'.mat']);
+    fileName=fullfile('D:\aston_data',date,['RFs_',instanceName,'.mat']);
     saveFile=1;
     if saveFile==1
         save(fileName,'RFs','channelRFs','meanChannelSNR','manualChannels');

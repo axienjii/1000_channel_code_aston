@@ -12,7 +12,7 @@ elseif localDisk==0
 end
 for neuronalCh=1:128%[34:75 77:96]%76%:96%1:128%1:128%length(neuronalChsV4)%analog input 8, records sync pulse from array 11
     for blockInd=1%:2%length(goodBlocks)
-        for includeIncorrect=2%1:2%1: include all trials; 2: exclude incorrect trials
+        for includeIncorrect=1:2%1: include all trials; 2: exclude incorrect trials
             if includeIncorrect==1
                 subFolderName='all_trials';
             elseif includeIncorrect==2%exclude incorrect trials

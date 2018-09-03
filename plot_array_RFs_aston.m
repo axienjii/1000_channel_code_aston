@@ -1,13 +1,14 @@
-function plot_array_RFs
-%Written by Xing 31/5/17
+function plot_array_RFs_aston
+%Written by Xing 29/8/18
 %Plots RF centres and sizes of all 1000 channels (can select channel
 %inclusion based on SNR of MUA).
 
 % channelRFs(channelInd,:)=[RF.centrex RF.centrey RF.sz RF.szdeg RF.ang RF.theta RF.ecc channelSNR(channelInd,:) horizontalRadius verticalRadius];
 
-date='best_260617-280617';
+date='280818_B2_aston';
+date='290818_B1_aston';
 
-speed = 250/1000; %this is speed in pixels per ms
+speed = 20*25.8601/1000; %this is speed in pixels per ms
 bardur = 1; %duration in seconds
 bardist = speed*bardur*1000;
 
@@ -19,7 +20,7 @@ postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;
 
 %assign arrays according to layout on cortex:
-V1MtLAtP=[7 1;2 1;1 1;6 2;6 1;5 2;5 1;4 2;1 1;1 2;1 3;2 1;2 2;3 1;3 2;4 1];
+V1MtLAtP=[8 1;2 1;7 2;7 1;1 1;6 2;6 1;5 2;1 1;1 2;2 1;2 2;3 1;3 2;5 1;4 3];
 %locations of arrays, first columns gives their rank order from medial to more lateral,
 %and second column gives their rank order going from more anterior to more posterior
 %V4 arrays are coded similarly.
@@ -27,7 +28,7 @@ V1MtLAtP=[7 1;2 1;1 1;6 2;6 1;5 2;5 1;4 2;1 1;1 2;1 3;2 1;2 2;3 1;3 2;4 1];
 channelRFs1000=[];
 for instanceInd=1:8
     instanceName=['instance',num2str(instanceInd)];
-    fileName=fullfile('D:\data',date,['RFs_',instanceName,'.mat']);
+    fileName=fullfile('D:\aston_data',date,['RFs_',instanceName,'.mat']);
     load(fileName)
     channelRFs1000=[channelRFs1000;channelRFs];
 end
@@ -41,28 +42,22 @@ length(goodInd)/1024
 plotMtLAtP=1;%1: medial-lateral; 2: anterior-posterior
 for arrayOfInterest=1:16
     switch(date)%x & y co-ordinates of centre-point
-        case '060617_B2'
+        case '280818_B2_aston'
             x0 = 70;
             y0 = -70;
-        case '060617_B4'
-            x0 = 100;
-            y0 = -100;
-        case '260617_B1'
-            x0 = 70;
-            y0 = -70;
-        case '280617_B1'
+        case '290818_B1_aston'
             x0 = 30;
             y0 = -30;
-        case 'best_260617-280617'
-            if arrayOfInterest==1||arrayOfInterest==4
-                x0 = 30;%280617 mapping with small thin bar
+        case 'best_aston_280818-290818'
+            if arrayOfInterest==1||arrayOfInterest==3||arrayOfInterest==6||arrayOfInterest==7||arrayOfInterest==8||arrayOfInterest==15
+                x0 = 30;%290818 mapping with small thin bar
                 y0 = -30;
             else
-                x0 = 70;%260617 mapping with larger bar
+                x0 = 70;%280818 mapping with larger bar
                 y0 = -70;
             end
     end
-    if arrayOfInterest==2||arrayOfInterest==3
+    if arrayOfInterest==2||arrayOfInterest==5
         plotV1=0;
         plotV4=1;
     else
@@ -83,7 +78,7 @@ for arrayOfInterest=1:16
     h = line(XVEC1,YVEC1,'LineWidth',1);
     set(h,'Color',[0.5 0.5 0.5])
     if plotMtLAtP==1
-        colind = cool(7);
+        colind = cool(8);
         if plotV1==0
             colind=cool(2);
         end
@@ -101,11 +96,11 @@ for arrayOfInterest=1:16
         if channelInd==0
             channelInd=128;
         end
-        testMattRFMap=1;
+        testMattRFMap=0;
         if testMattRFMap==0
-            [channelNum,arrayNum,area]=electrode_mapping(instanceInd,channelInd);
+            [channelNum,arrayNum,area]=electrode_mapping_aston(instanceInd,channelInd);
         elseif testMattRFMap==1
-            load('D:\data\channel_area_mapping.mat')
+            load('D:\aston_data\channel_area_mapping.mat')
             channelNum=channelNums(channelInd,instanceInd);
             arrayNum=arrayNums(channelInd,instanceInd);            
         end
@@ -121,7 +116,7 @@ for arrayOfInterest=1:16
         end
         if arrayNum==arrayOfInterest
             countChannels=countChannels+1;
-            if channelRow>32&&channelRow<=96||channelRow>128&&channelRow<=128+32||channelRow>128*2-32&&channelRow<=128*2&&plotV4==1%V4 RFs
+            if channelRow>32&&channelRow<=96||channelRow>128&&channelRow<=128+32||channelRow>128*2&&channelRow<=128*2+32&&plotV4==1||channelRow>128*3-32&&channelRow<=128*3&&plotV4==1%V4 RFs
                 plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',[1-1/arrayColumn 0 1-1/arrayRow],'MarkerFaceColor',[1-1/arrayColumn 0 1-1/arrayRow],'Marker','o');
             elseif plotV1==1
                 plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',[1-1/arrayColumn 0 1-1/arrayRow],'MarkerFaceColor',[1-1/arrayColumn 0 1-1/arrayRow],'Marker','o');
@@ -163,12 +158,12 @@ for arrayOfInterest=1:16
         fileName=['array_',num2str(arrayOfInterest),'_good_channel_RFs_SNR',num2str(SNRthreshold)];
     end
     title(titleText);
-    pathName=fullfile('D:\data',date,fileName);
+    pathName=fullfile('D:\aston_data',date,fileName);
     set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-%     print(pathName,'-dtiff');
+    print(pathName,'-dtiff');
 
-    pathName=fullfile('D:\data',date,[fileName '_zoom']);
+    pathName=fullfile('D:\aston_data',date,[fileName '_zoom']);
     set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-%     print(pathName,'-dtiff');
+    print(pathName,'-dtiff');
     close all
 end

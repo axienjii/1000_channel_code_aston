@@ -5,6 +5,7 @@ function analyse_RF_barsweep_aston
 stimDurms=1000;%in ms
 stimDur=stimDurms/1000;%in seconds
 date='280818_B2_aston';
+date='290818_B1_aston';
 processRaw=1;
 if processRaw==1
     for instanceInd=1:4
