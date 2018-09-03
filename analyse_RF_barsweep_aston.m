@@ -5,9 +5,10 @@ function analyse_RF_barsweep_aston
 stimDurms=1000;%in ms
 stimDur=stimDurms/1000;%in seconds
 date='280818_B2_aston';
+date='290818_B1_aston';
 processRaw=1;
 if processRaw==1
-    for instanceInd=1:4
+    for instanceInd=5:8
         instanceName=['instance',num2str(instanceInd)];
         instanceNEVFileName=['D:\aston_data\',date,'\',instanceName,'.nev'];
         NEV=openNEV(instanceNEVFileName);
@@ -142,7 +143,7 @@ end
 %to draw plots from previously processed data:
 loadData=1;
 if loadData==1
-    for instanceInd=1:4
+    for instanceInd=5:8
         instanceName=['instance',num2str(instanceInd)];
         %     instanceName='instance1';
         fileName=['D:\aston_data\',date,'\MUA_',instanceName,'.mat'];

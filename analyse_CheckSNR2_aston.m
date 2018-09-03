@@ -196,6 +196,18 @@ for instanceCount=1:length(allInstanceInd)
             set(gca,'ylim',[min(meanChannelMUA(channelInd,2:end)) max(meanChannelMUA(channelInd,300:end))]);
             set(gca,'Visible','off')
         end
+        if instanceCount==1
+            allFigureSmoothed=figure;
+        else
+            figure(allFigureSmoothed)
+        end
+        for channelInd=1:128
+            subaxis(32,32,channelInd+(instanceCount-1)*128, 'sh', 0.01, 'sv', 0.01, 'padding', 0, 'margin', 0);
+            meanChannelMUASmoothed(channelInd,:)=smooth(meanChannelMUA(channelInd,:),30);%smoothing
+            plot(meanChannelMUASmoothed(channelInd,10:end-9),'k');
+            set(gca,'ylim',[min(meanChannelMUASmoothed(channelInd,10:end-9)) max(meanChannelMUASmoothed(channelInd,300:end-9))]);
+            set(gca,'Visible','off')
+        end
     end
     if plot1024==0
         close all
