@@ -14,6 +14,8 @@ switch(date)
         goodBlocks=[1 2];
     case '310718_B1'
         goodBlocks=1;
+    case '290818_B1'
+        goodBlocks=1:8;
 end
 eyeChannels=131;%[130 131];
 extractSaccadeTimes=1;
@@ -89,7 +91,7 @@ generateMeanTraces=1;
 if generateMeanTraces==1
     postSaccadeTime=40;%time duration to include following saccade onset, in ms. use 40 ms because it takes about 50 ms for activity to propagate to V4
     postSaccadeDatapoints=postSaccadeTime/1000*30000;
-    for neuronalCh=[1:75 77:128]%[1:33 35:75 77:128]
+    for neuronalCh=1:128%[1:75 77:128]%[1:33 35:75 77:128]
         for blockInd=1:length(goodBlocks)
             for includeIncorrect=2%1:2%1: include all trials; 2: exclude incorrect trials
                 if includeIncorrect==1
