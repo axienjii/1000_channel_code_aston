@@ -1,6 +1,6 @@
-function analyse_RF_barsweep_visual_response_aston
-%6/9/18
-%Written by Xing to visualise responses to bar sweeps using 1000-channel data- new version.
+function analyse_RF_barsweep_visual_response_aston2
+%19/9/18
+%Written by Xing to visualise responses to bar sweeps using 1000-channel data- corrected version.
 
 SNRthreshold=1;
 
@@ -89,7 +89,7 @@ if drawFrames==1
     end
     for stimCond=1:4
         frameNo=1;
-        for timePoint=preStimDur*1000:preStimDur*1000+stimDurms+299%size(normalisedResponse{stimCond},2)
+        for timePoint=1:1599%length of 'normalizedResponse'
             figure;hold on
             set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
             set(gca,'Color',[0.7 0.7 0.7]);
@@ -110,21 +110,24 @@ if drawFrames==1
             %         scatter(allChannelRFs(:,1),allChannelRFs(:,2),[],col);
             
             %Draw bar
-            plot([sampFreq*preStimDur/downsampleFreq sampFreq*preStimDur/downsampleFreq],[[-diffResponse/4 maxResponse+diffResponse/10]],'k:')
-            plot([sampFreq*(preStimDur+stimDur)/downsampleFreq sampFreq*(preStimDur+stimDur)/downsampleFreq],[[-diffResponse/4 maxResponse+diffResponse/10]],'k:')
-
+            barStartX=x0-(speed*1000)/2;
+            barEndX=x0+(speed*1000)/2;
+            barStartY=y0-(speed*1000)/2;
+            barEndY=y0+(speed*1000)/2;
             if timePoint>preStimDur*1000&&timePoint<=preStimDur*1000+stimDurms
+                barWidth=6;
+                barLength=20*pixperdeg;
                 if stimCond==1
-                    rectangle('Position',[x0-(speed*1000)/2+timePoint-preStimDur*1000-3 y0-(speed*1000)/2+100 6 500],'FaceColor',[0.9 0.9 0.9],'EdgeColor','none');
+                    rectangle('Position',[barStartX-barWidth/2+(timePoint-preStimDur*1000)*speed barStartY barWidth barLength],'FaceColor',[0.9 0.9 0.9],'EdgeColor','none');
                     %                 plot([x0-(speed*1000)/2+timePoint-preStimDur*1000 x0-(speed*1000)/2+timePoint-preStimDur*1000],[y0-(speed*1000)/2 y0+(speed*1000)/2],'r-')
                 elseif stimCond==2
-                    rectangle('Position',[x0-(speed*1000)/2+100 y0-(speed*1000)/2+timePoint-preStimDur*1000-3 500 6],'FaceColor',[0.9 0.9 0.9],'EdgeColor','none');
+                    rectangle('Position',[barStartX barStartY-barWidth/2+(timePoint-preStimDur*1000)*speed barLength barWidth],'FaceColor',[0.9 0.9 0.9],'EdgeColor','none');
                     %                 plot([x0-(speed*1000)/2 x0+(speed*1000)/2],[y0-(speed*1000)/2+timePoint-preStimDur*1000 y0-(speed*1000)/2+timePoint-preStimDur*1000],'r-')
                 elseif stimCond==3
-                    rectangle('Position',[x0+(speed*1000)/2-timePoint+preStimDur*1000-3 y0-(speed*1000)/2+100 6 500],'FaceColor',[0.9 0.9 0.9],'EdgeColor','none');
+                    rectangle('Position',[barEndX-barWidth/2-(timePoint-preStimDur*1000)*speed barStartY barWidth barLength],'FaceColor',[0.9 0.9 0.9],'EdgeColor','none');
                     %                 plot([x0+(speed*1000)/2-timePoint+preStimDur*1000 x0+(speed*1000)/2-timePoint+preStimDur*1000],[y0-(speed*1000)/2 y0+(speed*1000)/2],'r-')
                 elseif stimCond==4
-                    rectangle('Position',[x0-(speed*1000)/2+100 y0+(speed*1000)/2-timePoint+preStimDur*1000-3 500 6],'FaceColor',[0.9 0.9 0.9],'EdgeColor','none');
+                    rectangle('Position',[barStartX barEndY-barWidth/2-(timePoint-preStimDur*1000)*speed barLength barWidth],'FaceColor',[0.9 0.9 0.9],'EdgeColor','none');
                     %                 plot([x0-(speed*1000)/2 x0+(speed*1000)/2],[y0+(speed*1000)/2-timePoint+preStimDur*1000 y0+(speed*1000)/2-timePoint+preStimDur*1000],'r-')
                 end
             end
@@ -153,31 +156,31 @@ if drawFrames==1
     end
 end
 
-makeIndividualMovies=0;
+makeIndividualMovies=1;
 if makeIndividualMovies==1
     for stimCond=1:4
         pathname=fullfile('X:\aston',date,['1024-channel responses to bar sweeping ',direct{stimCond},'.mat']);
         load(pathname)
         
-        %     moviename=fullfile('X:\aston',date,['1024-channel responses to  bar sweeping ',direct{stimCond},'.avi']);
-        %     v = VideoWriter(moviename);
-        %     v.Quality=100;
-        %     v.FrameRate=500;%has to be a factor of the number of frames, otherwise part of data will not be written. I.e. for 1500-frame movie, cannot set frame rate to be 1000
-        %     open(v)
-        %     for timePoint=1:length(framesResponse)-100
-        %         if size(framesResponse(timePoint).cdata,1)~=771||size(framesResponse(timePoint).cdata,2)~=995
-        %             framesResponse(timePoint).cdata=framesResponse(timePoint-1).cdata;
-        %             timePoint
-        %         end
-        %         writeVideo(v,framesResponse(timePoint))
-        %     end
-        %     close(v)
+        moviename=fullfile('X:\aston',date,['1024-channel responses to  bar sweeping ',direct{stimCond},'.avi']);
+        v = VideoWriter(moviename);
+        v.Quality=100;
+        v.FrameRate=500;%has to be a factor of the number of frames, otherwise part of data will not be written. I.e. for 1500-frame movie, cannot set frame rate to be 1000
+        open(v)
+        for timePoint=1:length(framesResponse)-100
+            if size(framesResponse(timePoint).cdata,1)~=771||size(framesResponse(timePoint).cdata,2)~=995
+                framesResponse(timePoint).cdata=framesResponse(timePoint-1).cdata;
+                timePoint
+            end
+            writeVideo(v,framesResponse(timePoint))
+        end
+        close(v)
         
-        moviename=fullfile('X:\aston',date,['1024-channel responses to  bar sweeping 2',direct{stimCond}]);
+        moviename=fullfile('X:\aston',date,['1024-channel responses to  bar sweeping ',direct{stimCond}]);
         v = VideoWriter(moviename,'MPEG-4');
         v.Quality=100;
         v.FrameRate=50;%has to be a factor of the number of frames, otherwise part of data will not be written. I.e. for 1500-frame movie, cannot set frame rate to be 1000
-        sampleFactor=600/v.FrameRate;
+        sampleFactor=1600/v.FrameRate;
         open(v)
         for timePoint=1:ceil((length(framesResponse)-100)/sampleFactor)
             if size(framesResponse(timePoint*sampleFactor).cdata,1)~=771||size(framesResponse(timePoint*sampleFactor).cdata,2)~=995
@@ -190,32 +193,32 @@ if makeIndividualMovies==1
 end
 
 % %create combined AVI video across conditions:
-% moviename=fullfile('X:\aston',date,['1024-channel responses to sweeping bar.avi']);
-% v = VideoWriter(moviename);
-% v.Quality=100;
-% v.FrameRate=50;%has to be a factor of the number of frames, otherwise part of data will not be written. I.e. for 1500-frame movie, cannot set frame rate to be 1000
-% sampleFactor=600/v.FrameRate;
-% open(v)
-% for stimCond=1:4
-%     pathname=fullfile('X:\aston',date,['1024-channel responses to bar sweeping ',direct{stimCond},'.mat']);
-%     load(pathname)
-%     
-%     for timePoint=1:ceil((length(framesResponse)-100)/sampleFactor)
-%         if size(framesResponse(timePoint*sampleFactor).cdata,1)~=771||size(framesResponse(timePoint*sampleFactor).cdata,2)~=995
-%             framesResponse(timePoint*sampleFactor).cdata=framesResponse(timePoint*sampleFactor-1).cdata;
-%             timePoint
-%         end
-%         writeVideo(v,framesResponse(timePoint*sampleFactor))
-%     end
-% end
-% close(v)
+moviename=fullfile('X:\aston',date,['1024-channel responses to sweeping bar.avi']);
+v = VideoWriter(moviename);
+v.Quality=100;
+v.FrameRate=50;%has to be a factor of the number of frames, otherwise part of data will not be written. I.e. for 1500-frame movie, cannot set frame rate to be 1000
+sampleFactor=1600/v.FrameRate;
+open(v)
+for stimCond=1:4
+    pathname=fullfile('X:\aston',date,['1024-channel responses to bar sweeping ',direct{stimCond},'.mat']);
+    load(pathname)
+    
+    for timePoint=1:ceil((length(framesResponse)-100)/sampleFactor)
+        if size(framesResponse(timePoint*sampleFactor).cdata,1)~=771||size(framesResponse(timePoint*sampleFactor).cdata,2)~=995
+            framesResponse(timePoint*sampleFactor).cdata=framesResponse(timePoint*sampleFactor-1).cdata;
+            timePoint
+        end
+        writeVideo(v,framesResponse(timePoint*sampleFactor))
+    end
+end
+close(v)
 
 %create combined MP4 video across conditions:
 moviename=fullfile('X:\aston',date,['1024-channel responses to sweeping bar']);
 v = VideoWriter(moviename,'MPEG-4');
 v.Quality=100;
 v.FrameRate=50;%has to be a factor of the number of frames, otherwise part of data will not be written. I.e. for 1500-frame movie, cannot set frame rate to be 1000
-sampleFactor=600/v.FrameRate;
+sampleFactor=1600/v.FrameRate;
 open(v)
 for stimCond=1:4
     pathname=fullfile('X:\aston',date,['1024-channel responses to bar sweeping ',direct{stimCond},'.mat']);
