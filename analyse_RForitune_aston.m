@@ -1,38 +1,28 @@
-function analyse_RForitune
-%15/8/18
+function analyse_RForitune_aston
+%3/9/18
 %Written by Xing, modified from analyse_CheckSNR.m. Extracts MUA data from raw .NS6 file, during presentation
 %of orientation tuning stimuli in runstim_RForitune.m. Fits wrapped
 %Gaussian to data, using function modified from bj_Wrapped_Gauss_strf.m.
 %Write preferred orientations to separate file for each instance, and then
 %call combine_orientation_tuning.m to combine values across instances, for
 %further plotting of orientation-coded RF maps in plot_all_RFs.m.
-date='080618_B3';
-load('X:\best\080618_B3\080618_data\CheckSNR_080618_B3.mat')
-best=1;
+date='030918_B1_aston';
+load('X:\aston\030918_B1_aston\030918_data\CheckSNR_030918_B1_aston.mat')
 switch(date)
-    case '080618_B3'
+    case '030918_B1_aston'
         whichDir=2;
-        best=1;
 end
 if whichDir==1%local copy available
     topDir='D:\data';
 elseif whichDir==2%local copy deleted; use server copy
-    if best==1
-        topDir='X:\best';
-    elseif best==0
-        topDir='X:\other';
-    end
+    topDir='X:\aston';
 end
 copyRemotely=0;%make a copy to the remote directory?
 if copyRemotely==1
-    if best==1
-        copyDir='X:\best';
-    elseif best==0
-        copyDir='X:\other';
-    end
+    copyDir='X:\aston';
 end
 stimDur=600/1000;%in seconds
-allInstanceInd=4:8;
+allInstanceInd=3:8;
 preStimDur=300/1000;%length of pre-stimulus-onset period, in s
 postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;
