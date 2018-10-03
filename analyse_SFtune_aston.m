@@ -1,40 +1,30 @@
-function analyse_SFtune
-%15/8/18
-%Written by Xing, modified from analyse_RFori.m. Extracts MUA data from raw .NS6 file, during presentation
+function analyse_SFtune_aston
+%3/10/18
+%Written by Xing, modified from Lick's analyse_SFtune.m. Extracts MUA data from raw .NS6 file, during presentation
 %of SF tuning stimuli (5 SFs, at 4 orientations) in runstim_SFtune.m. For
 %channels with good orientation tuning, identify SF at which highest level of
 %activity observed. For channels with no clear orientation tuning, average
 %activity across all orientations, and then identify SF at which highest
 %level of activity was observed. 
-date='080618_B4';
+date='031018_B2_aston';
 orientations=[0 45 90 135];
 SFs=[0.5 1 2 4 8];
-load('X:\best\080618_B4\080618_B4_data\CheckSNR_080618_B4.mat')
-best=1;
+load(['X:\aston\031018_data\CheckSNR_',date,'.mat'])
 switch(date)
-    case '080618_B4'
-        whichDir=2;
-        best=1;
+    case '031018_B2_aston'
+        whichDir=1;
 end
 if whichDir==1%local copy available
-    topDir='D:\data';
+    topDir='D:\aston_data';
 elseif whichDir==2%local copy deleted; use server copy
-    if best==1
-        topDir='X:\best';
-    elseif best==0
-        topDir='X:\other';
-    end
+    topDir='X:\aston';
 end
 copyRemotely=0;%make a copy to the remote directory?
 if copyRemotely==1
-    if best==1
-        copyDir='X:\best';
-    elseif best==0
-        copyDir='X:\other';
-    end
+    copyDir=topDir;
 end
 stimDur=600/1000;%in seconds
-allInstanceInd=2:8;
+allInstanceInd=1:4;
 preStimDur=300/1000;%length of pre-stimulus-onset period, in s
 postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;
