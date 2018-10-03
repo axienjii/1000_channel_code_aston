@@ -9,9 +9,9 @@ function analyse_SFtune_aston
 date='031018_B3_aston';
 orientations=[0 45 90 135];
 SFs=[0.5 1 2 4 8];
-load(['X:\aston\',date(1:6),'_data\CheckSNR_',date,'.mat'])
+load(['X:\aston\',date_data\CheckSNR_',date,'.mat'])
 switch(date)
-    case '031018_B3_aston'
+    case '031018_B2_aston'
         whichDir=1;
 end
 if whichDir==1%local copy available
