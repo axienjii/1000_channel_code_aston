@@ -6,23 +6,26 @@ function analyse_RForitune_aston
 %Write preferred orientations to separate file for each instance, and then
 %call combine_orientation_tuning.m to combine values across instances, for
 %further plotting of orientation-coded RF maps in plot_all_RFs.m.
-date='030918_B1_aston';
-load('X:\aston\030918_B1_aston\030918_data\CheckSNR_030918_B1_aston.mat')
+% date='030918_B1_aston';
+date='041018_B3_aston';
 switch(date)
     case '030918_B1_aston'
         whichDir=2;
+    case '041018_B3_aston'
+        whichDir=1;
 end
 if whichDir==1%local copy available
-    topDir='D:\data';
+    topDir='D:\aston_data';
 elseif whichDir==2%local copy deleted; use server copy
     topDir='X:\aston';
 end
+load([topDir,'\',date,'\',date(1:6),'_data\CheckSNR_',date,'.mat'])
 copyRemotely=0;%make a copy to the remote directory?
 if copyRemotely==1
     copyDir='X:\aston';
 end
 stimDur=600/1000;%in seconds
-allInstanceInd=3:8;
+allInstanceInd=5:8;
 preStimDur=300/1000;%length of pre-stimulus-onset period, in s
 postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;
