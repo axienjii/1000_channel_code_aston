@@ -23,7 +23,11 @@ if copyRemotely==1
     copyDir='X:\aston';
 end
 stimDur=400/1000;%in seconds
+<<<<<<< HEAD
 allInstanceInd=5:8;
+=======
+allInstanceInd=1:4;
+>>>>>>> 24a649acbb654e840916d40666432b39c63f5bf4
 preStimDur=300/1000;%length of pre-stimulus-onset period, in s
 postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;
