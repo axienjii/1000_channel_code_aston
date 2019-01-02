@@ -1,30 +1,30 @@
-function analyse_microstim_saccade14_letter(date,allInstanceInd)
-%%23/5/18
-%Written by Xing, modified from analyse_microstim_letter_eye2.m, extracts eye data during a
+function analyse_microstim_saccade14_letter_aston(date,allInstanceInd)
+%%23/10/18
+%Written by Xing, modified from Lick's analyse_microstim_saccade14_letter.m, extracts eye data during a
 %saccade task during microstimulation of individual electrodes 
-%(runstim_microstim_saccade_endpoints_letter.m). The electrodes
-%on which stimulation is delivered are those used during a letter recognition task. 
+%(runstim_microstim_saccade_endpoints_aston.m). Three electrodes
+%per array were selected (for which good current thresholds were previously obtained). 
 %The goal is the check whether the saccade endpoints correspond roughly to 
-%the expected phosphene locations, based on RF mapping. Uses a target
-%window that is centered on the letter, and fairly large (to cover a region
-%that is slightly larger than the entire letter. 50% catch trials.
+%the expected phosphene locations, based on RF mapping. 50% catch trials.
 %Uses serial port data to identify trial number. 
-%Can run analyses on raw data files in which neuronal data was also saved,
-%unlike analyse_microstim_saccade9, which only analyses files without neuronal
-%data.
 %Finds saccade end point using function calculateSaccadeEndpoint2,
 %which calculates velocity of eye movements in dva per s, and identifies
 %time points corresponding to peak velocities.
 %Also generates data for Feng, to create movie of eye movements.
 
+date=[date,'_aston'];
 localDisk=0;
 if localDisk==1
-    rootdir='D:\data\';
+    rootdir='D:\aston_data\';
 elseif localDisk==0
-    rootdir='X:\best\';
+    rootdir='X:\aston\';
 end
-dataDir=[rootdir,date,'\',date(1:6),'_data'];
+% dataDir=[rootdir,date,'\',date(1:6),'_data'];
+dataDir=[rootdir,date,'\',date,'_data'];
 matFile=[dataDir,'\microstim_saccade_',date,'.mat'];
+if ~exist('dataDir','dir')
+    copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);    
+end
 load(matFile);
 maxNumTrials=size(TRLMAT,1);
 if maxNumTrials<=length(performance)
@@ -64,27 +64,302 @@ postStimDur=400/1000;%length of post-stimulus-offset period, in s
 sampFreq=30000;
 minCrossingTime=0;
 switch date
-    case '180518_B2'
-        minCrossingTime=preStimDur-0.166;
-        electrodeNums=[50 58 55 53 30 10 49 46 24 38 42 28 1 27 5 44 29 13 20 1 8 28 49 32 53 55 46 4 60 56];%170518_B & B?
-        arrayNums=[12 14 14 16 16 8 10 15 13 10 10 10 10 9 9 12 14 14 16 8 15 15 15 13 13 10 10 10 10 9];
-        currentThresholdChs=126;
-    case '230518_B5'
-        minCrossingTime=preStimDur-0.166;
-        electrodeNums=[60 34 50 37 4 1 16 15 51 52 63 5 56 35 36 55 55 48 22 62];%010518_B & B
-        arrayNums=[10 10 13 15 15 15 11 10 11 13 15 15 13 13 13 10 11 11 11 11];
-        currentThresholdChs=126;
-    case '230518_B6'
-        minCrossingTime=preStimDur-0.166;
-        electrodeNums=[60 34 50 37 4 1 16 15 51 52 63 5 56 35 36 55 55 48 22 62];%010518_B & B
-        arrayNums=[10 10 13 15 15 15 11 10 11 13 15 15 13 13 13 10 11 11 11 11];
-        currentThresholdChs=126;
+    case '250918_B1_aston'
+        electrodeNums1=[45 25 57];
+        arrayNums1=9*ones(1,length(electrodeNums1));
+        electrodeNums2=[23 52 64 51 5 16 56 46 63 38 40 48 55];
+        arrayNums2=10*ones(1,length(electrodeNums2));
+        electrodeNums3=[6 16 47 26 23 52 28 7 33 13 53];
+        arrayNums3=12*ones(1,length(electrodeNums3));
+        electrodeNums=[electrodeNums1 56 electrodeNums2 electrodeNums3];
+        arrayNums=[arrayNums1 13 arrayNums2 arrayNums3];
         visualOnly=0;
-    case '230518_B15'
+        degPerVoltXFinal=0.0025;%guess- not measured on same day
+        degPerVoltYFinal=0.0025;
+    case '260918_B1_aston'
+        electrodeNums3=53;
+        arrayNums3=12;
+        electrodeNums4=[21 16 48 59 30 64 63 35 9 51 62 12 24 56 50 42];
+        arrayNums4=14*ones(1,length(electrodeNums4));
+        electrodeNums5=[6 24 16 8 15 7 27 44 32 63 1 3 21 39 40 46 13 55 33 64 4 62 56 23 14 22 48 38 49];
+        arrayNums5=15*ones(1,length(electrodeNums5));
+        electrodeNums6=[56 41 17 33 19 22 23 32 55 64 45 49 46 3 50 42 40 44 26 7 58 60 52 43];
+        arrayNums6=16*ones(1,length(electrodeNums6));
+        electrodeNums=[electrodeNums3 electrodeNums4 electrodeNums5 electrodeNums6];
+        arrayNums=[arrayNums3 arrayNums4 arrayNums5 arrayNums6];
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%guess- not measured on same day
+        degPerVoltYFinal=0.0025;
+    case '270918_B1_aston'
+        electrodeNums=[43 34 36 62 48];
+        arrayNums=16*ones(1,length(electrodeNums));
+        electrodeNums=[electrodeNums 17 25 26 42 49 12 13 36 39 59 51 28 25 54 58 30 12 19 49 60 61 4 27 35];
+        arrayNums=[arrayNums 11 11 11 11 11 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13];
+        electrodeNums=[electrodeNums 15 51 23 38 40 46 55 56 63 28 52 16];
+        electrodeNums=[electrodeNums 12 21 30 42 48 50 51 56 59 62 63 64 1 3 4 6 7 8 13 14 15 21 22 23 24 27 32 33 38 39 40 44 46 49 55 56 62 64 3 7 17 19 22 23 26 32 33 40 41 42 43 44 45 46 49 50 52 55 58 64];
+        arrayNums=[arrayNums 9 10 10 10 10 10 10 10 10 12 12 10];
+        arrayNums=[arrayNums 14 14 14 14 14 14 14 14 14 14 14 14 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16];
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%guess- not measured on same day
+        degPerVoltYFinal=0.0025;
+    case '280918_B1_aston'
+        electrodeNums=[55 56 63 28 52 16];
+        arrayNums=[10 10 10 12 12 10];
+        electrodeNums=[electrodeNums 12 21 30 42 48 50 51 56 59 62 63 64 1 3 4 6 7 8 13 14 15 21 22 23 24 27 32 33 38 39 40 44 46 49 55 56 62 64 3 7 17 19 22 23 26 32 33 40 41 42 43 44 45 46 49 50 52 55 58 64];
+        arrayNums=[arrayNums 14 14 14 14 14 14 14 14 14 14 14 14 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16];
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%guess- not measured on same day
+        degPerVoltYFinal=0.0025;
+    case '221018_B1_aston'
         minCrossingTime=preStimDur-0.166;
-        electrodeNums=[60 34 50 37 4 1 16 15 51 52 63 5 56 35 36 55 55 48 22 62];%010518_B & B
-        arrayNums=[10 10 13 15 15 15 11 10 11 13 15 15 13 13 13 10 11 11 11 11];
-        currentThresholdChs=126;
+        electrodeNums=[1 3 13 1 3 8 16 40 48 44 46 55 26 33 53 33 62 57 9 12 16 16 48 63 34 36 56];
+        arrayNums=[8 8 8 9 9 9 10 10 10 11 11 11 12 12 12 13 13 13 14 14 14 15 15 15 16 16 16];
+        currentThresholdChs=8;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%guess- not measured on same day
+        degPerVoltYFinal=0.0025;
+    case '241018_B2_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[1 3 13 1 3 8 16 40 48 44 46 55 26 33 53 33 62 57 9 12 16 16 48 63 34 36 56];
+        arrayNums=[8 8 8 9 9 9 10 10 10 11 11 11 12 12 12 13 13 13 14 14 14 15 15 15 16 16 16];
+        currentThresholdChs=8;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%
+        degPerVoltYFinal=0.0024;
+    case '061118_B2_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[9 64 49 16];
+        arrayNums=[13 10 16 14];
+        currentThresholdChs=12;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '061118_B4_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[57 58 49];
+        arrayNums=[11 11 11];
+        currentThresholdChs=12;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '071118_B2_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[56 16 16 12 1 33 9];
+        arrayNums=[16 14 15 14 8 13 13];
+        currentThresholdChs=12;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '071118_B3_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[46 63 44];
+        arrayNums=[15 15 15];
+        currentThresholdChs=12;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '071118_B4_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[57 35 22 38 48 40 56 55];
+        arrayNums=[13 8 8 8 15 15 15 13];
+        currentThresholdChs=12;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '081118_B1_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[35 16 56 57 47 52 53 59 64 63];
+        arrayNums=[8 14 16 13 12 12 12 13 13 13];
+        currentThresholdChs=13;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '081118_B3_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[35 57 56];
+        arrayNums=[8 13 16];
+        currentThresholdChs=13;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '141118_B6_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[38 22 12 35 55 64 53 52];
+        arrayNums=[8 8 14 14 16 16 12 12];
+        currentThresholdChs=17;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '141118_B8_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[16];
+        arrayNums=[12];
+        currentThresholdChs=17;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;
+    case '141118_B9_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[55 57 59 60 61 63 64];
+        arrayNums=[13 13 13 13 13 11 11];
+        currentThresholdChs=17;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;    
+    case '151118_B1_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[55];
+        arrayNums=[16];
+        currentThresholdChs=17;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;    
+    case '151118_B2_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[12 16];
+        arrayNums=[14 12];
+        currentThresholdChs=17;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;   
+    case '151118_B3_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[22];
+        arrayNums=[8];
+        currentThresholdChs=17;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;   
+    case '161118_B2_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[29];
+        arrayNums=[8];
+        currentThresholdChs=17;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;  
+    case '161118_B1_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[57 58 64 9 35 60 61];
+        arrayNums=[11 11 11 14 14 16 16];
+        currentThresholdChs=18;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;    
+    case '191118_B1_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[3];
+        arrayNums=[8];
+        currentThresholdChs=19;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;   
+    case '191118_B2_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[43 41 16 21 60];
+        arrayNums=[16 16 14 14 11];
+        currentThresholdChs=19;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;  
+    case '191118_B4_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[35 61 57];
+        arrayNums=[14 16 11];
+        currentThresholdChs=19;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;  
+    case '201118_B1_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[2 16 43 63 55 57 49 3 50 62];
+        arrayNums=[8 14 16 11 13 13 13 9 9 9];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;  
+    case '201118_B2_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[35 28 38 50 59 21 30 43 41 49 54 63 2 26 42];
+        arrayNums=[8 8 8 14 14 14 14 16 16 16 9 9 11 11 11];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;  
+    case '201118_B3_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[2 16 43 63 3 50 62];
+        arrayNums=[8 14 16 11 9 9 9];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024;  
+    case '201118_B4_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[1 25 33 54 55];
+        arrayNums=[13 13 13 11 11];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024; 
+    case '201118_B5_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[2 35 28 21 43 54 63 2 26 42];
+        arrayNums=[8 8 8 14 16 9 9 11 11 11];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024; 
+    case '201118_B6_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[40 51 31 48 56 64 55];
+        arrayNums=[16 16 16 16 16 16 16];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024; 
+    case '201118_B7_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[40 56 63 48 46 44 4];
+        arrayNums=[15 15 15 15 15 15 15];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024; 
+    case '201118_B8_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[31 42 55];
+        arrayNums=[16 11 11];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024; 
+    case '201118_B10_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[6];
+        arrayNums=[8];
+        currentThresholdChs=20;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024; 
+    case '211118_B1_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[1 50 43 59 25 59 56 57 33];
+        arrayNums=[13 14 16 14 13 14 16 13 13];
+        currentThresholdChs=21;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024; 
+    case '211118_B2_aston'
+        minCrossingTime=preStimDur-0.166;
+        electrodeNums=[21 48 63 6 48 40 25];
+        arrayNums=[14 16 11 8 16 16 13];
+        currentThresholdChs=21;
+        visualOnly=0;
+        degPerVoltXFinal=0.0025;%estimated from previous time
+        degPerVoltYFinal=0.0024; 
+
+
 end
 
 cols=[1 0 0;0 1 1;165/255 42/255 42/255;0 1 0;0 0 1;0 0 0;1 0 1;0.9 0.9 0;128/255 0 128/255];
@@ -172,7 +447,7 @@ if processRaw==1
         if ~exist('goodArrays8to16','var')
             load([dataDir,'\currentThresholdChs',num2str(currentThresholdChs),'.mat']);
         end
-        for uniqueElectrode=1:15%16:30%1:15%length(electrodeNums)
+        for uniqueElectrode=1:length(electrodeNums)
             figInd9(uniqueElectrode)=figure;hold on
             array=arrayNums(uniqueElectrode);
             arrayColInd=find(arrays==array);
@@ -193,15 +468,24 @@ if processRaw==1
             matchTrials=intersect(matchTrials,correctMicrostimTrialsInd);%identify subset of trials where performance was correct
         
             trialDataXY={};
-%             degPerVoltXFinal=0.0024;
-%             degPerVoltYFinal=0.0022;
-            degPerVoltXFinal=0.0073;%as measured in 240518_B2
-            degPerVoltYFinal=0.0069;
             flankingSamples=(30000/50)/2;%50-ms period before reward delivery
             saccadeEndTrials=[];
             electrodeTrials=[];
             timePeakVelocityXYs=[];
             timePeakVelocityXYSecs=[];
+            trialNoTrials=[];
+            trialDataX=[];
+            trialDataY=[];
+            trialDataXSmooth={};
+            trialDataYSmooth={};
+            trialDataXSmoothFix={};
+            trialDataYSmoothFix={};
+            startMicrostim=[];
+            endMicrostim=[];
+            posIndXTrials=[];
+            posIndYTrials=[];
+            baselineXChs=[];
+            baselineYChs=[];
             for trialCounter=1:length(matchTrials)%for each correct microstim trial
                 trialNo=matchTrials(trialCounter);%trial number, out of all trials from that session  
                 trialNoTrials(trialCounter)=trialNo;
@@ -321,7 +605,7 @@ if processRaw==1
 %                 end
                 cleanUp=1;%remove datapoints that are too close to fixation?
                 if cleanUp==1
-                    if posIndX<5||posIndY<5
+                    if posIndX<5||posIndY<5&&array~=16
                         manualCheck=1;
                         posIndX=NaN;
                         posIndY=NaN;
@@ -359,14 +643,14 @@ if processRaw==1
                 
                 figure(figInd4)    
                 plot(posIndX,-posIndY,'MarkerEdgeColor',cols(arrayColInd,:),'Marker','o','MarkerSize',10);
-                impCol=impedance*0.9/150+0.05;
+                impCol=impedance*0.9/300+0.05;
                 text(posIndX-0.05,-posIndY,num2str(electrode),'FontSize',6,'Color',[impCol impCol 1]);
                 
                 figure(figInd9(uniqueElectrode))%plot the saccade end points for an individual electrode, with the mean 
 %                 subplot(11,10,uniqueElectrode);
                 hold on
                 plot(posIndX,-posIndY,'MarkerEdgeColor',cols(arrayColInd,:),'Marker','o','MarkerSize',10);
-                impCol=impedance*0.9/150+0.05;
+                impCol=impedance*0.9/300+0.05;
                 text(posIndX-0.05,-posIndY,num2str(electrode),'FontSize',6,'Color',[impCol impCol 1]);
                 
 %                 close(figHistogram);
@@ -386,6 +670,8 @@ if processRaw==1
             arrayAllTrials=[arrayAllTrials;arrayTrials'];
             timePeakVelocityXYsAllTrials=[timePeakVelocityXYsAllTrials;timePeakVelocityXYs'];
             timePeakVelocityXYSecsAllTrials=[timePeakVelocityXYSecsAllTrials;timePeakVelocityXYSecs'];
+            meanSaccadeXY=[];
+            stdSaccadeXY=[];
             if ~isempty(matchTrials)
                 figure(figInd4)
                 trialsIndElectrode=find(electrodeTrials==electrode);%identify trials where stimulation was delivered on a given electrode
@@ -409,6 +695,8 @@ if processRaw==1
                 %             plot(meanSaccadeXY(1),-meanSaccadeXY(2),'MarkerEdgeColor',cols(arrayColInd,:),'Marker','o','MarkerSize',mean(stdSaccadeXY));
                 text(meanSaccadeXY(1)-0.05,-meanSaccadeXY(2),num2str(electrode),'FontSize',8,'Color',[0 0 0]);
 
+                save([rootdir,date,'\mean_saccade_endpoints_',date,'_ch',num2str(electrode),'_array',num2str(array),'.mat'],'meanSaccadeXY');
+                
                 figure(figInd10)%plot only the RF centres
                 greenCol=[0 1 0;0 0.7 0;0 0.5 0;0 0.4 0];
                 numGoodTrials=sum(~isnan(trialsXYElectrode(:,1)));
@@ -441,51 +729,51 @@ if processRaw==1
                 plot(meanSaccadeXY(1),-meanSaccadeXY(2),'MarkerFaceColor',cols(arrayColInd,:),'MarkerEdgeColor',cols(arrayColInd,:),'Marker','o','MarkerSize',6);
                 text(meanSaccadeXY(1)+0.2,-meanSaccadeXY(2),num2str(electrode),'FontSize',8,'Color',[0 0 0]);
                 plot([meanSaccadeXY(1) RFx],[-meanSaccadeXY(2) RFy],'-','Color',cols(arrayColInd,:));
-            end
             
-            figure(figInd9(uniqueElectrode))
-            scatter(0,0,'r','o','filled');%fix spot
-            %draw dotted lines indicating [0,0]
-            plot([0 0],[-250 200],'k:');
-            plot([-200 300],[0 0],'k:');
-            plot([-200 300],[200 -300],'k:');
-            ellipse(50,50,0,0,[0.1 0.1 0.1]);
-            ellipse(100,100,0,0,[0.1 0.1 0.1]);
-            ellipse(150,150,0,0,[0.1 0.1 0.1]);
-            ellipse(200,200,0,0,[0.1 0.1 0.1]);
-            text(sqrt(1000),-sqrt(1000),'2','FontSize',14,'Color',[0.7 0.7 0.7]);
-            text(sqrt(4000),-sqrt(4000),'4','FontSize',14,'Color',[0.7 0.7 0.7]);
-            text(sqrt(10000),-sqrt(10000),'6','FontSize',14,'Color',[0.7 0.7 0.7]);
-            text(sqrt(18000),-sqrt(18000),'8','FontSize',14,'Color',[0.7 0.7 0.7]);
-            axis equal
-            xlim([-20 220]);
-            ylim([-160 20]);
-            title('saccade endpoints');
-            for arrayInd=1:length(arrays)
-                text(180,0-4*arrayInd,['array',num2str(arrays(arrayInd))],'FontSize',14,'Color',cols(arrayInd,:));
+                figure(figInd9(uniqueElectrode))
+                scatter(0,0,'r','o','filled');%fix spot
+                %draw dotted lines indicating [0,0]
+                plot([0 0],[-250 200],'k:');
+                plot([-200 300],[0 0],'k:');
+                plot([-200 300],[200 -300],'k:');
+                ellipse(50,50,0,0,[0.1 0.1 0.1]);
+                ellipse(100,100,0,0,[0.1 0.1 0.1]);
+                ellipse(150,150,0,0,[0.1 0.1 0.1]);
+                ellipse(200,200,0,0,[0.1 0.1 0.1]);
+                text(sqrt(1000),-sqrt(1000),'2','FontSize',14,'Color',[0.7 0.7 0.7]);
+                text(sqrt(4000),-sqrt(4000),'4','FontSize',14,'Color',[0.7 0.7 0.7]);
+                text(sqrt(10000),-sqrt(10000),'6','FontSize',14,'Color',[0.7 0.7 0.7]);
+                text(sqrt(18000),-sqrt(18000),'8','FontSize',14,'Color',[0.7 0.7 0.7]);
+                axis equal
+                xlim([-20 220]);
+                ylim([-160 20]);
+                title('saccade endpoints');
+                for arrayInd=1:length(arrays)
+                    text(180,0-4*arrayInd,['array',num2str(arrays(arrayInd))],'FontSize',14,'Color',cols(arrayInd,:));
+                end
+                ax=gca;
+                ax.XTick=[0 Par.PixPerDeg*2 Par.PixPerDeg*4 Par.PixPerDeg*6 Par.PixPerDeg*8];
+                ax.XTickLabel={'0','2','4','6','8'};
+                ax.YTick=[-Par.PixPerDeg*8 -Par.PixPerDeg*6 -Par.PixPerDeg*4 -Par.PixPerDeg*2 0];
+                ax.YTickLabel={'-8','-6','-4','-2','0'};
+                xlabel('x-coordinates (dva)')
+                ylabel('y-coordinates (dva)')
+                set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
+                pathname=fullfile(rootdir,date,['saccade_endpoints_dva_array_',num2str(array),'_electrode_',num2str(electrode),'_',date]);
+                print(pathname,'-dtiff');
+                close(figInd9(uniqueElectrode))
+                baselineXChs{uniqueElectrode}=baselineXTrials;
+                baselineYChs{uniqueElectrode}=baselineYTrials;
+                trialDataXSmoothChs{uniqueElectrode}=trialDataXSmooth;
+                trialDataYSmoothChs{uniqueElectrode}=trialDataYSmooth;
+                trialNoChs{uniqueElectrode}=trialNoTrials;
+                posIndXChs{uniqueElectrode}=posIndXTrials;
+                posIndYChs{uniqueElectrode}=posIndYTrials;
+                trialDataXSmoothFixChs{uniqueElectrode}=trialDataXSmoothFix;
+                trialDataYSmoothFixChs{uniqueElectrode}=trialDataYSmoothFix;
+                startMicrostimChs{uniqueElectrode}=startMicrostim;
+                endMicrostimChs{uniqueElectrode}=endMicrostim;
             end
-            ax=gca;
-            ax.XTick=[0 Par.PixPerDeg*2 Par.PixPerDeg*4 Par.PixPerDeg*6 Par.PixPerDeg*8];
-            ax.XTickLabel={'0','2','4','6','8'};
-            ax.YTick=[-Par.PixPerDeg*8 -Par.PixPerDeg*6 -Par.PixPerDeg*4 -Par.PixPerDeg*2 0];
-            ax.YTickLabel={'-8','-6','-4','-2','0'};
-            xlabel('x-coordinates (dva)')
-            ylabel('y-coordinates (dva)')
-            set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-            pathname=fullfile(rootdir,date,['saccade_endpoints_dva_array_',num2str(array),'_electrode_',num2str(electrode),'_',date]);
-            print(pathname,'-dtiff');
-            close(figInd9(uniqueElectrode))
-            baselineXChs{uniqueElectrode}=baselineXTrials;
-            baselineYChs{uniqueElectrode}=baselineYTrials;
-            trialDataXSmoothChs{uniqueElectrode}=trialDataXSmooth;
-            trialDataYSmoothChs{uniqueElectrode}=trialDataYSmooth;
-            trialNoChs{uniqueElectrode}=trialNoTrials;
-            posIndXChs{uniqueElectrode}=posIndXTrials;
-            posIndYChs{uniqueElectrode}=posIndYTrials;
-            trialDataXSmoothFixChs{uniqueElectrode}=trialDataXSmoothFix;
-            trialDataYSmoothFixChs{uniqueElectrode}=trialDataYSmoothFix;
-            startMicrostimChs{uniqueElectrode}=startMicrostim;
-            endMicrostimChs{uniqueElectrode}=endMicrostim;
         end
         save([rootdir,date,'\saccade_data_',date,'_fix_to_rew.mat'],'baselineXChs','baselineYChs','trialDataXSmoothFixChs','trialDataYSmoothFixChs','trialNoChs','posIndXChs','posIndYChs','startMicrostimChs','endMicrostimChs');
         

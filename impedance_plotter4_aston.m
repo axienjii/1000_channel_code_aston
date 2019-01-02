@@ -8,7 +8,10 @@ function impedance_plotter4_aston
 %recording).
 %Corrected the indexing of RF coordinate data, which was previously incorrect in 
 %impedance_plotter.m
-date='280818';
+% date='280818';
+% date='041018';
+% date='201118';
+date='181218';
 colind = hsv(16);
 colindImp = hsv(1000);%colour-code impedances
 
@@ -54,13 +57,46 @@ switch(date)
         %column 3: electrode number (out of 1024)
         xLabelsConds={[previousDate,' HT'],[date,' HT']};
         titleText=['red: ',previousDate,'; blue: ',date];
+    case('041018')
+        load(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsNew=impedanceAllChannels;
+        previousDate='280818';
+        load(['X:\aston\aston_impedance_values\',previousDate,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsPrevious=impedanceAllChannels;
+        %column 1: impedance
+        %column 2: array number
+        %column 3: electrode number (out of 1024)
+        xLabelsConds={[previousDate,' HT'],[date,' HT']};
+        titleText=['red: ',previousDate,'; blue: ',date];
+    case('201118')
+        load(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsNew=impedanceAllChannels;
+        previousDate='041018';
+        load(['X:\aston\aston_impedance_values\',previousDate,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsPrevious=impedanceAllChannels;
+        %column 1: impedance
+        %column 2: array number
+        %column 3: electrode number (out of 1024)
+        xLabelsConds={[previousDate,' HT'],[date,' HT']};
+        titleText=['red: ',previousDate,'; blue: ',date];
+    case('181218')
+        load(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsNew=impedanceAllChannels;
+        previousDate='201118';
+        load(['X:\aston\aston_impedance_values\',previousDate,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsPrevious=impedanceAllChannels;
+        %column 1: impedance
+        %column 2: array number
+        %column 3: electrode number (out of 1024)
+        xLabelsConds={[previousDate,' HT'],[date,' HT']};
+        titleText=['red: ',previousDate,'; blue: ',date];
 end
 figure;hold on
 % length(find(impedanceAllChannelsPrevious(:,1)>800))%number of channels with too-high impedances values during hand-tightening, 485
 length(find(impedanceAllChannelsNew(:,1)>800))%number of channels with too-high impedances values using a torque wrench, 111
-% for i=1:size(impedanceAllChannelsNew,1)
-%     plot([1 2],[impedanceAllChannelsPrevious(i,1),impedanceAllChannelsNew(i,1)]);
-% end
+for i=1:size(impedanceAllChannelsNew,1)
+    plot([1 2],[impedanceAllChannelsPrevious(i,1),impedanceAllChannelsNew(i,1)]);
+end
 set(gca,'XTick',[1 2])
 set(gca,'XTickLabel',xLabelsConds)
 xlim([0.5 2.5]);
@@ -69,10 +105,10 @@ print(pathname,'-dtiff');
 
 figure;hold on
 bins=0:50:7000; 
-% hist(impedanceAllChannelsPrevious(:,1),bins); 
-% h = findobj(gca,'Type','patch'); 
-% set(h,'EdgeColor','none') 
-% set(h,'FaceColor','r','facealpha',0.5) 
+hist(impedanceAllChannelsPrevious(:,1),bins); 
+h = findobj(gca,'Type','patch'); 
+set(h,'EdgeColor','none') 
+set(h,'FaceColor','r','facealpha',0.5) 
 hold on 
 hist(impedanceAllChannelsNew(:,1),bins); 
 h = findobj(gca,'Type','patch'); 
@@ -86,10 +122,10 @@ print(pathname,'-dtiff');
 %zoom in on cluster of lower impedance values
 figure;hold on
 bins=0:10:7000;
-% hist(impedanceAllChannelsPrevious(:,1),bins); 
-% h = findobj(gca,'Type','patch'); 
-% set(h,'EdgeColor','none') 
-% set(h,'FaceColor','r','facealpha',0.5) 
+hist(impedanceAllChannelsPrevious(:,1),bins); 
+h = findobj(gca,'Type','patch'); 
+set(h,'EdgeColor','none') 
+set(h,'FaceColor','r','facealpha',0.5) 
 hold on 
 hist(impedanceAllChannelsNew(:,1),bins); 
 h = findobj(gca,'Type','patch'); 
@@ -112,6 +148,7 @@ for instanceInd=1:8%determine the electrode number on a given array
 end
 [dummy ind]=sort(impedanceAllChannelsNew(:,1));
 sortImpedanceAllChannels=impedanceAllChannelsNew(ind,:);%column 2: array number; column 5: electrode number (out of 128). column 1: latest impedance; column 3: electrode number (out of 1024)
+sortImpedanceAllChannelsPrevious=impedanceAllChannelsPrevious(ind,:);%column 2: array number; column 5: electrode number (out of 128). column 1: latest impedance; column 3: electrode number (out of 1024)
 %identify electrodes with low impedance values that are situated along
 %middle rows of arrays, i.e. electrode numbers 25:40 (not inclusive, as
 %those electrodes are on the edge of the array, and hence have only 2
@@ -141,28 +178,56 @@ for candidateInd=1:size(sortImpedanceAllChannels,1)
     chInfo(candidateInd,1:4)=channelRFs(channel,1:4);%RF.centrex RF.centrey RF.sz RF.szdeg
     chInfo(candidateInd,5)=meanChannelSNR(channel);%SNR
     chInfo(candidateInd,6)=sortImpedanceAllChannels(candidateInd,1);%impedance
+    chInfoPrevious(candidateInd,6)=sortImpedanceAllChannelsPrevious(candidateInd,1);%previous impedance
     chInfo(candidateInd,7)=array;
     chInfo(candidateInd,8)=channel;
     if chInfo(candidateInd,1)>0&&chInfo(candidateInd,2)<0%RF coordinates are in correct quadrant
         if chInfo(candidateInd,6)<impThreshold%impedance is below cutoff, e.g. 100 kOhms
-            impCol=chInfo(candidateInd,6)*0.9/impThreshold+0.05;
+            plotDifferenceImps=0;
+            if plotDifferenceImps==0
+                impCol=chInfo(candidateInd,6)*0.9/impThreshold+0.05;
+            elseif plotDifferenceImps==1
+                impCol=chInfo(candidateInd,6)-chInfoPrevious(candidateInd,6);%difference between latest and previous impedance values
+            end
             goodChImps=[goodChImps;chInfo(candidateInd,:)];
             if array~=2&&array~=5
-%                 plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',colind(array,:),'Marker','x');
-                if channel>25&&channel<40&&channel~=32&&channel~=33%channels positioned along middle of array, with 3 close neighbours from which recordings can be made
-                    plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[1 impCol impCol],'Marker','o','MarkerSize',10,'MarkerFaceColor',[0.8 1 0.8]);
-                    goodChV1SimRec=[goodChV1SimRec;chInfo(candidateInd,:)];
-                else
-                    plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[1 impCol impCol],'Marker','o','MarkerSize',10);
-                end
-                text(chInfo(candidateInd,1)-1,chInfo(candidateInd,2),num2str(chInfo(candidateInd,6)),'FontSize',6,'Color',[1 impCol impCol]);
+% %                 plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',colind(array,:),'Marker','x');
+%                 if channel>25&&channel<40&&channel~=32&&channel~=33%channels positioned along middle of array, with 3 close neighbours from which recordings can be made
+%                     plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[1 impCol impCol],'Marker','o','MarkerSize',10,'MarkerFaceColor',[0.8 1 0.8]);
+%                     goodChV1SimRec=[goodChV1SimRec;chInfo(candidateInd,:)];
+%                 else
+                    if plotDifferenceImps==0
+                        plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[1 impCol impCol],'Marker','o','MarkerSize',10);
+                        text(chInfo(candidateInd,1)-1,chInfo(candidateInd,2),num2str(chInfo(candidateInd,6)),'FontSize',6,'Color',[1 impCol impCol]);
+                   elseif plotDifferenceImps==1
+                        if impCol<=0
+                            impCol=-impCol*0.9/impThreshold+0.05;
+                            plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[impCol 1 impCol],'Marker','o','MarkerSize',10);
+                            text(chInfo(candidateInd,1)-1,chInfo(candidateInd,2),num2str(chInfo(candidateInd,6)),'FontSize',6,'Color',[impCol 1 impCol]);
+                        elseif impCol>0
+                            impCol=impCol*0.9/impThreshold+0.05;
+                            plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[1 impCol impCol],'Marker','o','MarkerSize',10);
+                            text(chInfo(candidateInd,1)-1,chInfo(candidateInd,2),num2str(chInfo(candidateInd,6)),'FontSize',6,'Color',[1 impCol impCol]);
+                        end
+                    end
+%                 end
             else
-%                 plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',colind(array,:),'Marker','o');
-                if channel>25&&channel<40&&channel~=32&&channel~=33%channels positioned along middle of array, with 3 close neighbours from which recordings can be made
-                    plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[impCol impCol 1],'Marker','o','MarkerSize',10,'MarkerFaceColor',[0.8 0.8 1]);
-                else
-                    plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[impCol impCol 1],'Marker','o','MarkerSize',10);
-                end
+% %                 plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',colind(array,:),'Marker','o');
+%                 if channel>25&&channel<40&&channel~=32&&channel~=33%channels positioned along middle of array, with 3 close neighbours from which recordings can be made
+%                     plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[impCol impCol 1],'Marker','o','MarkerSize',10,'MarkerFaceColor',[0.8 0.8 1]);
+%                 else
+                    if plotDifferenceImps==0
+                        plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[impCol impCol 1],'Marker','o','MarkerSize',10);
+                    elseif plotDifferenceImps==1
+                        if impCol<=0
+                            impCol=-impCol*0.9/impThreshold+0.05;
+                            plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[impCol impCol 1],'Marker','o','MarkerSize',10);
+                        elseif impCol>0
+                            impCol=impCol*0.9/impThreshold+0.05;
+                            plot(chInfo(candidateInd,1),chInfo(candidateInd,2),'MarkerEdgeColor',[1 impCol 1],'Marker','o','MarkerSize',10);
+                        end
+                    end
+%                 end
                 text(chInfo(candidateInd,1)-1,chInfo(candidateInd,2),num2str(chInfo(candidateInd,6)),'FontSize',6,'Color',[impCol impCol 1]);
             end
         end
@@ -185,9 +250,13 @@ axis square
 xlim([0 200]);
 ylim([-200 0]);
 title('low-high impedance: dark-light; V1: red; V4: blue');
-pathname=fullfile('X:\aston\aston_impedance_values\',date,['RFs_channels_impedance_below_',num2str(impThreshold),'kOhms_vals']);
+if plotDifferenceImps==0
+    pathname=fullfile('X:\aston\aston_impedance_values\',date,['RFs_channels_impedance_below_',num2str(impThreshold),'kOhms_vals']);
+elseif plotDifferenceImps==0
+    pathname=fullfile('X:\aston\aston_impedance_values\',date,['RFs_channels_impedance_below_',num2str(impThreshold),'kOhms_vals_difference']);
+end
 set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-% print(pathname,'-dtiff','-r300');
+print(pathname,'-dtiff','-r300');
     
 figure;
 hold on
@@ -240,5 +309,5 @@ array15=chInfo(chInfo(:,7)==15,:);
 array16=chInfo(chInfo(:,7)==16,:);
 
 for arrayInd=1:16
-   save(['X:\aston\aston_impedance_values\280818\array',num2str(arrayInd),'.mat'],['array',num2str(arrayInd)]); 
+   save(['X:\aston\aston_impedance_values\',date,'\array',num2str(arrayInd),'.mat'],['array',num2str(arrayInd)]); 
 end

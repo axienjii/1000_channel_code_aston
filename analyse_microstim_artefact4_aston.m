@@ -1,10 +1,10 @@
-function analyse_microstim_artefact4(date,allInstanceInd,allGoodChannels)
-%15/9/17
+function analyse_microstim_artefact4_aston(date,allInstanceInd,allGoodChannels)
+%05/11/18
 %Written by Xing. Plots profile of stimulation artefact across V4 channels,
 %while microstimulation delivered on V1 channels.
 %Uses serial port encodes to identify trials.
 
-matFile=['D:\data\',date,'\',date,'_data\microstim_saccade_',date,'.mat'];
+matFile=['D:\aston_data\',date,'\',date,'_data\microstim_saccade_',date,'.mat'];
 load(matFile);
 maxNumTrials=size(TRLMAT,1);
 if maxNumTrials<=length(performance)
@@ -31,13 +31,7 @@ downsampleFreq=30;
 
 sampFreq=30000;
 switch date
-    case '070917_B13'
-        minCrossingTime=300/1000;
-    case '110917_B1'
-        minCrossingTime=300/1000;
-    case '110917_B2'
-        minCrossingTime=300/1000;
-    case '110917_B3'
+    case '051118_B3_aston'
         minCrossingTime=preStimDur-0.166;
 end
 
@@ -49,19 +43,19 @@ if processRaw==1
     for instanceCount=1%:length(allInstanceInd)
         instanceInd=allInstanceInd(instanceCount);
         instanceName=['instance',num2str(instanceInd)];
-        instanceNEVFileName=['D:\data\',date,'\',instanceName,'.nev'];
+        instanceNEVFileName=['D:\aston_data\',date,'\',instanceName,'.nev'];
         NEV=openNEV(instanceNEVFileName);        
         
         %read in V4 neuronal data:
         recordedRaw=1;
         if instanceInd==1
-            neuronalChannels=33:96;%V4 array on instance 1
-        elseif instanceInd==2
-            neuronalChannels=[1:32 97:128];%V4 array on instance 2
+            neuronalChannels=33:96;%V4 array 2 on instance 1
+        elseif instanceInd==3
+            neuronalChannels=[1:32 97:128];%V4 array 5 on instance 3
         end
         minFixDur=300/1000;%fixates for at least 300 ms, up to 800 ms
-        instanceNS6FileName=['D:\data\',date,'\',instanceName,'.ns6']; 
-        neuronalDataMat=['D:\data\',date,'\',instanceName,'_NSch_channels.mat'];
+        instanceNS6FileName=['D:\aston_data\',date,'\',instanceName,'.ns6']; 
+        neuronalDataMat=['D:\aston_data\',date,'\',instanceName,'_NSch_channels.mat'];
         if exist(neuronalDataMat,'file')
             load(neuronalDataMat,'NSch');
         else
@@ -79,7 +73,7 @@ if processRaw==1
             end
             save(neuronalDataMat,'NSch');
         end     
-        syncPulseDataMat=['D:\data\',date,'\',instanceName,'_NSchSyncCh_channels.mat'];
+        syncPulseDataMat=['D:\aston_data\',date,'\',instanceName,'_NSchSyncCh_channels.mat'];
         syncPulseAnalogInputs=[7 8 10]+128;%analog input 7 (Cerestim 14173), array 10; analog input 8 (Cerestim 14174), array 11; analog input 10 (Cerestim 14176), array 13
         colInd='m c g';
 %         if exist(syncPulseDataMat,'file')
@@ -142,9 +136,9 @@ if processRaw==1
         timePeakVelocityXYSecsAllTrials=[];
         arrayAllTrials=[];
         if ~exist('goodArrays8to16','var')
-            load('D:\data\270917_B16\270917_B16_data\currentThresholdChs2.mat')
+            load('D:\aston_data\241018_B2_aston\241018_data\currentThresholdChs8.mat')
         end
-        for uniqueElectrode=77%1:size(goodArrays8to16,1)
+        for uniqueElectrode=1:size(goodArrays8to16,1)
             array=goodArrays8to16(uniqueElectrode,7);
             arrayColInd=find(arrays==array);
             electrode=goodArrays8to16(uniqueElectrode,8);
@@ -161,8 +155,8 @@ if processRaw==1
             matchTrials=intersect(matchTrials,correctMicrostimTrialsInd);%identify subset of trials where performance was correct
         
             trialDataXY={};
-            degPerVoltXFinal=0.0024;
-            degPerVoltYFinal=0.0022;
+            degPerVoltXFinal=0.0025;
+            degPerVoltYFinal=0.0025;
             flankingSamples=(30000/50)/2;%50-ms period before reward delivery
             saccadeEndTrials=[];
             electrodeTrials=[];
@@ -185,13 +179,7 @@ if processRaw==1
                 preStimDur=300;
                 postStimDur=100;
                 stimDur=167;
-                if strcmp(date,'110917_B2')
-                    timeMicrostimToReward=timeMicrostim-preStimDur/1000*sampFreq:timeMicrostim+(stimDur*2+postStimDur)/1000*sampFreq;%timestamps from 150 ms before end of microstimulation to reward delivery (because eyeanalysis_baseline_correct requires at least 150 ms of eye fixation time)
-                elseif strcmp(date,'110917_B3')
-                    timeMicrostimToReward=timeMicrostim-(preStimDur+stimDur)/1000*sampFreq:timeMicrostim+(postStimDur)/1000*sampFreq;%timestamps from 150 ms before end of microstimulation to reward delivery (because eyeanalysis_baseline_correct requires at least 150 ms of eye fixation time)
-                else%for runstim_microstim_saccade_catch10_checks, 100-ms pause follows stimulation, then dasbit sends target bit
-                    timeMicrostimToReward=timeMicrostim-(preStimDur)/1000*sampFreq:timeMicrostim+(stimDur+postStimDur)/1000*sampFreq;%timestamps from 150 ms before end of microstimulation to reward delivery (because eyeanalysis_baseline_correct requires at least 150 ms of eye fixation time)
-                end
+                timeMicrostimToReward=timeMicrostim-(preStimDur)/1000*sampFreq:timeMicrostim+(stimDur+postStimDur)/1000*sampFreq;%timestamps from 150 ms before end of microstimulation to reward delivery (because eyeanalysis_baseline_correct requires at least 150 ms of eye fixation time)
                 trialData{trialCounter}=NSch{1}(timeMicrostimToReward);
                 figure;
                 plot(trialData{trialCounter})

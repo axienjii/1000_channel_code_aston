@@ -232,6 +232,7 @@ arrayNums=[];
 goodArrays=1:16;
 % goodArrays=[1 2 3 4 9 10 11 13 14 15 16];
 % colind = hsv(11);
+plotCircles=0;
 badQuadrant=[];
 for i=1:length(goodInd)
     channelRow=goodInd(i);
@@ -264,10 +265,18 @@ for i=1:length(goodInd)
     end
     if area=='V1'
         areaNum=1;
-        plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',colind(arrayCol,:),'Marker','o','MarkerSize',3,'MarkerFaceColor',colind(arrayCol,:));
+        if plotCircles==1
+            plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',colind(arrayCol,:),'Marker','o','MarkerSize',3,'MarkerFaceColor',colind(arrayCol,:));
+        elseif plotCircles==0
+            text(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),num2str(channelNum),'Color',colind(arrayCol,:));
+        end
     elseif area=='V4'
         areaNum=4;
-        plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',colind(arrayCol,:),'Marker','o','MarkerSize',3);
+        if plotCircles==1
+            plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',colind(arrayCol,:),'Marker','o','MarkerSize',3);
+        elseif plotCircles==0
+            text(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),num2str(channelNum),'Color',colind(arrayCol,:));
+        end
     end
     if channelRow>32&&channelRow<=96||channelRow>128&&channelRow<=128+32||channelRow>128*2-32&&channelRow<=128*2%V4 RFs
     else
@@ -321,7 +330,7 @@ ylim([-300 30]);
 xlim([-30 300]);
 pathname=fullfile('D:\aston_data\results\RFs_map_figure');
 set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-print(pathname,'-dtiff','-r600');
+% print(pathname,'-dtiff','-r600');
 
 %analyse RF size as a function of eccentricity:
 channelsV1=[];
@@ -352,6 +361,8 @@ set(gca,'XTick',[0:25:200],'XTickLabels',[0:8]);
 xlabel('eccentricity (dva)')
 ylabel('size (dva)')
 title(['RF size versus eccentricity, V1 channels (N=',num2str(length(channelsV1)),'/',num2str(64*14),')'])
+xlim([0 170]);
+ylim([0 6]);
 
 [r p]=corr(channelsV1)
 figure;hold on

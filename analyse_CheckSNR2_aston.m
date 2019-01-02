@@ -14,6 +14,12 @@ switch(date)
         whichDir=1;
     case '041018_B2_aston'
         whichDir=1;
+    case '071118_B1_aston'
+        whichDir=1;
+    case '201118_B11_aston'
+        whichDir=1;
+    case '181218_B1_aston'
+        whichDir=1;
 end
 if whichDir==1%local copy available
     topDir='D:\aston_data';
@@ -47,9 +53,15 @@ for instanceCount=1:length(allInstanceInd)
         trialData={};
         for trialInd=1:length(timeStimOns)
             if strcmp(class(NS.Data),'cell')
-                if size(NS.Data{end},2)>=timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1
-                    trialData{trialInd}=NS.Data{end}(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
+                NS.DataOriginal=NS.Data;
+                NS.Data=[];
+                for dataPacketInd=1:length(NS.DataOriginal)
+                    NS.Data=[NS.Data NS.DataOriginal{dataPacketInd}];
                 end
+                trialData{trialInd}=NS.Data(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
+%                 if size(NS.Data{end},2)>=timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1
+%                     trialData{trialInd}=NS.Data{end}(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
+%                 end
             elseif strcmp(class(NS.Data),'double')
                 if size(NS.Data,2)>=timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1
                     trialData{trialInd}=NS.Data(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
@@ -176,7 +188,7 @@ for instanceCount=1:length(allInstanceInd)
         set(gca,'ylim',[min(meanChannelMUA(channelInd,2:end)) max(meanChannelMUA(channelInd,:))]);
         title(num2str(channelInd));
     end
-    plot1024=1;
+    plot1024=0;
     for figInd=1:4
         figure(figInd)
         set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
