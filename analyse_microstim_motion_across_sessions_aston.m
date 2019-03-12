@@ -210,7 +210,6 @@ for calculateVisual=[0 1]
                     electrodePairs=[1 2 3;1 2 3];
                     currentThresholdChs=36;
                     visualOnly=0;
-                    localDisk=1;
             end
         elseif calculateVisual==1
             localDisk=0;
@@ -387,7 +386,6 @@ for calculateVisual=[0 1]
                     electrodePairs=[1 2 3;1 2 3];
                     currentThresholdChs=36;
                     visualOnly=1;
-                    localDisk=1;
             end
         end
         
@@ -463,20 +461,38 @@ for calculateVisual=[0 1]
                             CorrectB=Par.CorrectB;
                             MicroB=Par.MicroB;
                             StimB=Par.StimB;
-                            if find(trialEncodes==2^CorrectB)
-                                perfNEV(trialNo)=1;
-                            elseif find(trialEncodes==2^ErrorB)
-                                perfNEV(trialNo)=-1;
-                            end
+                            TargetB=Par.TargetB;
                             if visualOnly==0
+                                if ~isempty(find(trialEncodes==2^CorrectB))&&~isempty(find(trialEncodes==2^MicroB))&&~isempty(find(trialEncodes==2^TargetB))
+                                    perfNEV(trialNo)=1;
+                                elseif ~isempty(find(trialEncodes==2^ErrorB))&&~isempty(find(trialEncodes==2^MicroB))&&~isempty(find(trialEncodes==2^TargetB))
+                                    perfNEV(trialNo)=-1;
+                                end
                                 if length(find(trialEncodes==2^MicroB))>=1
                                     microstimTrialNEV(trialNo)=1;
                                 end
                             elseif visualOnly==1
-                                if length(find(trialEncodes==2^StimB))==1
-                                    microstimTrialNEV(trialNo)=0;
+                                if ~isempty(find(trialEncodes==2^CorrectB))&&~isempty(find(trialEncodes==2^StimB))&&~isempty(find(trialEncodes==2^TargetB))
+                                    perfNEV(trialNo)=1;
+                                elseif ~isempty(find(trialEncodes==2^ErrorB))&&~isempty(find(trialEncodes==2^StimB))&&~isempty(find(trialEncodes==2^TargetB))
+                                    perfNEV(trialNo)=-1;
                                 end
+                                microstimTrialNEV(trialNo)=0;
                             end
+%                             if find(trialEncodes==2^CorrectB)
+%                                 perfNEV(trialNo)=1;
+%                             elseif find(trialEncodes==2^ErrorB)
+%                                 perfNEV(trialNo)=-1;
+%                             end
+%                             if visualOnly==0
+%                                 if length(find(trialEncodes==2^MicroB))>=1
+%                                     microstimTrialNEV(trialNo)=1;
+%                                 end
+%                             elseif visualOnly==1
+%                                 if length(find(trialEncodes==2^StimB))==1
+%                                     microstimTrialNEV(trialNo)=0;
+%                                 end
+%                             end
                             trialNo=trialNo+1;
                         end
                     end

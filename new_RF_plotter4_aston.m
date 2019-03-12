@@ -104,19 +104,37 @@ set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
 print(pathname,'-dtiff','-r600');
 setElectrodesUsed=[];
 setArraysUsed=[];
-letterInd=2;
-% for setInd=1:1
-%     switch(setInd)
-%         case 1%begin with new combinations
-%             setElectrodes=[{[4 36 27 46 4 31 64 30 26 31 26 1 34 9 42]} {[61 28 40 58 5 2 56 34 9 42 40 10 30 4 28]} {[56 61 29 13 27 27 29 4 32 20 46 36 17 9 34]} {[1 56 36 4 36 21 30 33 42 4 43 10 30 4 28]}];%280518_B & B?
-%             setArrays=[{[16 16 8 15 15 14 12 12 12 10 9 10 10 10 10]} {[16 16 14 14 12 12 9 10 10 10 10 13 13 15 15]} {[9 12 14 14 16 8 15 15 13 13 10 10 10 10 10]} {[10 9 12 14 16 14 12 13 10 10 10 13 13 15 15]}];
-%     end
-%     setElectrodesUsed=[setElectrodesUsed cell2mat(setElectrodes(letterInd))];
-%     setArraysUsed=[setArraysUsed cell2mat(setArrays(letterInd))];
-% end
-% uniqueInd=unique([setElectrodesUsed' setArraysUsed'],'rows','stable');
-% setElectrodesUsed=uniqueInd(:,1);
-% setArraysUsed=uniqueInd(:,2);
+letterInd=3;
+for setInd=5:7%3:3
+    switch(setInd)
+        case 1%begin with new combinations
+            setElectrodes=[{[51 40 53 32 61 9 16 50 2 17]} {[51 55 52 34 17 54 52 61 35 55]}];%020119_B & B?
+            setArrays=[{[16 16 13 14 13 14 14 14 16 16]} {[16 16 16 16 16 13 13 13 14 12]}];
+        case 2
+            setElectrodes=[{[51 53 32 61 16 9 12 47 50 34]} {[32 47 44 41 34 17 32 59 12 47]}];%020119_B & B?        
+            setArrays=[{[16 13 14 13 12 14 14 12 14 16]} {[16 16 16 16 16 16 14 13 14 12]}];
+        case 3
+            setElectrodes=[{[32 62 52 51 50 56 64 53 55 27]} {[40 48 62 27 2 51 50 56 64 53]}];%280119_B2 & 290119B3
+            setArrays=[{[16 13 13 13 13 11 11 12 12 16]} {[16 16 16 16 16 13 13 11 11 12]}];
+        case 4
+            setElectrodes=[{[40 53 32 30 21 49 57 47 50 9]} {[51 55 52 9 17 54 30 16 16 55]}];%040119_B2 & B4
+            setArrays=[{[16 13 14 14 14 13 13 12 14 16]} {[16 16 16 16 16 13 14 12 14 12]}];
+        case 5
+            setElectrodes=[{[]} {[31 55 62 52 34 24 56 49]} {[51 32 62 52 30 24 9 53]} {[]}];%05119_B & B?
+            setArrays=[{[]} {[16 16 16 16 16 14 11 13]} {[16 16 13 13 14 14 14 12]} {[]}];
+        case 6
+            setElectrodes=[{[]} {[32 47 41 27 2 35 9 64]} {[31 40 53 51 50 16 64 47]} {[]}];%060219_B & B?
+            setArrays=[{[]} {[16 16 16 16 16 14 14 11]} {[16 16 13 13 13 12 11 12]} {[]}];
+        case 7
+            setElectrodes=[{[]} {[40 48 44 9 17 8 12 57]} {[48 47 32 60 59 8 57 55]} {[]}];%00219_B & B?
+            setArrays=[{[]} {[16 16 16 16 16 14 14 13]} {[16 16 14 13 13 14 14 12]} {[]} ];
+    end
+    setElectrodesUsed=[setElectrodesUsed cell2mat(setElectrodes(letterInd))];
+    setArraysUsed=[setArraysUsed cell2mat(setArrays(letterInd))];
+end
+uniqueInd=unique([setElectrodesUsed' setArraysUsed'],'rows','stable');
+setElectrodesUsed=uniqueInd(:,1);
+setArraysUsed=uniqueInd(:,2);
 setElectrodesUsed=[];
 setArraysUsed=[];
 
@@ -160,17 +178,17 @@ set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
     
 %To plan out electrode sets for a given letter:
 if letterInd==1
-%     targetLetter='T';
-    targetLetter='I';
+    targetLetter='O';
+%     targetLetter='U';
 elseif letterInd==2
-%     targetLetter='O';
-    targetLetter='U';
+    targetLetter='T';
+%     targetLetter='I';
 elseif letterInd==3
+    targetLetter='L';
+%     targetLetter='N';
+elseif letterInd==4
 %     targetLetter='A';
     targetLetter='D';
-elseif letterInd==4
-%     targetLetter='L';
-    targetLetter='N';
 end
 letterPath=['D:\data\letters\',targetLetter,'.bmp'];
 originalOutline=imread(letterPath);
@@ -183,13 +201,19 @@ shapeRGB(:,:,1)=whiteMask+shape*255*colind(1);
 shapeRGB(:,:,2)=whiteMask+shape*255*colind(2);
 shapeRGB(:,:,3)=whiteMask+shape*255*colind(3);
 if strcmp(targetLetter,'A')||strcmp(targetLetter,'I')
+%     h=image(50,-40,flip(shapeRGB,1));
+%     h=image(50,-45,flip(shapeRGB,1));
     h=image(50,-40,flip(shapeRGB,1));
 elseif strcmp(targetLetter,'O')||strcmp(targetLetter,'U')
-    h=image(50,-40,flip(shapeRGB,1));
+%     h=image(50,-40,flip(shapeRGB,1));
+    h=image(50,-49.2,flip(shapeRGB,1));
 elseif strcmp(targetLetter,'T')||strcmp(targetLetter,'D')
-    h=image(15,-125,flip(shapeRGB,1));
+%     h=image(50,-43,flip(shapeRGB,1));
+%     h=image(52,-43,flip(shapeRGB,1));
+    h=image(52,-45,flip(shapeRGB,1));
 elseif strcmp(targetLetter,'L')||strcmp(targetLetter,'N')
-    h=image(15,-125,flip(shapeRGB,1));
+%     h=image(50,-40,flip(shapeRGB,1));
+    h=image(52,-35,flip(shapeRGB,1));
 end
 set(h, 'AlphaData', 0.1);
             

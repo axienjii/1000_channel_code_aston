@@ -430,6 +430,7 @@ for calculateVisual=[0 1]
                         trialNo=trialNo+1;
                     end
                 end
+                perfNEV=performance;
                 
                 tallyCorrect=length(find(perfNEV==1));
                 tallyIncorrect=length(find(perfNEV==-1));
@@ -679,6 +680,7 @@ for calculateVisual=[0 1]
 %         plot([10 10],[0 1],'k:');
         xlabel('trial number');
         ylabel('mean performance');
+        xlim([0 size(allSetsPerfMicroBin,2)]);
     end
     if calculateVisual==1
         subplot(2,1,2);
@@ -692,12 +694,13 @@ for calculateVisual=[0 1]
         xlabel('trial number');
 %         xlabel('trial number (from end of session)');
         ylabel('mean performance');
+        xlim([0 size(allSetsPerfVisualBin,2)]);
     end
 end
-title(['performance across the session, on visual (blue) & microstim (red) trials']);
+% title(['performance across the session, on visual (blue) & microstim (red) trials']);
 pathname=['D:\aston_data\behavioural_performance_first_sets_261118_',num2str(initialPerfTrials),'trials_2phosphenes'];
 set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-xlim([0 72]);
+xlim([0 initialPerfTrials+1]);
 print(pathname,'-dtiff');
 
 perfMat=['D:\aston_data\behavioural_performance_first_sets_261118_',num2str(initialPerfTrials),'trials_2phosphenes.mat'];

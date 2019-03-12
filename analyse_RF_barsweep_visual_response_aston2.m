@@ -75,7 +75,7 @@ if processRaw==1
     save(fileName,'normalisedResponse')
 end
 
-drawFrames=0;
+drawFrames=1;
 if drawFrames==1
     fileName=fullfile('X:\aston',date,['normalised_visual_response_all_conds','.mat']);
     load(fileName,'normalisedResponse')
@@ -87,6 +87,10 @@ if drawFrames==1
         load(fileName)
         allChannelRFs=[allChannelRFs;channelRFs];
     end
+    SNRthreshold=2;
+    meanChannelSNR=mean(allChannelRFs(:,8:11),2);
+    goodInd=find(meanChannelSNR>=SNRthreshold);
+    badInd=find(meanChannelSNR<SNRthreshold);
     for stimCond=1:4
         frameNo=1;
         for timePoint=1:1599%length of 'normalizedResponse'
@@ -105,9 +109,9 @@ if drawFrames==1
             %         text(sqrt(10000),-sqrt(10000),'6','FontSize',14,'Color',[0.5 0.5 0.5]);
             %         text(sqrt(18000),-sqrt(18000),'8','FontSize',14,'Color',[0.5 0.5 0.5]);
             
-            col=normalisedResponse{stimCond}(:,timePoint);
-            scatter(allChannelRFs(:,1),allChannelRFs(:,2),[],col,'filled');
-            %         scatter(allChannelRFs(:,1),allChannelRFs(:,2),[],col);
+            col=normalisedResponse{stimCond}(:,timePoint);            
+            scatter(allChannelRFs(goodInd,1),allChannelRFs(goodInd,2),[],col(goodInd),'filled');
+            %         scatter(allChannelRFs(:,1),allChannelRFs(:,2),[],col);            
             
             %Draw bar
             barStartX=x0-(speed*1000)/2;
@@ -152,7 +156,7 @@ if drawFrames==1
             close all
         end
         pathname=fullfile('X:\aston',date,['1024-channel responses to bar sweeping ',direct{stimCond},'.mat']);
-        save(pathname,'framesResponse','-v7.3')
+        save(pathname,'framesResp                                                                                                                                                                                                     onse','-v7.3')
     end
 end
 

@@ -156,7 +156,7 @@ for calculateVisual=[0 1]
                     electrodePairs=[1 2;3 4];
                     currentThresholdChs=24;
                     visualOnly=0;
-                    localDisk=1;
+                    localDisk=0;
                 case 13
                     date='';
                 case 14
@@ -341,7 +341,7 @@ for calculateVisual=[0 1]
                     electrodePairs=[1 2;3 4];
                     currentThresholdChs=24;
                     visualOnly=1;
-                    localDisk=1;
+                    localDisk=0;
             end
         end
         

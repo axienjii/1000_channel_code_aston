@@ -54,7 +54,7 @@ for instanceInd=1:8
     load(fileName)
     channelRFs1000=[channelRFs1000;channelRFs];
 end
-SNRthreshold=1;
+SNRthreshold=2;
 meanChannelSNR=mean(channelRFs1000(:,8:11),2);
 goodInd=find(meanChannelSNR>=SNRthreshold);
 badInd=find(meanChannelSNR<SNRthreshold);
@@ -228,11 +228,12 @@ if drawBarArea==1
     end
 end
 colind = hsv(16);
+colind(8,:)=[139/255 69/255 19/255];
 arrayNums=[];
 goodArrays=1:16;
 % goodArrays=[1 2 3 4 9 10 11 13 14 15 16];
 % colind = hsv(11);
-plotCircles=0;
+plotCircles=1;
 badQuadrant=[];
 for i=1:length(goodInd)
     channelRow=goodInd(i);
