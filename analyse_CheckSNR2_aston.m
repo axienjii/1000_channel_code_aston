@@ -14,6 +14,12 @@ switch(date)
         whichDir=1;
     case '041018_B2_aston'
         whichDir=1;
+    case '201118_B11_aston'
+        whichDir=1;
+    case '181218_B1_aston'
+        whichDir=1;
+    case '170419_B1_aston'
+        whichDir=1;
 end
 if whichDir==1%local copy available
     topDir='D:\aston_data';
@@ -25,7 +31,7 @@ if copyRemotely==1
     copyDir='X:\aston';
 end
 stimDur=400/1000;%in seconds
-allInstanceInd=1:4;
+allInstanceInd=5:8;
 preStimDur=300/1000;%length of pre-stimulus-onset period, in s
 postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;
@@ -176,7 +182,7 @@ for instanceCount=1:length(allInstanceInd)
         set(gca,'ylim',[min(meanChannelMUA(channelInd,2:end)) max(meanChannelMUA(channelInd,:))]);
         title(num2str(channelInd));
     end
-    plot1024=1;
+    plot1024=0;
     for figInd=1:4
         figure(figInd)
         set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
