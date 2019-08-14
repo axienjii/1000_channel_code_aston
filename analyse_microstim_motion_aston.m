@@ -1,20 +1,21 @@
-function analyse_microstim_motion(date,allInstanceInd)
-%29/9/17
+function analyse_microstim_motion_aston(date,allInstanceInd)
+%29/11/18
 %Written by Xing, calculates behavioural performance during a
 %microstimulation/visual 2-phosphene task.
 %Sends 3 encodes for microB (two for the 'fake' stimulation triggers, and 1
 %for the real stimulation trigger).
 
-localDisk=0;
+date=[date,'_aston'];
+localDisk=1;
 if localDisk==1
-    rootdir='D:\data\';
+    rootdir='D:\aston_data\';
 elseif localDisk==0
-    rootdir='X:\best\';
+    rootdir='X:\aston\';
 end
 matFile=[rootdir,date,'\',date,'_data\microstim_saccade_',date,'.mat'];
 dataDir=[rootdir,date,'\',date,'_data'];
 if ~exist('dataDir','dir')
-    copyfile(['Z:\Xing\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);    
+    copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);    
 end
 load(matFile);
 maxNumTrials=size(TRLMAT,1);
@@ -61,745 +62,455 @@ analyseConds=1;
 if analyseConds==1
     switch(date)
         %microstim task only:
-        case '091117_B4'
-            setElectrodes=[15 34 42;42 34 15];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 10;10 13 15];
+        case '271118_B6_aston'
+            setElectrodes=[59 64 1;1 64 59];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 11 13;13 11 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=37;
+            currentThresholdChs=25;
             visualOnly=0;
-        case '091117_B16'
-            setElectrodes=[63 48 35;35 48 63];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 10;10 13 15];
+        case '271118_B8_aston'
+            setElectrodes=[50 61 3;3 61 50];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 13 13;13 13 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=37;
+            currentThresholdChs=25;
             visualOnly=0;
-        case '271117_B27'
-            setElectrodes=[63 48 35;35 48 63];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 10;10 13 15];
+        case '281118_B8_aston'
+            setElectrodes=[58 41 9;9 41 58];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[11 13 13;13 13 11];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=38;
+            currentThresholdChs=26;
             visualOnly=0;
-        case '271117_B29'
-            setElectrodes=[62 49 42;42 49 62];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 10;10 13 15];
+        case '291118_B9_aston'
+            setElectrodes=[57 33 10;10 33 57];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[11 13 13;13 13 11];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=38;
+            currentThresholdChs=27;
             visualOnly=0;
-        case '271117_B32'
-            setElectrodes=[26 35 8;8 35 26];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[12 13 10;10 13 12];
+        case '291118_B10_aston'
+            setElectrodes=[49 41 36;36 41 49];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[11 13 13;13 13 11];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=38;
+            currentThresholdChs=27;
             visualOnly=0;
-        case '291117_B10'
-            setElectrodes=[44 50 22;22 50 44];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[12 13 11;11 13 12];
+        case '041218_B3_aston'
+            setElectrodes=[16 9 57;57 9 16];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 14 11;11 14 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=39;
+            currentThresholdChs=29;
             visualOnly=0;
-        case '291117_B12'
-            setElectrodes=[25 42 24];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[12 13 11;11 13 12];
+        case '041218_B5_aston'
+            setElectrodes=[12 63 58;58 63 12];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 11 11;11 11 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=39;
+            currentThresholdChs=29;
             visualOnly=0;
-        case '291117_B46'
-            setElectrodes=[37 41 1;1 41 37];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '041218_B7_aston'
+            setElectrodes=[35 63 49;49 63 35];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 11 11;11 11 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=29;
             visualOnly=0;
-        case '291117_B48'
-            setElectrodes=[50 34 9;9 34 50];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '051218_B5_aston'
+            setElectrodes=[48 63 25;25 63 48];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=30;
             visualOnly=0;
-        case '291117_B50'
-            setElectrodes=[39 33 48;48 33 39];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '061218_B8_aston'
+            setElectrodes=[53 25 9;9 25 53];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=31;
             visualOnly=0;
-        case '291117_B52'
-            setElectrodes=[40 12 47;47 12 40];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '061218_B11_aston'
+            setElectrodes=[63 25 1;1 25 63];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=31;
             visualOnly=0;
-        case '291117_B55'
-            setElectrodes=[46 59 63;63 59 46];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 9;9 14 16];
+        case '071218_B5_aston'
+            setElectrodes=[48 63 25;25 63 48];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=32;
             visualOnly=0;
-        case '291117_B57'
-            setElectrodes=[45 14 64;64 14 45];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '071218_B6_aston'
+            setElectrodes=[56 60 50;50 60 56];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=32;
             visualOnly=0;
-        case '301117_B15'
-            setElectrodes=[50 13 44;44 13 50];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '071218_B7_aston'
+            setElectrodes=[56 60 50;50 60 56];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=41;
+            currentThresholdChs=32;
             visualOnly=0;
-        case '301117_B17'
-            setElectrodes=[38 35 19;19 35 38];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '071218_B8_aston'
+            setElectrodes=[60 50 48;48 50 60];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 11;11 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=41;
+            currentThresholdChs=32;
             visualOnly=0;
-        case '301117_B19'
-            setElectrodes=[57 18 27;27 18 57];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '1218_B_aston'
+            setElectrodes=[59 50 41;41 50 59];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=41;
+            currentThresholdChs=32;
             visualOnly=0;
-        case '301117_B21'
-            setElectrodes=[44 44 50;50 44 44];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '101218_B5_aston'
+            setElectrodes=[55 59 41;41 59 55];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=41;
+            currentThresholdChs=33;
             visualOnly=0;
-        case '301117_B46'
-            setElectrodes=[7 47 19;19 47 7];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '101218_B7_aston'
+            setElectrodes=[43 35 58;58 35 43];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=42;
+            currentThresholdChs=33;
             visualOnly=0;
-        case '301117_B48'
-            setElectrodes=[63 40 4;4 40 63];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '101218_B9_aston'
+            setElectrodes=[34 16 57;57 16 34];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=42;
+            currentThresholdChs=33;
             visualOnly=0;
-        case '041217_B25'
-            setElectrodes=[64 3 43;43 3 64];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '121218_B4_aston'
+            setElectrodes=[34 16 57;57 16 34];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=45;
+            currentThresholdChs=34;
             visualOnly=0;
-        case '041217_B24'
-            setElectrodes=[40 63 52;52 63 40];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[8 14 12;12 14 8];
+        case '121218_B8_aston'
+            setElectrodes=[41 12 49;49 12 41];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=45;
+            currentThresholdChs=34;
             visualOnly=0;
-        case '041217_B33'
-            setElectrodes=[30 21 10;10 21 30];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '121218_B10_aston'
+            setElectrodes=[58 35 58;58 35 58];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=47;
+            currentThresholdChs=34;
             visualOnly=0;
-        case '041217_B35'
-            setElectrodes=[22 54 57;57 54 22];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '141218_B4_aston'
+            setElectrodes=[60 16 59;59 16 60];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=47;
+            currentThresholdChs=35;
             visualOnly=0;
-            %5-phosphene motion task:
-        case '061217_B11'
-            setElectrodes=[63 48 26 40 35;35 40 26 48 63];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 13 10 10;10 10 13 13 15];
+        case '141218_B7_aston'
+            setElectrodes=[40 54 9;9 54 40];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=48;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=35;
             visualOnly=0;
-        case '061217_B13'
-            setElectrodes=[32 55 46 51 57;57 51 46 55 32];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 13 10 10 10;10 10 10 13 13];
+        case '171218_B3_aston'
+            setElectrodes=[51 62 17;17 62 51];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=48;
-            visualOnly=0;
-        case '061217_B15'
-            setElectrodes=[38 55 48 58 59;59 58 48 55 38];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 10 10 10 10;10 10 10 10 13];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=48;
-            visualOnly=0;
-        case '061217_B17'
-            setElectrodes=[39 17 34 44 19;19 44 34 17 39];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 9 12 9 9;9 9 12 9 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=0;
-        case '061217_B19'
-            setElectrodes=[40 21 13 20 61;61 20 13 21 40];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[8 16 14 12 12;12 12 14 16 8];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=0;
-        case '061217_B21'
-            setElectrodes=[55 35 28 36 50;50 36 28 35 55];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[11 13 12 12 12;12 12 12 13 11];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=0;
-        case '061217_B23'
-            setElectrodes=[24 53 61 47 10;10 47 61 53 24];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[11 13 13 13 12;12 13 13 13 11];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=0; 
-        case '061217_B25'
-            setElectrodes=[18 20 21 62 37;37 62 21 20 18];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[11 10 10 10 10;10 10 10 10 11];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=0;      
-        case '061217_B27'
-            setElectrodes=[56 29 30 20 4;41 20 30 29 56];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 12 12 12 12;12 12 12 12 13];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=0;   
-        case '071217_B22'
-            setElectrodes=[38 47 39 35 27;27 35 39 47 38];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 14 12 9;9 12 14 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=0;       
-        case '071217_B24'
-            setElectrodes=[40 50 12 44 26;26 44 12 50 40];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 12 9 9;9 9 12 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=0;      
-        case '071217_B26'
-            setElectrodes=[7 64 61 58 2;2 58 61 64 7];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 16 14 12;12 14 16 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=0;    
-        case '071217_B28'
-            setElectrodes=[15 12 13 29 57;57 29 13 12 15];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 14 14 12;12 14 14 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=0;     
-        case '071217_B30'
-            setElectrodes=[55 48 43 7 40;40 7 43 48 55];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 15 8 16 16;16 16 8 15 15];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=0;     
-        case '071217_B32'
-            setElectrodes=[46 19 15 64 47;47 64 15 19 46];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 8 16 16 16;16 16 16 8 15];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=0;        
-        case '071217_B34'
-            setElectrodes=[53 61 47 57 2;2 57 47 61 53];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 13 13 12 12;12 12 13 13 13];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=0;      
-        case '071217_B36'
-            setElectrodes=[29 30 22 12 41;41 12 22 30 29];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[12 12 12 12 12;12 12 12 12 12];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=0;      
-        case '081217_B20'
-            setElectrodes=[45 30 16 23 37;37 23 16 30 45];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[8 16 14 12 12;12 12 14 16 8];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=51;
-            visualOnly=0;      
-        case '081217_B17'
-            setElectrodes=[55 35 34 28 52;52 28 34 35 55];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 13 12 12 12;12 12 13 13 13];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=51;
-            visualOnly=0;   
-        case '121217_B5'
-            setElectrodes=[35 39 33 64 9;9 64 33 39 35];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 12 9 9;9 9 12 12 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=52;
-            visualOnly=0;   
-        case '121217_B7'
-            setElectrodes=[22 27 13 21 61;61 21 13 27 22];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 14 12 12;12 12 14 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=52;
-            visualOnly=0;
-        case '121217_B9'
-            setElectrodes=[7 15 50 44 45;45 44 50 15 7];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 15 8 8 8;8 8 8 15 15];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=52;
-            visualOnly=0;
-        case '121217_B11'
-            setElectrodes=[22 55 51 49 41;41 49 51 55 22];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[11 11 13 13 13;13 13 13 11 11];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=52;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=36;
             visualOnly=0;
             
             %visual task only:
-        case '091117_B1'
-            setElectrodes=[15 34 42;42 34 15];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 10;10 13 15];
+        case '271118_B3_aston'
+            setElectrodes=[59 64 1;1 64 59];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 11 13;13 11 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=37;
+            currentThresholdChs=25;
             visualOnly=1;
-        case '091117_B5'
-            setElectrodes=[63 48 35;35 48 63];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 10;10 13 15];
+        case '271118_B7_aston'
+            setElectrodes=[50 61 3;3 61 50];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 13 13;13 13 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=37;
+            currentThresholdChs=25;
             visualOnly=1;
-        case '271117_B26'
-            setElectrodes=[63 48 35;35 48 63];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 10;10 13 15];
+        case '281118_B7_aston'
+            setElectrodes=[58 41 9;9 41 58];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[11 13 13;13 13 11];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=38;
+            currentThresholdChs=26;
             visualOnly=1;
-        case '271117_B28'
-            setElectrodes=[62 49 42;42 49 62];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 10;10 13 15];
+        case '291118_B1_aston'
+            setElectrodes=[57 33 10;10 33 57];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[11 13 13;13 13 11];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=38;
+            currentThresholdChs=27;
             visualOnly=1;
-        case '271117_B31'
-            setElectrodes=[26 35 8;8 35 26];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[12 13 10;10 13 12];
+        case '291118_B2_aston'
+            setElectrodes=[49 41 36;36 41 49];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[11 13 13;13 13 11];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=38;
+            currentThresholdChs=27;
             visualOnly=1;
-        case '291117_B9'
-            setElectrodes=[44 50 22;22 50 44];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[12 13 11;11 13 12];
+        case '031218_B2_aston'
+            setElectrodes=[16 9 57;57 9 16];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 14 11;11 14 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=39;
+            currentThresholdChs=28;
             visualOnly=1;
-        case '291117_B11'
-            setElectrodes=[25 42 24];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[12 13 11;11 13 12];
+        case '031218_B3_aston'
+            setElectrodes=[16 9 57;57 9 16];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 14 11;11 14 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=39;
+            currentThresholdChs=28;
             visualOnly=1;
-        case '291117_B45'
-            setElectrodes=[37 41 1;1 41 37];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '031218_B5_aston'
+            setElectrodes=[16 9 57;57 9 16];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 14 11;11 14 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=28;
             visualOnly=1;
-        case '291117_B47'
-            setElectrodes=[50 34 9;9 34 50];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '041218_B2_aston'
+            setElectrodes=[16 9 57;57 9 16];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 14 11;11 14 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=29;
             visualOnly=1;
-        case '291117_B49'
-            setElectrodes=[39 33 48;48 33 39];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '041218_B4_aston'
+            setElectrodes=[12 63 58;58 63 12];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 11 11;11 11 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=29;
             visualOnly=1;
-        case '291117_B51'
-            setElectrodes=[40 12 47;47 12 40];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '041218_B6_aston'
+            setElectrodes=[35 63 49;49 63 35];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[14 11 11;11 11 14];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=29;
             visualOnly=1;
-        case '291117_B54'
-            setElectrodes=[46 59 63;63 59 46];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 9;9 14 16];
+        case '051218_B3_aston'
+            setElectrodes=[48 63 25;25 63 48];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=30;
             visualOnly=1;
-        case '291117_B56'
-            setElectrodes=[45 14 64;64 14 45];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '051218_B4_aston'
+            setElectrodes=[48 63 25;25 63 48];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=40;
+            currentThresholdChs=30;
             visualOnly=1;
-        case '301117_B14'
-            setElectrodes=[50 13 44;44 13 50];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '061218_B2_aston'
+            setElectrodes=[53 25 9;9 25 53];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=41;
+            currentThresholdChs=31;
             visualOnly=1;
-        case '301117_B16'
-            setElectrodes=[38 35 19;19 35 38];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '061218_B4_aston'
+            setElectrodes=[53 25 9;9 25 53];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=41;
+            currentThresholdChs=31;
             visualOnly=1;
-        case '301117_B18'
-            setElectrodes=[57 18 27;27 18 57];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 9;9 12 16];
+        case '061218_B5_aston'
+            setElectrodes=[53 25 9;9 25 53];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=41;
+            currentThresholdChs=31;
             visualOnly=1;
-        case '301117_B20'
-            setElectrodes=[44 44 50;50 44 44];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '061218_B6_aston'
+            setElectrodes=[53 25 9;9 25 53];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=41;
+            currentThresholdChs=31;
             visualOnly=1;
-        case '301117_B44'
-            setElectrodes=[7 47 19;19 47 7];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '061218_B7_aston'
+            setElectrodes=[63 25 1;1 25 63];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=42;
+            currentThresholdChs=31;
             visualOnly=1;
-        case '301117_B47'
-            setElectrodes=[63 40 4;4 40 63];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '061218_B9_aston'
+            setElectrodes=[63 25 1;1 25 63];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=42;
+            currentThresholdChs=31;
             visualOnly=1;
-        case '041217_B19'
-            setElectrodes=[64 3 43;43 3 64];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '061218_B10_aston'
+            setElectrodes=[63 25 1;1 25 63];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=45;
+            currentThresholdChs=31;
             visualOnly=1;
-        case '041217_B23'
-            setElectrodes=[40 63 52;52 63 40];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[8 14 12;12 14 8];
+        case '071218_B1_aston'
+            setElectrodes=[56 60 50;50 60 56];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=45;
+            currentThresholdChs=32;
             visualOnly=1;
-        case '041217_B32'
-            setElectrodes=[30 21 10;10 21 30];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '071218_B2_aston'
+            setElectrodes=[60 50 48;48 50 60];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 11;11 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=47;
+            currentThresholdChs=32;
             visualOnly=1;
-        case '041217_B34'
-            setElectrodes=[22 54 57;57 54 22];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 14 12;12 14 16];
+        case '071218_B3_aston'
+            setElectrodes=[59 50 41;41 50 59];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[13 13 13;13 13 13];
             setInd=1;
             numTargets=2;
             electrodePairs=[1 2 3;1 2 3];
-            currentThresholdChs=47;
+            currentThresholdChs=32;
             visualOnly=1;
-            %5-phosphene motion task:
-        case '061217_B10'
-            setElectrodes=[63 48 26 40 35;35 40 26 48 63];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 13 13 10 10;10 10 13 13 15];
+        case '101218_B4_aston'
+            setElectrodes=[55 59 41;41 59 55];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=33;
             visualOnly=1;
-        case '061217_B12'
-            setElectrodes=[32 55 46 51 57;57 51 46 55 32];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 13 10 10 10;10 10 10 13 13];
+        case '101218_B6_aston'
+            setElectrodes=[43 35 58;58 35 43];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=48;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=33;
             visualOnly=1;
-        case '061217_B14'
-            setElectrodes=[38 55 48 58 59;59 58 48 55 38];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 10 10 10 10;10 10 10 10 13];
+        case '101218_B8_aston'
+            setElectrodes=[34 16 57;57 16 34];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=48;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=33;
             visualOnly=1;
-        case '061217_B16'
-            setElectrodes=[39 17 34 44 19;19 44 34 17 39];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 9 12 9 9;9 9 12 9 16];
+        case '121218_B7_aston'
+            setElectrodes=[41 12 49;49 12 41];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=34;
             visualOnly=1;
-        case '061217_B18'
-            setElectrodes=[40 21 13 20 61;61 20 13 21 40];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[8 16 14 12 12;12 12 14 16 8];
+        case '121218_B9_aston'
+            setElectrodes=[58 35 58;58 35 58];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=34;
             visualOnly=1;
-        case '061217_B20'
-            setElectrodes=[55 35 28 36 50;50 36 28 35 55];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[11 13 12 12 12;12 12 12 13 11];
+        case '141218_B3_aston'
+            setElectrodes=[60 16 59;59 16 60];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 14 11;11 14 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=35;
             visualOnly=1;
-        case '061217_B22'
-            setElectrodes=[24 53 61 47 10;10 47 61 53 24];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[11 13 13 13 12;12 13 13 13 11];
+        case '141218_B6_aston'
+            setElectrodes=[40 54 9;9 54 40];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=1;  
-        case '061217_B24'
-            setElectrodes=[18 20 21 62 37;37 62 21 20 18];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[11 10 10 10 10;10 10 10 10 11];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=1;    
-        case '061217_B26'
-            setElectrodes=[56 29 30 20 4;41 20 30 29 56];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 12 12 12 12;12 12 12 12 13];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=49;
-            visualOnly=1;  
-        case '071217_B21'
-            setElectrodes=[38 47 39 35 27;27 35 39 47 38];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 14 12 9;9 12 14 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=1;    
-        case '071217_B23'
-            setElectrodes=[40 50 12 44 26;26 44 12 50 40];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 12 9 9;9 9 12 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=1;      
-        case '071217_B25'
-            setElectrodes=[7 64 61 58 2;2 58 61 64 7];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 16 14 12;12 14 16 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=1;    
-        case '071217_B27'
-            setElectrodes=[15 12 13 29 57;57 29 13 12 15];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 14 14 12;12 14 14 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=1;     
-        case '071217_B29'
-            setElectrodes=[55 48 43 7 40;40 7 43 48 55];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 15 8 16 16;16 16 8 15 15];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=1;     
-        case '071217_B31'
-            setElectrodes=[46 19 15 64 47;47 64 15 19 46];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 8 16 16 16;16 16 16 8 15];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=1;        
-        case '071217_B33'
-            setElectrodes=[53 61 47 57 2;2 57 47 61 53];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 13 13 12 12;12 12 13 13 13];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=1;      
-        case '071217_B35'
-            setElectrodes=[29 30 22 12 41;41 12 22 30 29];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[12 12 12 12 12;12 12 12 12 12];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=50;
-            visualOnly=1;     
-        case '081217_B10'
-            setElectrodes=[45 30 16 23 37;37 23 16 30 45];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[8 16 14 12 12;12 12 14 16 8];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=51;
-            visualOnly=1;      
-        case '081217_B16'
-            setElectrodes=[55 35 34 28 52;52 28 34 35 55];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[13 13 12 12 12;12 12 13 13 13];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=51;
-            visualOnly=1;  
-        case '121217_B4'
-            setElectrodes=[35 39 33 64 9;9 64 33 39 35];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 12 12 9 9;9 9 12 12 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=52;
-            visualOnly=1;   
-        case '121217_B6'
-            setElectrodes=[22 27 13 21 61;61 21 13 27 22];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[16 16 14 12 12;12 12 14 16 16];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=52;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=35;
             visualOnly=1;
-        case '121217_B8'
-            setElectrodes=[7 15 50 44 45;45 44 50 15 7];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[15 15 8 8 8;8 8 8 15 15];
+        case '171218_B2_aston'
+            setElectrodes=[51 62 17;17 62 51];%first row: set 1, LRTB; second row: set 2, LRTB
+            setArrays=[16 13 13;13 13 16];
             setInd=1;
             numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=52;
-            visualOnly=1;
-        case '121217_B10'
-            setElectrodes=[22 55 51 49 41;41 49 51 55 22];%first row: set 1, LRTB; second row: set 2, LRTB
-            setArrays=[11 11 13 13 13;13 13 13 11 11];
-            setInd=1;
-            numTargets=2;
-            electrodePairs=[1 2 3 4 5;1 2 3 4 5];
-            currentThresholdChs=52;
+            electrodePairs=[1 2 3;1 2 3];
+            currentThresholdChs=36;
             visualOnly=1;
     end
 end
@@ -808,84 +519,94 @@ load([dataDir,'\currentThresholdChs',num2str(currentThresholdChs),'.mat']);
 processRaw=1;
 if processRaw==1
     for instanceCount=1%:length(allInstanceInd)
-        instanceInd=allInstanceInd(instanceCount);
-        instanceName=['instance',num2str(instanceInd)];
-        instanceNEVFileName=[rootdir,date,'\',instanceName,'.nev'];
-        NEV=openNEV(instanceNEVFileName);        
-        
-        %read in eye data:
-        recordedRaw=1;
-        if recordedRaw==0%7/9/17
-            eyeChannels=[1 2];
-        elseif recordedRaw==1%11/9/17
-            eyeChannels=[129 130];
-        end
-        minFixDur=300/1000;%fixates for at least 300 ms, up to 800 ms
-%         instanceNS6FileName=['D:\data\',date,'\',instanceName,'.ns6']; 
-%         eyeDataMat=['D:\data\',date,'\',instanceName,'_NSch_eye_channels.mat'];
-%         if exist(eyeDataMat,'file')
-%             load(eyeDataMat,'NSch');
-%         else
-%             if recordedRaw==0
-%                 NSchOriginal=openNSx(instanceNS6FileName);
-%                 for channelInd=1:length(eyeChannels)
-%                     NSch{channelInd}=NSchOriginal.Data(channelInd,:);
-%                 end
-%             elseif recordedRaw==1
-%                 for channelInd=1:length(eyeChannels)
-%                     readChannel=['c:',num2str(eyeChannels(channelInd)),':',num2str(eyeChannels(channelInd))];
-%                     NSchOriginal=openNSx(instanceNS6FileName,readChannel);
-%                     NSch{channelInd}=NSchOriginal.Data;
-%                 end
-%             end
-%             save(eyeDataMat,'NSch');
-%         end       
-        
-        %identify trials using encodes sent via serial port: 
-        trialNo=1;
-        breakHere=0;
-        while breakHere==0
-            encode=double(num2str(trialNo));%serial port encodes. e.g. 0 is encoded as 48, 1 as 49, 10 as [49 48], 12 as [49 50]
-            tempInd=strfind(NEV.Data.SerialDigitalIO.UnparsedData',encode);
-            if isempty(tempInd)
-                breakHere=1;
-            else
-                timeInd(trialNo)=NEV.Data.SerialDigitalIO.TimeStamp(tempInd(1));
-                encodeInd(trialNo)=tempInd(1);
-                if trialNo>1
-                    trialEncodes=NEV.Data.SerialDigitalIO.UnparsedData(encodeInd(trialNo-1):encodeInd(trialNo));
-                else
-                    trialEncodes=NEV.Data.SerialDigitalIO.UnparsedData(1:encodeInd(trialNo));
-                end
-                ErrorB=Par.ErrorB;
-                CorrectB=Par.CorrectB;
-                MicroB=Par.MicroB;
-                StimB=Par.StimB;
-                if find(trialEncodes==2^CorrectB)
-                    perfNEV(trialNo)=1;
-                elseif find(trialEncodes==2^ErrorB)
-                    perfNEV(trialNo)=-1;
-                end
-                if visualOnly==0
-                    if length(find(trialEncodes==2^MicroB))>=1
-                        microstimTrialNEV(trialNo)=1;
-                    end
-                elseif visualOnly==1
-                    if length(find(trialEncodes==2^StimB))==1
-                        microstimTrialNEV(trialNo)=0;
-                    end
-                end
-                trialNo=trialNo+1;
+        if ~strcmp(date,'291118_B9_aston')
+            instanceInd=allInstanceInd(instanceCount);
+            instanceName=['instance',num2str(instanceInd)];
+            instanceNEVFileName=[rootdir,date,'\',instanceName,'.nev'];
+            NEV=openNEV(instanceNEVFileName);
+            
+            %read in eye data:
+            recordedRaw=1;
+            if recordedRaw==0%7/9/17
+                eyeChannels=[1 2];
+            elseif recordedRaw==1%11/9/17
+                eyeChannels=[129 130];
             end
+            minFixDur=300/1000;%fixates for at least 300 ms, up to 800 ms
+            %         instanceNS6FileName=['D:\data\',date,'\',instanceName,'.ns6'];
+            %         eyeDataMat=['D:\data\',date,'\',instanceName,'_NSch_eye_channels.mat'];
+            %         if exist(eyeDataMat,'file')
+            %             load(eyeDataMat,'NSch');
+            %         else
+            %             if recordedRaw==0
+            %                 NSchOriginal=openNSx(instanceNS6FileName);
+            %                 for channelInd=1:length(eyeChannels)
+            %                     NSch{channelInd}=NSchOriginal.Data(channelInd,:);
+            %                 end
+            %             elseif recordedRaw==1
+            %                 for channelInd=1:length(eyeChannels)
+            %                     readChannel=['c:',num2str(eyeChannels(channelInd)),':',num2str(eyeChannels(channelInd))];
+            %                     NSchOriginal=openNSx(instanceNS6FileName,readChannel);
+            %                     NSch{channelInd}=NSchOriginal.Data;
+            %                 end
+            %             end
+            %             save(eyeDataMat,'NSch');
+            %         end
+            
+            %identify trials using encodes sent via serial port:
+            trialNo=1;
+            breakHere=0;
+            while breakHere==0
+                encode=double(num2str(trialNo));%serial port encodes. e.g. 0 is encoded as 48, 1 as 49, 10 as [49 48], 12 as [49 50]
+                tempInd=strfind(NEV.Data.SerialDigitalIO.UnparsedData',encode);
+                if isempty(tempInd)
+                    breakHere=1;
+                else
+                    timeInd(trialNo)=NEV.Data.SerialDigitalIO.TimeStamp(tempInd(1));
+                    encodeInd(trialNo)=tempInd(1);
+                    if trialNo>1
+                        trialEncodes=NEV.Data.SerialDigitalIO.UnparsedData(encodeInd(trialNo-1):encodeInd(trialNo));
+                    else
+                        trialEncodes=NEV.Data.SerialDigitalIO.UnparsedData(1:encodeInd(trialNo));
+                    end
+                    ErrorB=Par.ErrorB;
+                    CorrectB=Par.CorrectB;
+                    MicroB=Par.MicroB;
+                    StimB=Par.StimB;
+                    if find(trialEncodes==2^CorrectB)
+                        perfNEV(trialNo)=1;
+                    elseif find(trialEncodes==2^ErrorB)
+                        perfNEV(trialNo)=-1;
+                    end
+                    if visualOnly==0
+                        if length(find(trialEncodes==2^MicroB))>=1
+                            microstimTrialNEV(trialNo)=1;
+                        end
+                    elseif visualOnly==1
+                        if length(find(trialEncodes==2^StimB))==1
+                            microstimTrialNEV(trialNo)=0;
+                        end
+                    end
+                    trialNo=trialNo+1;
+                end
+            end
+            
+            tallyCorrect=length(find(perfNEV==1));
+            tallyIncorrect=length(find(perfNEV==-1));
+            meanPerf=tallyCorrect/(tallyCorrect+tallyIncorrect);
+            visualTrialsInd=find(microstimTrialNEV==0);%not entirely correct- includes microstim trials where fix breaks happen before dasbit sent MicroB
+            microstimTrialsInd=find(microstimTrialNEV==1);
+            correctTrialsInd=find(perfNEV==1);
+            incorrectTrialsInd=find(perfNEV==-1);
+        elseif strcmp(date,'291118_B9_aston')
+            tallyCorrect=length(find(performance==1));
+            tallyIncorrect=length(find(performance==-1));
+            meanPerf=tallyCorrect/(tallyCorrect+tallyIncorrect);
+            correctTrialsInd=find(performance==1);
+            incorrectTrialsInd=find(performance==-1);
+            visualTrialsInd=find(allTrialType==1);%not entirely correct- includes microstim trials where fix breaks happen before dasbit sent MicroB
+            microstimTrialsInd=find(allTrialType==0);
         end
-        
-        tallyCorrect=length(find(perfNEV==1));
-        tallyIncorrect=length(find(perfNEV==-1));
-        meanPerf=tallyCorrect/(tallyCorrect+tallyIncorrect);
-        visualTrialsInd=find(microstimTrialNEV==0);%not entirely correct- includes microstim trials where fix breaks happen before dasbit sent MicroB
-        microstimTrialsInd=find(microstimTrialNEV==1);
-        correctTrialsInd=find(perfNEV==1);
-        incorrectTrialsInd=find(perfNEV==-1);
         correctVisualTrialsInd=intersect(visualTrialsInd,correctTrialsInd);%trialNo for microstim trials with a correct saccade
         incorrectVisualTrialsInd=intersect(visualTrialsInd,incorrectTrialsInd);%trialNo for microstim trials with a correct saccade
         correctMicrostimTrialsInd=intersect(microstimTrialsInd,correctTrialsInd);%trialNo for microstim trials with a correct saccade
@@ -899,16 +620,25 @@ if processRaw==1
             trialNo=indRespTrials(trialRespInd);
             corr(trialRespInd)=~isempty(find(correctTrialsInd==trialNo));
             incorr(trialRespInd)=~isempty(find(incorrectTrialsInd==trialNo));
-            if exist('microstimTrialNEV','var')
-                if length(microstimTrialNEV)>=trialNo
-                    micro(trialRespInd)=microstimTrialNEV(trialNo);
+            if ~strcmp(date,'291118_B9_aston')
+                if exist('microstimTrialNEV','var')
+                    if length(microstimTrialNEV)>=trialNo
+                        micro(trialRespInd)=microstimTrialNEV(trialNo);
+                    end
                 end
+            elseif strcmp(date,'291118_B9_aston')
+                micro(trialRespInd)=~allTrialType(trialNo);
             end
         end
         visualInd=find(micro~=1);
         corrInd=find(corr==1);
         corrVisualInd=intersect(visualInd,corrInd);
-        if exist('microstimTrialNEV','var')
+        if ~strcmp(date,'291118_B9_aston')
+            if exist('microstimTrialNEV','var')
+                microInd=find(micro==1);
+                corrMicroInd=intersect(microInd,corrInd);
+            end
+        elseif strcmp(date,'291118_B9_aston')
             microInd=find(micro==1);
             corrMicroInd=intersect(microInd,corrInd);
         end
@@ -986,7 +716,6 @@ if processRaw==1
            for electrodeCount=1:size(setElectrodes,2)
                electrode=setElectrodes(setInd,electrodeCount);
                array=setArrays(setInd,electrodeCount);
-               load([dataDir,'\array',num2str(array),'.mat']);
                electrodeIndtemp1=find(goodArrays8to16(:,8)==electrode);%matching channel number
                electrodeIndtemp2=find(goodArrays8to16(:,7)==array);%matching array number
                electrodeInd=intersect(electrodeIndtemp1,electrodeIndtemp2);%channel number
@@ -1143,9 +872,9 @@ if processRaw==1
         title(['performance across the session, on visual (blue) & microstim (red) trials, ',num2str(numTrialsPerBin),' trials/bin']);
         xlabel('trial number (across the session)');
         ylabel('performance'); 
-        pathname=fullfile('D:\data',date,['behavioural_performance_RF_locations_',date]);
+        pathname=fullfile(rootdir,date,['behavioural_performance_RF_locations_',date]);
         set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-%         print(pathname,'-dtiff');
+        print(pathname,'-dtiff');
     end
 end
 pause=1;

@@ -83,9 +83,15 @@ for instanceCount=1:length(allInstanceInd)
         for trialInd=1:length(timeStimOns)
             if timeStimOns(trialInd)>0
                 if strcmp(class(NS.Data),'cell')
-                    if size(NS.Data{end},2)>=timeStimOns(trialInd)+sampFreq*(stimDur+postStimDur)-1
-                        trialData{trialInd}=NS.Data{end}(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*(stimDur+postStimDur)-1);%raw data in uV, read in data during stimulus presentation
+                    NS.DataOriginal=NS.Data;
+                    NS.Data=[];
+                    for dataPacketInd=1:length(NS.DataOriginal)
+                        NS.Data=[NS.Data NS.DataOriginal{dataPacketInd}];
                     end
+                    trialData{trialInd}=NS.Data(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
+%                     if size(NS.Data{end},2)>=timeStimOns(trialInd)+sampFreq*(stimDur+postStimDur)-1
+%                         trialData{trialInd}=NS.Data{end}(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*(stimDur+postStimDur)-1);%raw data in uV, read in data during stimulus presentation
+%                     end
                 elseif strcmp(class(NS.Data),'double')
                     if size(NS.Data,2)>=timeStimOns(trialInd)+sampFreq*(stimDur+postStimDur)-1
                         trialData{trialInd}=NS.Data(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*(stimDur+postStimDur)-1);%raw data in uV, read in data during stimulus presentation

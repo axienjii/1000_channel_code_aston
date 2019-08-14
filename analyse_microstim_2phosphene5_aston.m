@@ -665,6 +665,7 @@ for calculateVisual=[0 1]
                         trialNo=trialNo+1;
                     end
                 end
+                perfNEV=performance;
                 
                 tallyCorrect=length(find(perfNEV==1));
                 tallyIncorrect=length(find(perfNEV==-1));

@@ -14,12 +14,22 @@ switch(date)
         whichDir=1;
     case '041018_B2_aston'
         whichDir=1;
+<<<<<<< HEAD
+=======
+    case '071118_B1_aston'
+        whichDir=1;
+>>>>>>> 1b8f7ed6dc3ff35d895322a317d18ab6b70911ed
     case '201118_B11_aston'
         whichDir=1;
     case '181218_B1_aston'
         whichDir=1;
+<<<<<<< HEAD
     case '170419_B1_aston'
         whichDir=1;
+=======
+    case '010319_B1_aston'
+        whichDir=2;
+>>>>>>> 1b8f7ed6dc3ff35d895322a317d18ab6b70911ed
 end
 if whichDir==1%local copy available
     topDir='D:\aston_data';
@@ -53,9 +63,15 @@ for instanceCount=1:length(allInstanceInd)
         trialData={};
         for trialInd=1:length(timeStimOns)
             if strcmp(class(NS.Data),'cell')
-                if size(NS.Data{end},2)>=timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1
-                    trialData{trialInd}=NS.Data{end}(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
+                NS.DataOriginal=NS.Data;
+                NS.Data=[];
+                for dataPacketInd=1:length(NS.DataOriginal)
+                    NS.Data=[NS.Data NS.DataOriginal{dataPacketInd}];
                 end
+                trialData{trialInd}=NS.Data(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
+%                 if size(NS.Data{end},2)>=timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1
+%                     trialData{trialInd}=NS.Data{end}(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
+%                 end
             elseif strcmp(class(NS.Data),'double')
                 if size(NS.Data,2)>=timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1
                     trialData{trialInd}=NS.Data(:,timeStimOns(trialInd)-sampFreq*preStimDur:timeStimOns(trialInd)+sampFreq*stimDur+sampFreq*postStimDur-1);%raw data in uV, read in data during stimulus presentation
