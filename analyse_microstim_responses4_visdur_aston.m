@@ -1,9 +1,8 @@
-function analyse_microstim_responses4_freq_aston
-%Written by Xing 5/1/19 to calculate hits, misses, false alarms, and
-%correct rejections during microstim task with varying frequency conditions.
+function analyse_microstim_responses4_visdur_aston
+%Written by Xing 17/7/19 to calculate hits, misses, false alarms, and
+%correct rejections during microstim task with varying duration of the visual stimulus per condition.
 %Load in .mat file recorded on stimulus
-%presentation computer, from server. Edit further to ensure unique
-%electrode identities.
+%presentation computer, from server. 
 
 close all
 localDisk=1;
@@ -13,24 +12,9 @@ elseif localDisk==0
     rootdir='X:\aston\';
 end
 
-% date='040319_B3';
-% electrodeNums=[58];
-% arrayNums=[13];
-% date='040319_B8';
-% electrodeNums=[57];
-% arrayNums=[13];
-% date='050319_B2';
-% electrodeNums=[64];
-% arrayNums=[11];
-% date='050319_B4';
-% electrodeNums=[47];
-% arrayNums=[12];
-% date='280619_B3';
-% electrodeNums=[25];
-% arrayNums=[13];
-date='010719_B2';
-electrodeNums=[59];
-arrayNums=[13];
+date='170719_B7';%no catch trials
+electrodeNums=[1 1 3 16 44 26 33 9 63 34];
+arrayNums=[8 9 9 10 11 12 13 14 15 16];
 
 date=[date,'_aston'];
 finalCurrentValsFile=7;
@@ -38,13 +22,19 @@ finalCurrentValsFile=7;
 % % copyfile(['D:\data\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
 % copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
 load([rootdir,date,'\',date,'_data\microstim_saccade_',date,'.mat'])
-microstimAllHitTrials=intersect(find(allCurrentLevel>0),find(performance==1));
-microstimAllMissTrials=intersect(find(allCurrentLevel>0),find(performance==-1));
-catchAllCRTrials=intersect(find(allCurrentLevel==0),find(performance==1));%correct rejections
-catchAllFATrials=find(allFalseAlarms==1);%false alarms
-freqTrials=find(allCurrentLevel==0);
-correctRejections=length(intersect(catchAllCRTrials,freqTrials));
-falseAlarms=length(intersect(catchAllFATrials,freqTrials));
+if exist('allCatchTrial','var')
+    visualAllHitTrials=intersect(find(performance==1),find(allCatchTrial==0));
+    visualAllMissTrials=intersect(find(performance==-1),find(allCatchTrial==0));
+    catchAllCRTrials=intersect(find(allCatchTrial==1),find(performance==1));%correct rejections
+    catchAllFATrials=find(allFalseAlarms==1);%false alarms
+else
+    visualAllHitTrials=find(performance==1);
+    visualAllMissTrials=find(performance==-1);
+    catchAllCRTrials=[];
+    catchAllFATrials=[];
+end
+correctRejections=length(catchAllCRTrials);
+falseAlarms=length(catchAllFATrials);
 setFalseAlarmZero=1;
 if setFalseAlarmZero==1
     falseAlarms=0;
@@ -70,42 +60,42 @@ for uniqueElectrode=1:length(electrodeNums)
     elseif finalCurrentValsFile==7%staircase procedure was used, finalCurrentVals4.mat
         load([rootdir,date,'\',date,'_data\finalCurrentVals8.mat'])
     end
-    freqs=[];
+    durs=[];
     hits=[];
     misses=[];    
-    freqTrials=allFreqVals(uniqueElectrodeTrials);
-    uniqueFreq=unique(freqTrials);
-    for freqCond=1:length(uniqueFreq)
-        freq=uniqueFreq(freqCond);
-        freqTrials=find(allFreqVals==freq);
-        if ~isempty(freqTrials)
-            temp3=intersect(microstimAllHitTrials,freqTrials);
+    durTrials=allStimDur(uniqueElectrodeTrials);
+    stimDurs=unique(durTrials);
+    for durCond=1:length(stimDurs)
+        stimDur=stimDurs(durCond);
+        stimDurTrials=find(allStimDur==stimDur);
+        if ~isempty(stimDurTrials)
+            temp3=intersect(microstimAllHitTrials,stimDurTrials);
             temp4=intersect(temp3,uniqueElectrodeTrials);
             hits=[hits length(temp4)];
-            temp5=intersect(microstimAllMissTrials,freqTrials);
+            temp5=intersect(microstimAllMissTrials,stimDurTrials);
             temp6=intersect(temp5,uniqueElectrodeTrials);
             misses=[misses length(temp6)];
-            freqs=[freqs freq];
+            durs=[durs stimDur];
         end
     end
     hits./misses;
     for Weibull=0:1% set to 1 to get the Weibull fit, 0 for a sigmoid fit
         figure('Name','Psychometric function')
-        [theta threshold]=analyse_current_thresholds_Plot_Psy_Fie(freqs,hits,misses,falseAlarms,correctRejections,Weibull);
+        [theta threshold]=analyse_current_thresholds_Plot_Psy_Fie(durs,hits,misses,falseAlarms,correctRejections,Weibull);
         hold on
         yLimits=get(gca,'ylim');
         plot([threshold threshold],yLimits,'r:')
         plot([theta theta],yLimits,'k:')
         %     text(threshold-10,yLimits(2)-0.05,['threshold = ',num2str(round(threshold)),' uA'],'FontSize',12,'Color','k');
-        text(threshold,yLimits(2)-0.05,['threshold = ',num2str(round(threshold)),' Hz'],'FontSize',12,'Color','k');
+        text(threshold,yLimits(2)-0.05,['threshold = ',num2str(round(threshold)),' pulses'],'FontSize',12,'Color','k');
         ylabel('proportion of trials');
-        xlabel('frequency (Hz)');
+        xlabel('number of pulses per train');
         if Weibull==1
             title(['Psychometric function for array',num2str(array),' electrode',num2str(electrode),', Weibull fit.'])
-            pathname=fullfile(rootdir,date,['array',num2str(array),'_electrode',num2str(electrode),'_frequencies_weibull']);
+            pathname=fullfile(rootdir,date,['array',num2str(array),'_electrode',num2str(electrode),'_number_pulses_weibull']);
         elseif Weibull==0
             title(['Psychometric function for array',num2str(array),' electrode',num2str(electrode),', sigmoid fit.'])
-            pathname=fullfile(rootdir,date,['array',num2str(array),'_electrode',num2str(electrode),'_frequencies_sigmoid']);
+            pathname=fullfile(rootdir,date,['array',num2str(array),'_electrode',num2str(electrode),'_number_pulses_sigmoid']);
         end
         set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
         print(pathname,'-dtiff');

@@ -8,19 +8,22 @@ function analyse_CheckSNR_over_time_aston
 allSNR=[];
 xval=[];
 dateLabels=[];
-% for dates=[1:2 4 6 9 11:13 16:18 20:23 25:28]
-for dates=[1]%remove dates when two occur very close together
+for dates=[1 4:6]%remove dates when two occur very close together
+    topDir='X:\aston';
     switch(dates)
         case 1
             date='280818_B1_aston';
-            whichDir=2;
-            best=0;
         case 2
+            date='031018_B2_aston';
         case 3
+            date='031018_B4_aston';
         case 4
+            date='041018_B2_aston';
         case 5
+            date='181218_B1_aston';
+        case 6
+            date='010319_B1_aston';
     end
-    topDir='X:\aston';
     
     allInstanceInd=1:8;
     allSessionSNR=[];
@@ -108,5 +111,23 @@ oneDatapointChs=find(diffCh==0);
 largeDiffChs=union(largeDiffChs,oneDatapointChs);
 arrayNumsRedo=goodArrays8to16(largeDiffChs,7)';
 electrodeNumsRedo=goodArrays8to16(largeDiffChs,8)';
+
+numSessionsPerGroup=2;
+earlySessions=allSNR(:,1:numSessionsPerGroup);
+lateSessions=allSNR(:,end-numSessionsPerGroup+1:end);
+[h p ci stats]=ttest(earlySessions,lateSessions);
+sprintf(['t(',num2str(stats.df),') = ',num2str(stats.tstat),', p = %.4f'],p)
+groupAssignment=[earlySessions*0+1 lateSessions*0+2];
+formattedGroupAssignment=groupAssignment(:);
+earlyLateSessions=[earlySessions lateSessions];
+formattedSessions=earlyLateSessions(:);
+% [h p ci stats]=anovan(formattedSessions,formattedGroupAssignment);
+[p table stats]=anova1(formattedSessions,formattedGroupAssignment);
+dfBetween=table{2,3};
+dfWithin=table{3,3};
+Fstat=table{2,5};
+sprintf(['F(',num2str(dfBetween),',',num2str(dfWithin),') = ',num2str(Fstat),', p = %.4f'],p)
+figure;
+boxplot([earlySessions(:) lateSessions(:)]);
 
 pause=1;

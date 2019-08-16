@@ -5,14 +5,14 @@ function analyse_microstim_responses4_aston
 %presentation computer, from server. Edit further to ensure unique
 %electrode identities.
 
-close all
+% close all
 localDisk=1;
 if localDisk==1
     rootdir='D:\aston_data\';
 elseif localDisk==0
     rootdir='X:\aston\';
 end
-
+exampleFig=0;
 % date='110918_B3';
 % electrodeNums=[33];
 % arrayNums=[13];
@@ -858,17 +858,63 @@ end
 % date='280219_B8';
 % electrodeNums=[58];
 % arrayNums=[13];
-date='050319_B1';
-electrodeNums=[9 24 60 25 47 64 51 61 59];
-arrayNums=[14 14 13 13 12 11 13 13 13];
+% date='050319_B1';
+% electrodeNums=[9 24 60 25 47 64 51 61 59];
+% arrayNums=[14 14 13 13 12 11 13 13 13];
+% date='270619_B4';
+% electrodeNums=[25 59 9];
+% arrayNums=[13 13 14];
+% date='010719_B2';
+% electrodeNums=[59];
+% arrayNums=[13];
+% date='020719_B5';
+% electrodeNums=[58];
+% arrayNums=[13];
+% date='030719_B2';
+% electrodeNums=[57];
+% arrayNums=[13];
+% date='080719_B2';
+% electrodeNums=[64];
+% arrayNums=[11];
+% date='080719_B3';
+% electrodeNums=[47];
+% arrayNums=[12];
+% date='090719_B2';
+% electrodeNums=[25];
+% arrayNums=[13];
+% date='090719_B3';
+% electrodeNums=[58];
+% arrayNums=[13];
+% date='090719_B4';
+% electrodeNums=[59];
+% arrayNums=[13];
+% date='090719_B6';
+% electrodeNums=[24 60 55 12 48 40 56 64];
+% arrayNums=[14 13 16 14 16 16 11 11];
+date='010819_B2';
+electrodeNums=[51 40 53 32 61 9 16 50 2 17 51 55 52 34 17 54 52 61 35 55 51 53 32 61 16 9 12 47 50 34 32 47 44 41 34 17 32 59 12 47 32 62 52 51 50 56 64 53 55 27 40 48 62 27 2 51 50 56 64 53];%020119_B & B?
+arrayNums=[16 16 13 14 13 14 14 14 16 16 16 16 16 16 16 13 13 13 14 12 16 13 14 13 12 14 14 12 14 16 16 16 16 16 16 16 14 13 14 12 16 13 13 13 13 11 11 12 12 16 16 16 16 16 16 13 13 11 11 12];
+uniqueInd=unique([electrodeNums' arrayNums'],'rows','stable');
+electrodeNums=uniqueInd(:,1)';
+arrayNums=uniqueInd(:,2)';
+
+
+if exampleFig==1%example current thresholding plot for paper
+%     date='200219_B4';
+%     electrodeNums=[52];
+%     arrayNums=[13];
+    date='110918_B6';
+    electrodeNums=[62];
+    arrayNums=[13];
+end
 
 
 date=[date,'_aston'];
 finalCurrentValsFile=7;
-% copyfile(['Y:\Xing\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
-% copyfile(['D:\data\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
-copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
-% copyfile(['D:\aston_data\microstim_saccade_261118_B3_aston'],[rootdir,date,'\',date,'_data']);
+% % copyfile(['Y:\Xing\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
+% % copyfile(['D:\data\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
+% copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
+% % copyfile(['D:\aston_data\microstim_saccade_261118_B3_aston'],[rootdir,date,'\',date,'_data']);
 load([rootdir,date,'\',date,'_data\microstim_saccade_',date,'.mat'])
 microstimAllHitTrials=intersect(find(allCurrentLevel>0),find(performance==1));
 microstimAllMissTrials=intersect(find(allCurrentLevel>0),find(performance==-1));
@@ -926,15 +972,20 @@ for uniqueElectrode=1:length(electrodeNums)
     end
     hits./misses;
     for Weibull=0:1% set to 1 to get the Weibull fit, 0 for a sigmoid fit
+        figure('Name','Psychometric function')
         [theta threshold]=analyse_current_thresholds_Plot_Psy_Fie(currentAmplitudes,hits,misses,falseAlarms,correctRejections,Weibull);
         hold on
         yLimits=get(gca,'ylim');
         plot([threshold threshold],yLimits,'r:')
-        plot([theta theta],yLimits,'k:')
+        if exampleFig==0
+            plot([theta theta],yLimits,'k:')
         %     text(threshold-10,yLimits(2)-0.05,['threshold = ',num2str(round(threshold)),' uA'],'FontSize',12,'Color','k');
         text(threshold,yLimits(2)-0.05,['threshold = ',num2str(round(threshold)),' uA'],'FontSize',12,'Color','k');
-        ylabel('proportion of trials');
-        xlabel('current amplitude (uA)');
+        end
+        if exampleFig==0
+            ylabel('proportion of trials');
+            xlabel('current amplitude (uA)');
+        end
         if Weibull==1
             title(['Psychometric function for array',num2str(array),' electrode',num2str(electrode),', Weibull fit.'])
             pathname=fullfile(rootdir,date,['array',num2str(array),'_electrode',num2str(electrode),'_current_amplitudes_weibull']);
@@ -948,5 +999,13 @@ for uniqueElectrode=1:length(electrodeNums)
         thresholds(uniqueElectrode,Weibull+2)=electrode;
         thresholds(uniqueElectrode,Weibull+3)=array;
     end
+end
+if exampleFig==1
+    set(gca,'Box','off')
+    xlim([0 210])
+    xlim([0 80])
+    set(gca,'YTick',[0 0.5 1])
+    set(gca,'XTick',[0 100 200])
+    set(gca,'XTick',[0 40 80])
 end
 save([rootdir,date,'\',date,'_thresholds.mat'],'thresholds');

@@ -24,6 +24,12 @@ switch(date)
         whichDir=1;
     case '010319_B1_aston'
         whichDir=2;
+    case '170419_B1_aston'
+        whichDir=1;
+    case '260419_B1_aston'
+        whichDir=1;
+    case '260419_B2_aston'
+        whichDir=1;
     case '140819_B2_aston'
         whichDir=1;
     case '150819_B2_aston'
@@ -41,7 +47,7 @@ if copyRemotely==1
     copyDir='X:\aston';
 end
 stimDur=400/1000;%in seconds
-allInstanceInd=5:8;
+allInstanceInd=1:4;
 preStimDur=300/1000;%length of pre-stimulus-onset period, in s
 postStimDur=300/1000;%length of post-stimulus-offset period, in s
 downsampleFreq=30;

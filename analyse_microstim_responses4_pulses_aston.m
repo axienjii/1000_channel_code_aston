@@ -25,15 +25,24 @@ end
 % date='050319_B3';
 % electrodeNums=[64];
 % arrayNums=[11];
-date='050319_B5';
-electrodeNums=[47];
-arrayNums=[12];
+% date='050319_B5';
+% electrodeNums=[47];
+% arrayNums=[12];
+% date='280619_B2';
+% electrodeNums=[25];
+% arrayNums=[13];
+% date='280619_B4';
+% electrodeNums=[59];
+% arrayNums=[13];
+date='090719_B5';
+electrodeNums=[59];
+arrayNums=[13];
 
 date=[date,'_aston'];
 finalCurrentValsFile=7;
-% copyfile(['Y:\Xing\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
-% copyfile(['D:\data\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
-copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
+% % copyfile(['Y:\Xing\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
+% % copyfile(['D:\data\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
+% copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date,'_data']);
 load([rootdir,date,'\',date,'_data\microstim_saccade_',date,'.mat'])
 microstimAllHitTrials=intersect(find(allCurrentLevel>0),find(performance==1));
 microstimAllMissTrials=intersect(find(allCurrentLevel>0),find(performance==-1));
@@ -87,6 +96,7 @@ for uniqueElectrode=1:length(electrodeNums)
     end
     hits./misses;
     for Weibull=0:1% set to 1 to get the Weibull fit, 0 for a sigmoid fit
+        figure('Name','Psychometric function')
         [theta threshold]=analyse_current_thresholds_Plot_Psy_Fie(pulses,hits,misses,falseAlarms,correctRejections,Weibull);
         hold on
         yLimits=get(gca,'ylim');

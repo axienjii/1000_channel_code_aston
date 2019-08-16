@@ -98,34 +98,49 @@ allEccentricitySacs(outliers)=[];
 
 ax1=subplot(1,2,1);
 %     plot(polarAngleRF,polarAngleSac,'ko','MarkerSize',2,'MarkerFaceColor','k');hold on
-scatter(allPolarAngleRFs,allPolarAngleSacs,2,'ko');hold on
+scatter(-rad2deg(allPolarAngleRFs),-rad2deg(allPolarAngleSacs),2,'ko');hold on
 ax2=subplot(1,2,2);
 %     plot(eccentricityRF,eccentricitySac,'ko','MarkerSize',2,'MarkerFaceColor','k');hold on
 scatter(allEccentricityRFs,allEccentricitySacs,2,'ko');hold on
-subplot(1,2,1);
+subplot(2,1,1);
 axis equal
 axis square
-xlabel('RF polar angle (rad)');
+xlim([-20 80])
+ylim([-20 80])
+set(gca,'XTick',[0 40 80])
+set(gca,'YTick',[0 40 80])
+% xlabel('RF polar angle (rad)');
+xlabel('RF polar angle (deg)');
 ylabel('Saccade end point polar angle');
-ylabel('Saccade polar angle (rad)');
-h1 = lsline(ax1);
-h1.Color = 'r';
+% ylabel('Saccade polar angle (rad)');
+ylabel('Saccade polar angle (deg)');
+% h1 = lsline(ax1);
+% h1.Color = 'r';
+dlm = fitlm(-rad2deg(allPolarAngleRFs),-rad2deg(allPolarAngleSacs),'Intercept',false);
+xVals=-30:80;
+yVals=xVals*0.975605779328125;%as calculated and returned in dlm.Coefficients
+plot(xVals,yVals,'r-');
 
-subplot(1,2,2);
-xlim([0 5])
+subplot(2,1,2);
+xlim([0 10])
+ylim([0 10])
 axis equal
 axis square
 xlabel('RF eccentricity (dva)');
 ylabel('Saccade end point eccentricity');
 ylabel('Saccade eccentricity (dva)');
 ax=gca;
-ax.XTick=[0 5];
-ax.XTickLabel={'0','5'};
-ax.YTick=[0 5];
-ax.YTickLabel={'0','5'};
-h2 = lsline(ax2);
-h2.Color = 'r';
-[rhoPA,pPA]=corrcoef([allPolarAngleRFs',allPolarAngleSacs'],'rows','pairwise')%r=0.74; p<0.01
+ax.XTick=[0 5 10];
+ax.XTickLabel={'0','5','10'};
+ax.YTick=[0 5 10];
+ax.YTickLabel={'0','5','10'};
+% h2 = lsline(ax2);
+% h2.Color = 'r';
+dlm = fitlm(allEccentricityRFs,allEccentricitySacs,'Intercept',false);
+xVals=0:10;
+yVals=xVals*0.650754192749749;%as calculated and returned in dlm.Coefficients
+plot(xVals,yVals,'r-');
+[rhoPA,pPA]=corrcoef([-rad2deg(allPolarAngleRFs'),-rad2deg(allPolarAngleSacs')],'rows','pairwise')%r=0.74; p<0.01
 [rhoEc,pEc]=corrcoef([allEccentricityRFs',allEccentricitySacs'],'rows','pairwise')%r=0.63; p<.001
 %         axis equal
 %         xlim([-20 360]);

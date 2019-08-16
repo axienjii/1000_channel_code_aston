@@ -2,7 +2,7 @@ function [Theta threshold50]=analyse_current_thresholds_Plot_Psy_Fie(Current,N_S
 %Modified from Pieter's Plot_Psy_Fie code. Determines current
 %thresholds for a given electrode and array and generates fitted curve
 %using either a Weibull or a sigmoid function.
-close all
+% close all
 
 % Weibull = 0; % set to 1 to get the Weibull fit, 0 for a sigmoid fit
 % Current=[25	28	31	35	39	43	48	53	59	66	73	81	90	100]; % the current values
@@ -59,11 +59,11 @@ else
 end
 Slope=x(3);
 Theta=x(4);
-figure('Name','Psychometric function')
+% figure('Name','Psychometric function')
 plot(CurrentVals,Perf);                     % plot the fitted function
 hold on;
 
-errorbar([0 Current],[P_FA P_Hit],[SEM_FA,SEM],'b*')
+errorbar([0 Current],[P_FA P_Hit],[SEM_FA,SEM],'bo')
 hold off;
 
 ['Threshold ',num2str(Theta),' uA']
