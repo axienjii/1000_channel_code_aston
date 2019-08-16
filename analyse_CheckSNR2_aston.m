@@ -14,22 +14,22 @@ switch(date)
         whichDir=1;
     case '041018_B2_aston'
         whichDir=1;
-<<<<<<< HEAD
-=======
     case '071118_B1_aston'
         whichDir=1;
->>>>>>> 1b8f7ed6dc3ff35d895322a317d18ab6b70911ed
     case '201118_B11_aston'
         whichDir=1;
     case '181218_B1_aston'
         whichDir=1;
-<<<<<<< HEAD
     case '170419_B1_aston'
         whichDir=1;
-=======
     case '010319_B1_aston'
         whichDir=2;
->>>>>>> 1b8f7ed6dc3ff35d895322a317d18ab6b70911ed
+    case '140819_B2_aston'
+        whichDir=1;
+    case '150819_B2_aston'
+        whichDir=1;
+    case '160819_B2_aston'
+        whichDir=1;
 end
 if whichDir==1%local copy available
     topDir='D:\aston_data';
