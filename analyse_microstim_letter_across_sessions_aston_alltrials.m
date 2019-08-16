@@ -1,4 +1,4 @@
-function analyse_microstim_letter_across_sessions_aston(date)
+function analyse_microstim_letter_across_sessions_aston_alltrials(date)
 %8/2/19
 %Written by Xing, calculates behavioural performance during a
 %letter task, for letters composed of multiple phosphenes.
@@ -28,9 +28,16 @@ cols=[1 0 0;0 1 1;165/255 42/255 42/255;0 1 0;0 0 1;0 0 0;1 0 1;0.9 0.9 0;128/25
 arrays=8:16;
 allSetsPerfMicroBin=[];
 allSetsPerfVisualBin=[];
+allSetsPerfMicroAllTrials=[];
+allSetsPerfVisualAllTrials=[];
+allPerfV=[];
+allPerfM=[];
 analyseConds=0;
+allRFsFigure=figure;
+setNoSubplot=1;
+setNos=3:12;
 for calculateVisual=[0 1]
-    for setNo=3:12%3:12%1 to 4 use 10 electrodes per letter; subsequent sessions use 8 electrodes per letter
+    for setNo=setNos%1 to 4 use 10 electrodes per letter; subsequent sessions use 8 electrodes per letter
         %sets 8 to 12 reuse previous electrodes in new combinations
         perfNEV=[];
         timeInd=[];
@@ -233,6 +240,8 @@ for calculateVisual=[0 1]
                     visualOnly=1;
             end
         end
+        matSetElectrodes=setElectrodes;
+        matSetArrays=setArrays;
         
         if localDisk==1
             rootdir='D:\aston_data\';
@@ -393,26 +402,13 @@ for calculateVisual=[0 1]
                         end
                     end
                 end
-                initialPerfTrials=100;%first set of trials are the most important
                 if calculateVisual==0
-                    if length(perfMicroBin)>=initialPerfTrials
-                        perfMicroBin=perfMicroBin(1:initialPerfTrials);
-                    else
-                        perfMicroBin=[perfMicroBin nan*ones(1,initialPerfTrials-length(perfMicroBin))];
-                    end
                     if ~isempty(perfMicroBin)
-                        allSetsPerfMicroBin=[allSetsPerfMicroBin;perfMicroBin];
-                        save(['D:\aston_data\perf_mat\microPerf_',date,'_',num2str(initialPerfTrials),'trials.mat'],'perfMicroBin');
+                        allSetsPerfMicroAllTrials(setNo,:)=mean(perfMicroBin);
                     end
                 elseif calculateVisual==1
-                    if length(perfVisualBin)>=initialPerfTrials
-                        perfVisualBin=perfVisualBin(1:initialPerfTrials);
-                    else
-                        perfVisualBin=[perfVisualBin nan*ones(1,initialPerfTrials-length(perfVisualBin))];
-                    end
                     if ~isempty(perfVisualBin)
-                        allSetsPerfVisualBin=[allSetsPerfVisualBin;perfVisualBin];
-                        save(['D:\aston_data\perf_mat\visualPerf_',date,'_',num2str(initialPerfTrials),'trials.mat'],'perfVisualBin');
+                        allSetsPerfVisualAllTrials(setNo,:)=mean(perfVisualBin);
                     end
                 end
                 
@@ -453,45 +449,14 @@ for calculateVisual=[0 1]
                     corrIndsV=intersect(condInds,correctVisualTrialsInd);
                     incorrIndsV=intersect(condInds,incorrectVisualTrialsInd);
                     bottomPerfV=length(corrIndsV)/(length(corrIndsV)+length(incorrIndsV));
-                    
-                    figure;
-                    subplot(2,4,1:2);
-                    for electrodeCount=1:4
-                        electrode=setElectrodes(setInd,electrodeCount);
-                        array=setArrays(setInd,electrodeCount);
-                        load([dataDir,'\array',num2str(array),'.mat']);
-                        electrodeIndtemp1=find(goodArrays8to16(:,8)==electrode);%matching channel number
-                        electrodeIndtemp2=find(goodArrays8to16(:,7)==array);%matching array number
-                        electrodeInd=intersect(electrodeIndtemp1,electrodeIndtemp2);%channel number
-                        RFx=goodArrays8to16(electrodeInd,1);
-                        RFy=goodArrays8to16(electrodeInd,2);
-                        plot(RFx,RFy,'o','Color',cols(array-7,:),'MarkerFaceColor',cols(array-7,:));hold on
-                        currentThreshold=goodCurrentThresholds(electrodeInd);
-                        if electrodeCount==1
-                            text(RFx-28,RFy,[num2str(electrode),'(',num2str(array),')'],'FontSize',10,'Color','k');
-                            text(RFx-28,RFy-7,[num2str(currentThreshold),' uA'],'FontSize',10,'Color','k');
-                        else
-                            text(RFx+4,RFy,[num2str(electrode),'(',num2str(array),')'],'FontSize',10,'Color','k');
-                            text(RFx+4,RFy-7,[num2str(currentThreshold),' uA'],'FontSize',10,'Color','k');
-                        end
-                    end
-                    for electrodePairInd=1:size(electrodePairs,1)
-                        electrode1=setElectrodes(setInd,electrodePairs(electrodePairInd,1));
-                        array1=setArrays(setInd,electrodePairs(electrodePairInd,1));
-                        electrode2=setElectrodes(setInd,electrodePairs(electrodePairInd,2));
-                        array2=setArrays(setInd,electrodePairs(electrodePairInd,2));
-                        electrodeIndtemp1=find(goodArrays8to16(:,8)==electrode1);%matching channel number
-                        electrodeIndtemp2=find(goodArrays8to16(:,7)==array1);%matching array number
-                        electrodeInd1=intersect(electrodeIndtemp1,electrodeIndtemp2);%channel number
-                        electrodeIndtemp1=find(goodArrays8to16(:,8)==electrode2);%matching channel number
-                        electrodeIndtemp2=find(goodArrays8to16(:,7)==array2);%matching array number
-                        electrodeInd2=intersect(electrodeIndtemp1,electrodeIndtemp2);%channel number
-                        RFx1=goodArrays8to16(electrodeInd1,1);
-                        RFy1=goodArrays8to16(electrodeInd1,2);
-                        RFx2=goodArrays8to16(electrodeInd2,1);
-                        RFy2=goodArrays8to16(electrodeInd2,2);
-                        plot([RFx1 RFx2],[RFy1 RFy2],'k--');
-                    end
+                    allPerfV(setNo,:)=perfV;
+                    allPerfM(setNo,:)=perfM;
+                end
+                if calculateVisual==0
+                    figure(allRFsFigure);
+                    subplot(ceil(length(setNos)/4),4,setNoSubplot);
+                    setNoSubplot=setNoSubplot+1;
+                    hold on
                     scatter(0,0,'r','o','filled');%fix spot
                     %draw dotted lines indicating [0,0]
                     plot([0 0],[-250 200],'k:');
@@ -508,18 +473,63 @@ for calculateVisual=[0 1]
                     axis equal
                     xlim([-20 220]);
                     ylim([-160 20]);
-                    title(['RF locations for letter task, ',date], 'Interpreter', 'none');
-                    for arrayInd=1:length(arrays)
-                        text(175,0-10*arrayInd,['array',num2str(arrays(arrayInd))],'FontSize',14,'Color',cols(arrayInd,:));
+                    letterCols=[0 1 0;0 0 1];
+                    letterMarkers='ox';
+                    for letterNo=1:2
+                        for electrodeCount=1:length(matSetElectrodes{letterNo})
+                            electrode=matSetElectrodes{letterNo}(electrodeCount);
+                            array=matSetArrays{letterNo}(electrodeCount);
+                            electrodeIndtemp1=find(goodArrays8to16(:,8)==electrode);%matching channel number
+                            electrodeIndtemp2=find(goodArrays8to16(:,7)==array);%matching array number
+                            electrodeInd=intersect(electrodeIndtemp1,electrodeIndtemp2);%channel number
+                            RFx=goodArrays8to16(electrodeInd,1);
+                            RFy=goodArrays8to16(electrodeInd,2);
+                            %                             plot(RFx,RFy,'o','Color',cols(array-7,:),'MarkerFaceColor',cols(array-7,:));hold on
+                            plot(RFx,RFy,letterMarkers(letterNo),'Color',letterCols(letterNo,:));hold on
+                            currentThreshold=goodCurrentThresholds(electrodeInd);
+                            %                         if electrodeCount==1
+                            %                             text(RFx-28,RFy,[num2str(electrode),'(',num2str(array),')'],'FontSize',10,'Color','k');
+                            %                             text(RFx-28,RFy-7,[num2str(currentThreshold),' uA'],'FontSize',10,'Color','k');
+                            %                         else
+                            %                             text(RFx+4,RFy,[num2str(electrode),'(',num2str(array),')'],'FontSize',10,'Color','k');
+                            %                             text(RFx+4,RFy-7,[num2str(currentThreshold),' uA'],'FontSize',10,'Color','k');
+                            %                         end
+                        end
+                        for electrodePairInd=1:size(electrodePairs,2)-1
+                            electrode1=matSetElectrodes{letterNo}(electrodePairInd);
+                            array1=matSetArrays{letterNo}(electrodePairInd);
+                            electrode2=matSetElectrodes{letterNo}(electrodePairInd+1);
+                            array2=matSetArrays{letterNo}(electrodePairInd+1);
+                            electrodeIndtemp1=find(goodArrays8to16(:,8)==electrode1);%matching channel number
+                            electrodeIndtemp2=find(goodArrays8to16(:,7)==array1);%matching array number
+                            electrodeInd1=intersect(electrodeIndtemp1,electrodeIndtemp2);%channel number
+                            electrodeIndtemp1=find(goodArrays8to16(:,8)==electrode2);%matching channel number
+                            electrodeIndtemp2=find(goodArrays8to16(:,7)==array2);%matching array number
+                            electrodeInd2=intersect(electrodeIndtemp1,electrodeIndtemp2);%channel number
+                            RFx1=goodArrays8to16(electrodeInd1,1);
+                            RFy1=goodArrays8to16(electrodeInd1,2);
+                            RFx2=goodArrays8to16(electrodeInd2,1);
+                            RFy2=goodArrays8to16(electrodeInd2,2);
+                            plot([RFx1 RFx2],[RFy1 RFy2],'k--');
+                        end
                     end
+                    %                     title(['RF locations for letter task, ',date], 'Interpreter', 'none');
+                    %                     for arrayInd=1:length(arrays)
+                    %                         text(175,0-10*arrayInd,['array',num2str(arrays(arrayInd))],'FontSize',14,'Color',cols(arrayInd,:));
+                    %                     end
                     ax=gca;
-                    ax.XTick=[0 Par.PixPerDeg*2 Par.PixPerDeg*4 Par.PixPerDeg*6 Par.PixPerDeg*8];
-                    ax.XTickLabel={'0','2','4','6','8'};
-                    ax.YTick=[-Par.PixPerDeg*8 -Par.PixPerDeg*6 -Par.PixPerDeg*4 -Par.PixPerDeg*2 0];
-                    ax.YTickLabel={'-8','-6','-4','-2','0'};
-                    xlabel('x-coordinates (dva)')
-                    ylabel('y-coordinates (dva)')
-                    
+                    %                     ax.XTick=[0 Par.PixPerDeg*2 Par.PixPerDeg*4 Par.PixPerDeg*6 Par.PixPerDeg*8];
+                    %                     ax.XTickLabel={'0','2','4','6','8'};
+                    %                     ax.YTick=[-Par.PixPerDeg*8 -Par.PixPerDeg*6 -Par.PixPerDeg*4 -Par.PixPerDeg*2 0];
+                    %                     ax.YTickLabel={'-8','-6','-4','-2','0'};
+                    set(gca, 'XTickLabel', [],'XTick',[])
+                    set(gca, 'YTickLabel', [],'YTick',[])
+                    %                     xlabel('x-coordinates (dva)')
+                    %                     ylabel('y-coordinates (dva)')
+                end
+                
+                if analyseConds==1
+
                     %            if numTargets==4
                     subplot(2,4,3:4);
                     %            else
@@ -579,41 +589,94 @@ for calculateVisual=[0 1]
             end
         end
     end
-    if calculateVisual==0
-        figure;
-        meanAllSetsPerfMicroBin=mean(allSetsPerfMicroBin,1);
-        subplot(2,1,1);
-        hold on
-        plot(meanAllSetsPerfMicroBin,'r');
-        ylim([0 1]);
-        xLimits=get(gca,'xlim');
-        plot([0 xLimits(2)],[0.5 0.5],'k:');
-%         plot([10 10],[0 1],'k:');
-        xlabel('trial number');
-        ylabel('mean performance');
-    end
-    if calculateVisual==1
-        subplot(2,1,2);
-        hold on
-        meanAllSetsPerfVisualBin=mean(allSetsPerfVisualBin,1);
-        plot(meanAllSetsPerfVisualBin,'b');
-        ylim([0 1]);
-        xLimits=get(gca,'xlim');
-        plot([0 xLimits(2)],[0.5 0.5],'k:');
-%         plot([10 10],[0 1],'k:');
-        xlabel('trial number');
-%         xlabel('trial number (from end of session)');
-        ylabel('mean performance');
-    end
+%     if calculateVisual==0
+%         figure;
+%         meanAllSetsPerfMicroBin=mean(allSetsPerfMicroBin,1);
+%         subplot(2,1,1);
+%         hold on
+%         plot(meanAllSetsPerfMicroBin,'r');
+%         ylim([0 1]);
+%         xLimits=get(gca,'xlim');
+%         plot([0 xLimits(2)],[0.5 0.5],'k:');
+% %         plot([10 10],[0 1],'k:');
+%         xlabel('trial number');
+%         ylabel('mean performance');
+%     end
+%     if calculateVisual==1
+%         subplot(2,1,2);
+%         hold on
+%         meanAllSetsPerfVisualBin=mean(allSetsPerfVisualBin,1);
+%         plot(meanAllSetsPerfVisualBin,'b');
+%         ylim([0 1]);
+%         xLimits=get(gca,'xlim');
+%         plot([0 xLimits(2)],[0.5 0.5],'k:');
+% %         plot([10 10],[0 1],'k:');
+%         xlabel('trial number');
+% %         xlabel('trial number (from end of session)');
+%         ylabel('mean performance');
+%     end
 end
-% title(['performance across the session, on visual (blue) & microstim (red) trials']);
-pathname=['D:\aston_data\letter_behavioural_performance_all_sets_',date,'_',num2str(initialPerfTrials),'trials_highres'];
-set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-print(pathname,'-dtiff');
+goodSetsallSetsPerfVisualAllTrials=allSetsPerfVisualAllTrials(setNos);
+goodSetsallSetsPerfMicroAllTrials=allSetsPerfMicroAllTrials(setNos);
+mean(goodSetsallSetsPerfVisualAllTrials)
+mean(goodSetsallSetsPerfMicroAllTrials)
+figure;
+subplot(2,1,1);
+% plot(goodSetsallSetsPerfMicroAllTrials,'r');
+b2=bar(goodSetsallSetsPerfMicroAllTrials);
+b2(1).FaceColor = 'flat';
+b2(1).FaceColor = [1 0 0];
+hold on
+plot([0 length(goodSetsallSetsPerfMicroAllTrials)+1],[0.5 0.5],'k:');
+xlim([0 length(goodSetsallSetsPerfMicroAllTrials)+1]);
+ylim([0 1]);
+set(gca,'Box','off');
+subplot(2,1,2);
+% plot(goodSetsallSetsPerfVisualAllTrials,'b');
+b3=bar(goodSetsallSetsPerfVisualAllTrials);
+b3(1).FaceColor = 'flat';
+b3(1).FaceColor = [0 0 1];
+hold on
+plot([0 length(goodSetsallSetsPerfVisualAllTrials)+1],[0.5 0.5],'k:');
+xlim([0 length(goodSetsallSetsPerfVisualAllTrials)+1]);
+ylim([0 1]);
+set(gca,'Box','off');
+%exported as behavioural_perf_letter_all_sets_190219_all_trials_aston.eps
 
-perfMat=['D:\aston_data\letter_behavioural_performance_all_sets_',date,'_',num2str(initialPerfTrials),'trials.mat'];
-save(perfMat,'meanAllSetsPerfVisualBin','meanAllSetsPerfMicroBin');
+perfMat=['D:\aston_data\letter_behavioural_performance_all_sets_',date,'_all_trials.mat'];%D:\aston_data\letter_behavioural_performance_all_sets_190219_B7_aston_all_trials.mat
+save(perfMat,'allSetsPerfVisualAllTrials','allSetsPerfMicroAllTrials','goodSetsallSetsPerfVisualAllTrials','goodSetsallSetsPerfMicroAllTrials','allPerfV','allPerfM');
 pause=1;
+
+%histogram:
+subplot(1,2,2);
+edges=0:0.1:1;
+h1=histogram(goodSetsallSetsPerfMicroAllTrials,edges);
+h1(1).FaceColor = [1 0 0];
+h1(1).EdgeColor = [0 0 0];
+hold on
+plot([0.5 0.5],[0 10],'k:');
+xlim([0 1]);
+ylim([0 4]);
+set(gca,'Box','off');
+ax=gca;
+ax.YTick=[0 2 4];
+[h,p,ci,stats]=ttest(goodSetsallSetsPerfMicroAllTrials,0.5)
+sprintf(['t(',num2str(stats.df),') = ',num2str(stats.tstat),', p = %.4f'],p)%t(9) = 3.6066, p = 0.0057
+
+subplot(1,2,2);
+edges=0:0.1:1;
+h1=histogram(goodSetsallSetsPerfVisualAllTrials,edges);
+h1(1).FaceColor = [0 0 1];
+h1(1).EdgeColor = [0 0 0];
+hold on
+plot([0.5 0.5],[0 12],'k:');
+xlim([0 1]);
+ylim([0 9]);
+set(gca,'Box','off');
+ax=gca;
+ax.YTick=[0 4 8];
+[h,p,ci,stats]=ttest(goodSetsallSetsPerfVisualAllTrials,0.5)
+sprintf(['t(',num2str(stats.df),') = ',num2str(stats.tstat),', p = %.4f'],p)%t(9) = 36.6576, p = 0.0000
 
 significantByThisTrialMicro=0;
 for trialInd=1:length(meanAllSetsPerfMicroBin)
@@ -635,4 +698,4 @@ for trialInd=1:length(meanAllSetsPerfVisualBin)
         significantByThisTrialVisual(trialInd)=1;
     end
 end
-significantByThisTrialVisual%1st trial onward
+significantByThisTrialVisual%3rd trial onward

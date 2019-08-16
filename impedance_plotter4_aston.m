@@ -11,7 +11,10 @@ function impedance_plotter4_aston
 % date='280818';
 % date='041018';
 % date='201118';
-date='181218';
+% date='181218';
+% date='010319';
+% date='170419';
+date='260419';
 colind = hsv(16);
 colindImp = hsv(1000);%colour-code impedances
 
@@ -83,6 +86,39 @@ switch(date)
         load(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
         impedanceAllChannelsNew=impedanceAllChannels;
         previousDate='201118';
+        load(['X:\aston\aston_impedance_values\',previousDate,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsPrevious=impedanceAllChannels;
+        %column 1: impedance
+        %column 2: array number
+        %column 3: electrode number (out of 1024)
+        xLabelsConds={[previousDate,' HT'],[date,' HT']};
+        titleText=['red: ',previousDate,'; blue: ',date];
+    case('010319')
+        load(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsNew=impedanceAllChannels;
+        previousDate='181218';
+        load(['X:\aston\aston_impedance_values\',previousDate,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsPrevious=impedanceAllChannels;
+        %column 1: impedance
+        %column 2: array number
+        %column 3: electrode number (out of 1024)
+        xLabelsConds={[previousDate,' HT'],[date,' HT']};
+        titleText=['red: ',previousDate,'; blue: ',date];
+    case('170419')
+        load(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsNew=impedanceAllChannels;
+        previousDate='010319';
+        load(['X:\aston\aston_impedance_values\',previousDate,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsPrevious=impedanceAllChannels;
+        %column 1: impedance
+        %column 2: array number
+        %column 3: electrode number (out of 1024)
+        xLabelsConds={[previousDate,' HT'],[date,' HT']};
+        titleText=['red: ',previousDate,'; blue: ',date];
+    case('260419')
+        load(['X:\aston\aston_impedance_values\',date,'\impedanceAllChannels.mat'],'impedanceAllChannels');
+        impedanceAllChannelsNew=impedanceAllChannels;
+        previousDate='170419';
         load(['X:\aston\aston_impedance_values\',previousDate,'\impedanceAllChannels.mat'],'impedanceAllChannels');
         impedanceAllChannelsPrevious=impedanceAllChannels;
         %column 1: impedance

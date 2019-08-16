@@ -6,7 +6,8 @@ function new_RF_plotter4_aston
 % date='280818';
 % date='041018';
 % date='211218';
-date='281218';
+% date='281218';
+date='100719';
 colind = hsv(16);
 colind(8,:)=[1 0 0];
 colind(10,:)=[139/255 69/255 19/255];
@@ -22,7 +23,8 @@ colindImp = hsv(1000);%colour-code impedances
 % load('X:\aston\290818_B1_aston\currentThresholdChs1.mat')
 % load('X:\aston\231018_data\currentThresholdChs9.mat')
 % load('X:\aston\211218_data\currentThresholdChs37.mat')
-load('X:\aston\281218_data\currentThresholdChs39.mat')
+% load('X:\aston\281218_data\currentThresholdChs39.mat')
+load('D:\aston_data\currentThresholdChs77.mat')
 
 if strcmp(date,'041018')
     goodArrays8to16New=[];
@@ -60,6 +62,17 @@ if strcmp(date,'281218')
     goodCurrentThresholdsNew(excludeChs,:)=[];
     goodArrays8to16=goodArrays8to16New(:,1:8);
     goodCurrentThresholds=goodCurrentThresholdsNew;
+end
+
+if strcmp(date,'100719')
+%     load('D:\aston_data\currentThresholdChs77.mat')
+%     goodArrays8to16New=goodArrays8to16;
+%     goodCurrentThresholdsNew=goodCurrentThresholds;
+%     excludeChs=find(goodCurrentThresholds==210);
+%     goodArrays8to16New(excludeChs,:)=[];
+%     goodCurrentThresholdsNew(excludeChs,:)=[];
+%     goodArrays8to16=goodArrays8to16New(:,1:8);
+%     goodCurrentThresholds=goodCurrentThresholdsNew;
 end
 
 figure;hold on
@@ -101,33 +114,70 @@ if strcmp(date,'281218')
     pathname=fullfile('X:\aston\aston_impedance_values\','181218',['RFs_channels_impedance_below_',num2str(impThreshold),'kOhms_vals']);
 end
 set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-print(pathname,'-dtiff','-r600');
+% print(pathname,'-dtiff','-r600');
 setElectrodesUsed=[];
 setArraysUsed=[];
-letterInd=3;
-for setInd=5:7%3:3
+letterInd=1;
+% for setInd=5:7%3:3
+%     switch(setInd)
+%         case 1%begin with new combinations
+%             setElectrodes=[{[51 40 53 32 61 9 16 50 2 17]} {[51 55 52 34 17 54 52 61 35 55]}];%020119_B & B?
+%             setArrays=[{[16 16 13 14 13 14 14 14 16 16]} {[16 16 16 16 16 13 13 13 14 12]}];
+%         case 2
+%             setElectrodes=[{[51 53 32 61 16 9 12 47 50 34]} {[32 47 44 41 34 17 32 59 12 47]}];%020119_B & B?        
+%             setArrays=[{[16 13 14 13 12 14 14 12 14 16]} {[16 16 16 16 16 16 14 13 14 12]}];
+%         case 3
+%             setElectrodes=[{[32 62 52 51 50 56 64 53 55 27]} {[40 48 62 27 2 51 50 56 64 53]}];%280119_B2 & 290119B3
+%             setArrays=[{[16 13 13 13 13 11 11 12 12 16]} {[16 16 16 16 16 13 13 11 11 12]}];
+%         case 4
+%             setElectrodes=[{[40 53 32 30 21 49 57 47 50 9]} {[51 55 52 9 17 54 30 16 16 55]}];%040119_B2 & B4
+%             setArrays=[{[16 13 14 14 14 13 13 12 14 16]} {[16 16 16 16 16 13 14 12 14 12]}];
+%         case 5
+%             setElectrodes=[{[]} {[31 55 62 52 34 24 56 49]} {[51 32 62 52 30 24 9 53]} {[]}];%05119_B & B?
+%             setArrays=[{[]} {[16 16 16 16 16 14 11 13]} {[16 16 13 13 14 14 14 12]} {[]}];
+%         case 6
+%             setElectrodes=[{[]} {[32 47 41 27 2 35 9 64]} {[31 40 53 51 50 16 64 47]} {[]}];%060219_B & B?
+%             setArrays=[{[]} {[16 16 16 16 16 14 14 11]} {[16 16 13 13 13 12 11 12]} {[]}];
+%         case 7
+%             setElectrodes=[{[]} {[40 48 44 9 17 8 12 57]} {[48 47 32 60 59 8 57 55]} {[]}];%00219_B & B?
+%             setArrays=[{[]} {[16 16 16 16 16 14 14 13]} {[16 16 14 13 13 14 14 12]} {[]} ];
+%     end
+%     setElectrodesUsed=[setElectrodesUsed cell2mat(setElectrodes(letterInd))];
+%     setArraysUsed=[setArraysUsed cell2mat(setArrays(letterInd))];
+% end
+
+for setInd=1:10
     switch(setInd)
-        case 1%begin with new combinations
-            setElectrodes=[{[51 40 53 32 61 9 16 50 2 17]} {[51 55 52 34 17 54 52 61 35 55]}];%020119_B & B?
-            setArrays=[{[16 16 13 14 13 14 14 14 16 16]} {[16 16 16 16 16 13 13 13 14 12]}];
+        case 1
+            setElectrodes=[{[44 37 59 21 32 25 14 10 14 55]} {[6 18 40 40 59 4 37 9 25 19]}];%J and P
+            setArrays=[{[16 8 13 14 11 13 11 13 12 13]} {[13 15 15 8 8 15 8 15 8 8]}];
         case 2
-            setElectrodes=[{[51 53 32 61 16 9 12 47 50 34]} {[32 47 44 41 34 17 32 59 12 47]}];%020119_B & B?        
-            setArrays=[{[16 13 14 13 12 14 14 12 14 16]} {[16 16 16 16 16 16 14 13 14 12]}];
+            setElectrodes=[{[4 48 30 55 8 32 60 53 18 58]} {[47 37 60 61 7 51 34 19 44 48]}];%%P and J
+            setArrays=[{[13 15 8 8 16 16 13 13 8 8]} {[16 8 13 13 12 13 13 13 13 13]}];
         case 3
-            setElectrodes=[{[32 62 52 51 50 56 64 53 55 27]} {[40 48 62 27 2 51 50 56 64 53]}];%280119_B2 & 290119B3
-            setArrays=[{[16 13 13 13 13 11 11 12 12 16]} {[16 16 16 16 16 13 13 11 11 12]}];
+            setElectrodes=[{[17 2 42 16 12 16 7 63 62 17]} {[31 25 17 32 51 64 61 5 27 37]}];%J and P
+            setArrays=[{[16 16 14 14 14 12 12 13 13 8]} {[13 8 8 16 16 16 16 16 16 8]}];
         case 4
-            setElectrodes=[{[40 53 32 30 21 49 57 47 50 9]} {[51 55 52 9 17 54 30 16 16 55]}];%040119_B2 & B4
-            setArrays=[{[16 13 14 14 14 13 13 12 14 16]} {[16 16 16 16 16 13 14 12 14 12]}];
+            setElectrodes=[{[54 62 41 4 14 31 56 62 43 9]} {[34 27 50 57 35 59 61 32 53 41]}];%%P and J
+            setArrays=[{[13 13 8 15 16 16 16 16 16 16]} {[16 16 14 14 14 13 13 14 13 8]}];
         case 5
-            setElectrodes=[{[]} {[31 55 62 52 34 24 56 49]} {[51 32 62 52 30 24 9 53]} {[]}];%05119_B & B?
-            setArrays=[{[]} {[16 16 16 16 16 14 11 13]} {[16 16 13 13 14 14 14 12]} {[]}];
+            setElectrodes=[{[15 24 22 28 38 61 6 56 50 55]} {[12 16 30 34 21 63 50 48 24 26]}];%J and P
+            setArrays=[{[15 9 9 9 9 9 10 10 12 12]} {[10 9 11 13 14 11 12 10 10 11]}];
         case 6
-            setElectrodes=[{[]} {[32 47 41 27 2 35 9 64]} {[31 40 53 51 50 16 64 47]} {[]}];%060219_B & B?
-            setArrays=[{[]} {[16 16 16 16 16 14 14 11]} {[16 16 13 13 13 12 11 12]} {[]}];
+            setElectrodes=[{[7 15 9 54 61 35 59 8 60 22]} {[52 8 47 43 34 41 11 11 3 16]}];%%P and J
+            setArrays=[{[9 15 13 13 13 14 9 10 11 11]} {[12 10 10 10 9 9 10 9 9 9]}];
         case 7
-            setElectrodes=[{[]} {[40 48 44 9 17 8 12 57]} {[48 47 32 60 59 8 57 55]} {[]}];%00219_B & B?
-            setArrays=[{[]} {[16 16 16 16 16 14 14 13]} {[16 16 14 13 13 14 14 12]} {[]} ];
+            setElectrodes=[{[59 34 48 62 49 18 3 31 14 56]} {[15 8 1 56 7 23 12 40 59 25]}];%J and P
+            setArrays=[{[9 12 10 9 9 10 10 9 9 9]} {[9 8 13 13 12 12 12 10 11 11]}];
+        case 8
+            setElectrodes=[{[6 17 11 64 59 16 47 2 58 33]} {[12 16 40 51 26 37 2 23 6 17]}];%%P and J
+            setArrays=[{[9 11 11 13 13 14 12 12 11 11]} {[12 10 10 9 10 9 10 9 9 11]}];
+        case 9
+            setElectrodes=[{[53 11 7 42 25 17 9 20 15 8]} {[14 56 40 63 24 12 53 11 57 28]}];%J and P
+            setArrays=[{[12 12 10 10 9 10 10 11 9 8]} {[9 9 11 13 14 14 12 12 11 11]}];
+        case 10
+            setElectrodes=[{[3 24 12 52 16 9 52 56 49 38]} {[47 2 46 53 44 57 25 1 12 7]}];%%P and J
+            setArrays=[{[9 9 11 13 12 14 12 10 11 11]} {[12 12 10 10 10 9 10 10 10 9]}];
     end
     setElectrodesUsed=[setElectrodesUsed cell2mat(setElectrodes(letterInd))];
     setArraysUsed=[setArraysUsed cell2mat(setArrays(letterInd))];
@@ -135,8 +185,8 @@ end
 uniqueInd=unique([setElectrodesUsed' setArraysUsed'],'rows','stable');
 setElectrodesUsed=uniqueInd(:,1);
 setArraysUsed=uniqueInd(:,2);
-setElectrodesUsed=[];
-setArraysUsed=[];
+% setElectrodesUsed=[];
+% setArraysUsed=[];
 
 figure;hold on
 impThreshold=300;
@@ -180,6 +230,8 @@ set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
 if letterInd==1
     targetLetter='O';
 %     targetLetter='U';
+    targetLetter='J';
+%     targetLetter='P';
 elseif letterInd==2
     targetLetter='T';
 %     targetLetter='I';
@@ -200,10 +252,10 @@ shapeRGB=[];
 shapeRGB(:,:,1)=whiteMask+shape*255*colind(1);
 shapeRGB(:,:,2)=whiteMask+shape*255*colind(2);
 shapeRGB(:,:,3)=whiteMask+shape*255*colind(3);
-if strcmp(targetLetter,'A')||strcmp(targetLetter,'I')
+if strcmp(targetLetter,'A')||strcmp(targetLetter,'I')||strcmp(targetLetter,'J')||strcmp(targetLetter,'P')
 %     h=image(50,-40,flip(shapeRGB,1));
 %     h=image(50,-45,flip(shapeRGB,1));
-    h=image(50,-40,flip(shapeRGB,1));
+    h=image(40,-85,flip(shapeRGB,1));
 elseif strcmp(targetLetter,'O')||strcmp(targetLetter,'U')
 %     h=image(50,-40,flip(shapeRGB,1));
     h=image(50,-49.2,flip(shapeRGB,1));

@@ -1,4 +1,4 @@
-function analyse_microstim_letter_aston(date,allInstanceInd)
+function analyse_microstim_letter_aston_control(date,allInstanceInd)
 %29/1/19
 %Written by Xing, modified from analyse_microstim_line.m, calculates behavioural performance during a
 %microstimulation/visual 'letter' task.
@@ -65,191 +65,166 @@ allPerfM=[];
 if analyseConds==1
     switch(date)
         %microstim task only:
-        case '290119_B3_aston'
-            setElectrodes=[{[32 62 52 51 50 56 64 53 55 27]} {[40 48 62 27 2 51 50 56 64 53]}];%020119_B & B?
-            setArrays=[{[16 13 13 13 13 11 11 12 12 16]} {[16 16 16 16 16 13 13 11 11 12]}];
+        case '020819_B2_aston';%novel electrode combinations
+            setElectrodes=[{[16 55 9 16 35 2 32 40 44 51]} {[55 47 59 12 32 50 17 34 41 47]}];%
+            setArrays=[{[12 12 14 14 14 16 16 16 16 16]} {[16 12 13 14 14 14 16 16 16 16]}];
+            setInd=1;
+            numTargets=2;
+            electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
+            currentThresholdChs=78;
+            visualOnly=0;
+        case '050819_B2_aston'
+            setElectrodes=[{[16 47 59 12 32 50 17 34 41 47]} {[55 9 16 35 2 32 40 44 51 55]}];%
+            setArrays=[{[12 12 13 14 14 14 16 16 16 16]} {[12 14 14 14 16 16 16 16 16 16]}];
+            setInd=2;
+            numTargets=2;
+            electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
+            currentThresholdChs=78;
+            visualOnly=0;
+        case '050819_B5_aston'
+            setElectrodes=[{[9 16 35 2 32 40 44 51 55 47]} {[16 55 59 12 32 50 17 34 41 47]}];%
+            setArrays=[{[14 14 14 16 16 16 16 16 16 12]} {[12 12 13 14 14 14 16 16 16 16]}];
             setInd=3;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=57;
+            currentThresholdChs=78;
             visualOnly=0;
-        case '040219_B4_aston'
-            setElectrodes=[{[40 53 32 30 21 49 57 47 50 9]} {[51 55 52 9 17 54 30 16 16 55]}];%040119_B & B?
-            setArrays=[{[16 13 14 14 14 13 13 12 14 16]} {[16 16 16 16 16 13 14 12 14 12]}];
+        case '060819_B2_aston'
+            setElectrodes=[{[16 55 9 12 32 50 17 34 41 47]} {[16 35 2 32 40 44 51 55 47 59]}];%
+            setArrays=[{[12 12 14 14 14 14 16 16 16 16]} {[14 14 16 16 16 16 16 16 12 13]}];
             setInd=4;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=60;
+            currentThresholdChs=78;
             visualOnly=0;
-        case '050219_B8_aston'
-            setElectrodes=[{[31 55 62 52 34 24 56 49]} {[51 32 62 52 30 24 9 53]}];%05119_B & B?
-            setArrays=[{[16 16 16 16 16 14 11 13]} {[16 16 13 13 14 14 14 12]}];
+        case '060819_B4_aston'
+            setElectrodes=[{[35 2 32 40 44 51 55 47 59 12]} {[16 55 9 16 32 50 17 34 41 47]}];%
+            setArrays=[{[14 16 16 16 16 16 16 12 13 14]} {[12 12 14 14 14 14 16 16 16 16]}];
             setInd=5;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=61;
+            currentThresholdChs=78;
             visualOnly=0;
-        case '070219_B3_aston'
-            setElectrodes=[{[32 47 41 27 2 35 9 64]} {[31 40 53 51 50 16 64 47]}];%060119_B & B?
-            setArrays=[{[16 16 16 16 16 14 14 11]} {[16 16 13 13 13 12 11 12]}];
+        case '060819_B6_aston'
+            setElectrodes=[{[16 55 9 16 35 50 17 34 41 47]} {[2 32 40 44 51 55 47 59 12 32]}];%
+            setArrays=[{[12 12 14 14 14 14 16 16 16 16]} {[16 16 16 16 16 16 12 13 14 14]}];
             setInd=6;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=62;
+            currentThresholdChs=78;
             visualOnly=0;
-        case '080219_B10_aston'
-            setElectrodes=[{[40 48 44 9 17 8 12 57]} {[48 47 32 60 59 8 57 55]}];%080219_B8 & B10
-            setArrays=[{[16 16 16 16 16 14 14 13]} {[16 16 14 13 13 14 14 12]}];
+        case '070819_B2_aston'
+            setElectrodes=[{[32 40 44 51 55 47 59 12 32 50]} {[16 55 9 16 35 2 17 34 41 47]}];%
+            setArrays=[{[16 16 16 16 16 12 13 14 14 14]} {[12 12 14 14 14 16 16 16 16 16]}];
             setInd=7;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=64;
+            currentThresholdChs=78;
             visualOnly=0;
-        case '110219_B6_aston'%sets 8 to 12 reuse previous electrodes in new combinations
-            setElectrodes=[{[31 47 44 52 2 12 16 64]} {[51 40 32 52 50 56 9 47]}];%110219_B6 & B8
-            setArrays=[{[16 16 16 16 16 14 14 11]} {[16 16 14 13 13 11 14 12]}];
+        case '070819_B4_aston'
+            setElectrodes=[{[16 55 9 16 35 2 32 34 41 47]} {[40 44 51 55 47 59 12 32 50 17]}];%
+            setArrays=[{[12 12 14 14 14 16 16 16 16 16]} {[16 16 16 16 12 13 14 14 14 16]}];
             setInd=8;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=65;
+            currentThresholdChs=78;
             visualOnly=0;
-        case '140219_B3_aston'
-            setElectrodes=[{[51 55 41 9 34 59 16 50]} {[51 32 53 54 30 16 12 53]}];%00219_B & B?
-            setArrays=[{[16 16 16 16 16 13 12 13]} {[16 16 13 13 14 12 14 12]}];
+        case '080819_B1_aston'
+            setElectrodes=[{[44 51 55 47 59 12 32 50 17 34]} {[16 55 9 16 35 2 32 40 41 47]}];%
+            setArrays=[{[16 16 16 12 13 14 14 14 16 16]} {[12 12 14 14 14 16 16 16 16 16]}];
             setInd=9;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=69;
+            currentThresholdChs=78;
             visualOnly=0;
-        case '120219_B6_aston'
-            setElectrodes=[{[32 48 62 27 17 9 63 57]} {[31 47 62 51 21 24 64 55]}];%120219_B2 & B6
-            setArrays=[{[16 16 16 16 16 14 11 13]} {[16 16 13 13 14 14 11 12]}];
+        case '080819_B3_aston'
+            setElectrodes=[{[16 55 9 16 35 2 32 40 44 47]} {[51 55 47 59 12 32 50 17 34 41]}];%
+            setArrays=[{[12 12 14 14 14 16 16 16 16 16]} {[16 16 12 13 14 14 14 16 16 16]}];
             setInd=10;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=67;
+            currentThresholdChs=78;
             visualOnly=0;
-        case '180219_B10_aston'
-            setElectrodes=[{[51 32 52 30 50 9 47 17]} {[51 55 41 17 30 24 9 53]}];%180219_B & B
-            setArrays=[{[16 14 13 14 13 14 12 16]} {[16 16 16 16 14 14 14 12]}];
-            setInd=11;
+            %visual task only:
+        case '020819_B1_aston';%novel electrode combinations
+            setElectrodes=[{[16 55 9 16 35 2 32 40 44 51]} {[55 47 59 12 32 50 17 34 41 47]}];%
+            setArrays=[{[12 12 14 14 14 16 16 16 16 16]} {[16 12 13 14 14 14 16 16 16 16]}];
+            setInd=1;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=71;
-            visualOnly=0;
-        case '190219_B9_aston'
-            setElectrodes=[{[31 32 61 24 9 55 50 2]} {[31 44 52 2 32 59 12 47]}];%00219_B & B?
-            setArrays=[{[16 14 13 14 14 12 14 16]} {[16 16 16 16 14 13 14 12]}];
-            setInd=12;
+            currentThresholdChs=78;
+            visualOnly=1;
+        case '050819_B1_aston'
+            setElectrodes=[{[16 47 59 12 32 50 17 34 41 47]} {[55 9 16 35 2 32 40 44 51 55]}];%
+            setArrays=[{[12 12 13 14 14 14 16 16 16 16]} {[12 14 14 14 16 16 16 16 16 16]}];
+            setInd=2;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=72;
-            visualOnly=0;
-            
-        %visual task only:
-        case '280119_B2_aston'
-            setElectrodes=[{[32 62 52 51 50 56 64 53 55 27]} {[40 48 62 27 2 51 50 56 64 53]}];%020119_B & B?
-            setArrays=[{[16 13 13 13 13 11 11 12 12 16]} {[16 16 16 16 16 13 13 11 11 12]}];
+            currentThresholdChs=78;
+            visualOnly=1;
+        case '050819_B3_aston'
+            setElectrodes=[{[9 16 35 2 32 40 44 51 55 47]} {[16 55 59 12 32 50 17 34 41 47]}];%
+            setArrays=[{[14 14 14 16 16 16 16 16 16 12]} {[12 12 13 14 14 14 16 16 16 16]}];
             setInd=3;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=56;
+            currentThresholdChs=78;
             visualOnly=1;
-        case '300119_B6_aston'
-            setElectrodes=[{[32 62 52 51 50 56 64 53 55 27]} {[40 48 62 27 2 51 50 56 64 53]}];%020119_B & B?
-            setArrays=[{[16 13 13 13 13 11 11 12 12 16]} {[16 16 16 16 16 13 13 11 11 12]}];
-            setInd=3;
-            numTargets=2;
-            electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=58;
-            visualOnly=1;
-        case '300119_B8_aston'
-            setElectrodes=[{[40 53 32 30 21 49 57 47 50 9]} {[51 55 52 9 17 54 30 16 16 55]}];%020119_B & B?
-            setArrays=[{[16 13 14 14 14 13 13 12 14 16]} {[16 16 16 16 16 13 14 12 14 12]}];
+        case '060819_B1_aston'
+            setElectrodes=[{[16 55 9 12 32 50 17 34 41 47]} {[16 35 2 32 40 44 51 55 47 59]}];%
+            setArrays=[{[12 12 14 14 14 14 16 16 16 16]} {[14 14 16 16 16 16 16 16 12 13]}];
             setInd=4;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=58;
+            currentThresholdChs=78;
             visualOnly=1;
-        case '310119_B7_aston'
-            setElectrodes=[{[40 53 32 30 21 49 57 47 50 9]} {[51 55 52 9 17 54 30 16 16 55]}];%020119_B & B?
-            setArrays=[{[16 13 14 14 14 13 13 12 14 16]} {[16 16 16 16 16 13 14 12 14 12]}];
-            setInd=4;
-            numTargets=2;
-            electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=59;
-            visualOnly=1;
-        case '040219_B2_aston'
-            setElectrodes=[{[40 53 32 30 21 49 57 47 50 9]} {[51 55 52 9 17 54 30 16 16 55]}];%040119_B & B?
-            setArrays=[{[16 13 14 14 14 13 13 12 14 16]} {[16 16 16 16 16 13 14 12 14 12]}];
-            setInd=4;
-            numTargets=2;
-            electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=60;
-            visualOnly=1;
-        case '060219_B6_aston'
-            setElectrodes=[{[31 55 62 52 34 24 56 49]} {[51 32 62 52 30 24 9 53]}];%050219_B8 & 060219_B6
-            setArrays=[{[16 16 16 16 16 14 11 13]} {[16 16 13 13 14 14 14 12]}];
+        case '060819_B3_aston'
+            setElectrodes=[{[35 2 32 40 44 51 55 47 59 12]} {[16 55 9 16 32 50 17 34 41 47]}];%
+            setArrays=[{[14 16 16 16 16 16 16 12 13 14]} {[12 12 14 14 14 14 16 16 16 16]}];
             setInd=5;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=61;
+            currentThresholdChs=78;
             visualOnly=1;
-        case '060219_B7_aston'
-            setElectrodes=[{[32 47 41 27 2 35 9 64]} {[31 40 53 51 50 16 64 47]}];%060119_B & B?
-            setArrays=[{[16 16 16 16 16 14 14 11]} {[16 16 13 13 13 12 11 12]}];
+        case '060819_B5_aston'
+            setElectrodes=[{[16 55 9 16 35 50 17 34 41 47]} {[2 32 40 44 51 55 47 59 12 32]}];%
+            setArrays=[{[12 12 14 14 14 14 16 16 16 16]} {[16 16 16 16 16 16 12 13 14 14]}];
             setInd=6;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=62;
+            currentThresholdChs=78;
             visualOnly=1;
-        case '080219_B8_aston'
-            setElectrodes=[{[40 48 44 9 17 8 12 57]} {[48 47 32 60 59 8 57 55]}];%080219_B8 & B10
-            setArrays=[{[16 16 16 16 16 14 14 13]} {[16 16 14 13 13 14 14 12]}];
+        case '070819_B1_aston'
+            setElectrodes=[{[32 40 44 51 55 47 59 12 32 50]} {[16 55 9 16 35 2 17 34 41 47]}];%
+            setArrays=[{[16 16 16 16 16 12 13 14 14 14]} {[12 12 14 14 14 16 16 16 16 16]}];
             setInd=7;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=64;
+            currentThresholdChs=78;
             visualOnly=1;
-        case '110219_B4_aston'
-            setElectrodes=[{[31 47 44 52 2 12 16 64]} {[51 40 32 52 50 56 9 47]}];%110219_B6 & B8
-            setArrays=[{[16 16 16 16 16 14 14 11]} {[16 16 14 13 13 11 14 12]}];
+        case '070819_B3_aston'
+            setElectrodes=[{[16 55 9 16 35 2 32 34 41 47]} {[40 44 51 55 47 59 12 32 50 17]}];%
+            setArrays=[{[12 12 14 14 14 16 16 16 16 16]} {[16 16 16 16 12 13 14 14 14 16]}];
             setInd=8;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=65;
+            currentThresholdChs=78;
             visualOnly=1;
-        case '130219_B2_aston'
-            setElectrodes=[{[51 55 41 9 34 59 16 50]} {[51 32 53 54 30 16 12 53]}];%120219_B2 & 130219_B3
-            setArrays=[{[16 16 16 16 16 13 12 13]} {[16 16 13 13 14 12 14 12]}];
+        case '070819_B5_aston'
+            setElectrodes=[{[44 51 55 47 59 12 32 50 17 34]} {[16 55 9 16 35 2 32 40 41 47]}];%
+            setArrays=[{[16 16 16 12 13 14 14 14 16 16]} {[12 12 14 14 14 16 16 16 16 16]}];
             setInd=9;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=69;
+            currentThresholdChs=78;
             visualOnly=1;
-        case '120219_B2_aston'
-            setElectrodes=[{[32 48 62 27 17 9 63 57]} {[31 47 62 51 21 24 64 55]}];%00219_B & B?
-            setArrays=[{[16 16 16 16 16 14 11 13]} {[16 16 13 13 14 14 11 12]}];
+        case '080819_B2_aston'
+            setElectrodes=[{[16 55 9 16 35 2 32 40 44 47]} {[51 55 47 59 12 32 50 17 34 41]}];%
+            setArrays=[{[12 12 14 14 14 16 16 16 16 16]} {[16 16 12 13 14 14 14 16 16 16]}];
             setInd=10;
             numTargets=2;
             electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=67;
-            visualOnly=1;
-        case '180219_B8_aston'
-            setElectrodes=[{[51 32 52 30 50 9 47 17]} {[51 55 41 17 30 24 9 53]}];%180219_B & B
-            setArrays=[{[16 14 13 14 13 14 12 16]} {[16 16 16 16 14 14 14 12]}];
-            setInd=11;
-            numTargets=2;
-            electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=71;
-            visualOnly=1;
-        case '190219_B7_aston'
-            setElectrodes=[{[31 32 61 24 9 55 50 2]} {[31 44 52 2 32 59 12 47]}];%00219_B & B?
-            setArrays=[{[16 14 13 14 14 12 14 16]} {[16 16 16 16 14 13 14 12]}];
-            setInd=12;
-            numTargets=2;
-            electrodePairs=[1:length(setElectrodes{1});1:length(setElectrodes{2})];
-            currentThresholdChs=72;
+            currentThresholdChs=78;
             visualOnly=1;
     end
 end
@@ -700,7 +675,11 @@ if processRaw==1
         ind2=find(performanceRespTrials==-1);
         performanceRespTrials(ind2)=0;
         first100Perf=mean(performanceRespTrials(1:100))%first 100
-        last100Perf=mean(performanceRespTrials(end-100:end))%last 100
+        if length(performanceRespTrials)>100
+            last100Perf=mean(performanceRespTrials(end-100:end))%last 100
+        else
+            last100Perf=mean(performanceRespTrials(1:end))
+        end
         allPerf=mean(performanceRespTrials)
     end
 end
