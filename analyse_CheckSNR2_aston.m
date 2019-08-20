@@ -20,6 +20,8 @@ switch(date)
         whichDir=1;
     case '181218_B1_aston'
         whichDir=1;
+    case '170419_B1_aston'
+        whichDir=1;
     case '010319_B1_aston'
         whichDir=2;
     case '170419_B1_aston'
