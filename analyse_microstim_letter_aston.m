@@ -5,7 +5,7 @@ function analyse_microstim_letter_aston(date,allInstanceInd)
 
 interleaved=0;%set interleaved to 0, if trigger pulse was sent using microB. set interleaved to 1, if stimulation was sent by calling stimulator.play function
 drummingOn=0;%for sessions after 9/4/18, drumming with only 2 targets was uesd 
-localDisk=1;
+localDisk=0;
 if localDisk==1
     rootdir='D:\aston_data\';
 elseif localDisk==0

@@ -25,7 +25,7 @@ sampFreq=30000;
 
 cols=[1 0 0;0 1 1;165/255 42/255 42/255;0 1 0;0 0 1;0 0 0;1 0 1;0.9 0.9 0;128/255 0 128/255];
 arrays=8:16;
-setNos=[1:3 5:12];
+setNos=[1:3 5:12];%set 2 data is missing?
 % setNos=[1:5 8:12];%sets 6 and 7 have less than 100 trials, for at least
 % visual-only or microstim-only versions
 

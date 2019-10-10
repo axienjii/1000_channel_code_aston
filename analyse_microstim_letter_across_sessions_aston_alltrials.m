@@ -145,9 +145,6 @@ for calculateVisual=[0 1]
             localDisk=0;
             switch(setNo)
                 %visual task only:
-                case 1
-                    
-                    %visual task only:
                 case 3
                     date='280119_B2_aston';
                     setElectrodes=[{[32 62 52 51 50 56 64 53 55 27]} {[40 48 62 27 2 51 50 56 64 53]}];%020119_B & B?
