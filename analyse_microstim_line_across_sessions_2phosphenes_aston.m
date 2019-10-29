@@ -704,7 +704,7 @@ xlim([0 initialPerfTrials+1]);
 print(pathname,'-dtiff');
 
 perfMat=['D:\aston_data\behavioural_performance_first_sets_261118_',num2str(initialPerfTrials),'trials_2phosphenes.mat'];
-save(perfMat,'meanAllSetsPerfVisualBin','meanAllSetsPerfMicroBin');
+save(perfMat,'meanAllSetsPerfVisualBin','meanAllSetsPerfMicroBin','allSetsPerfMicroBin','allSetsPerfVisualBin');
 pause=1;
 
 significantByThisTrialMicro=0;

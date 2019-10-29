@@ -226,6 +226,7 @@ if processRaw==1
            
            figure;
            subplot(2,2,2);
+           subplot(2,4,2:3);
            hold on
            %draw dotted lines indicating [0,0]
            plot([0 0],[-250 200],'k:');
@@ -302,41 +303,35 @@ if processRaw==1
 %            xlabel('x-coordinates (dva)')
 %            ylabel('y-coordinates (dva)')
            
-%            if numTargets==4
-               subplot(2,2,1);
-%            else
-%                subplot(2,4,3);
-%            end
-           leftPerfV=0;leftPerfM=0;rightPerfV=0;rightPerfM=0;
-           b=bar([leftPerfV leftPerfM;rightPerfV rightPerfM;topPerfV topPerfM;bottomPerfV bottomPerfM],'FaceColor','flat');
-           b(1).FaceColor = 'flat';
-           b(2).FaceColor = 'flat';
-           b(1).FaceColor = [0 0.4470 0.7410];
-           b(2).FaceColor = [1 0 0];
-           set(gca, 'XTick',3:4)
-           set(gca, 'XTickLabel', {'vertical' 'horizontal'})
-           set(gca,'XTick',[])
-           xLimits=get(gca,'xlim');
-%            if ~isnan(topPerfM)
-%                txt=sprintf('%.2f',topPerfM);
-%                text(3,0.95,txt,'Color','r')
-%            end
-%            if ~isnan(bottomPerfM)
-%                txt=sprintf('%.2f',bottomPerfM);
-%                text(4,0.95,txt,'Color','r')
-%            end
-           ylim([0 1])
-           set(gca, 'YTick',[0 0.5 1])
-           hold on
-           plot([xLimits(1) xLimits(2)],[1/numTargets 1/numTargets],'k:');
-           xlim([2.6 4.7])
-           set(gca,'Box','off')
-%            title('mean performance, visual (blue) & microstim (red) trials');
-%            xlabel('target condition');
-%            ylabel('average performance across session');
-%            pathname=fullfile('D:\data',date,['behavioural_performance_per_condition_',date]);
-%            set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-%            print(pathname,'-dtiff');
+% %            if numTargets==4
+%                subplot(2,2,1);
+% %            else
+% %                subplot(2,4,3);
+% %            end
+%            leftPerfV=0;leftPerfM=0;rightPerfV=0;rightPerfM=0;
+%            b=bar([leftPerfV leftPerfM;rightPerfV rightPerfM;topPerfV topPerfM;bottomPerfV bottomPerfM],'FaceColor','flat');
+%            b(1).FaceColor = 'flat';
+%            b(2).FaceColor = 'flat';
+%            b(1).FaceColor = [0 0.4470 0.7410];
+%            b(2).FaceColor = [1 0 0];
+%            set(gca, 'XTick',3:4)
+%            set(gca, 'XTickLabel', {'vertical' 'horizontal'})
+%            set(gca,'XTick',[])
+%            xLimits=get(gca,'xlim');
+% %            if ~isnan(topPerfM)
+% %                txt=sprintf('%.2f',topPerfM);
+% %                text(3,0.95,txt,'Color','r')
+% %            end
+% %            if ~isnan(bottomPerfM)
+% %                txt=sprintf('%.2f',bottomPerfM);
+% %                text(4,0.95,txt,'Color','r')
+% %            end
+%            ylim([0 1])
+%            set(gca, 'YTick',[0 0.5 1])
+%            hold on
+%            plot([xLimits(1) xLimits(2)],[1/numTargets 1/numTargets],'k:');
+%            xlim([2.6 4.7])
+%            set(gca,'Box','off')
         end
         
 %         figInd1=figure;hold on

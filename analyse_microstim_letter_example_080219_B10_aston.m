@@ -261,9 +261,13 @@ if processRaw==1
             figCols=[0 0 1;0 1 0];
             for setNo=1:length(setElectrodes)
                 if setNo==1
-                    subplot(2,3,2);
+%                     subplot(2,3,2);
+%                     subplot(2,6,2:3);
+                    subplot(1,2,1);
                 elseif setNo==2
-                    subplot(2,3,3);
+%                     subplot(2,3,3);
+%                     subplot(2,6,4:5);
+                    subplot(1,2,2);
                 end
                 hold on
                 %draw dotted lines indicating [0,0]
@@ -344,53 +348,28 @@ if processRaw==1
 %             xlabel('x-coordinates (dva)')
 %             ylabel('y-coordinates (dva)')
             
-            %            if numTargets==4
-            subplot(2,3,1);
-            %            else
-            %                subplot(2,4,3);
-            %            end
-            if numTargets==4
-                b=bar([perfV(1) perfM(1);perfV(2) perfM(2);perfV(3) perfM(3);perfV(4) perfM(4)],'FaceColor','flat');
-            elseif numTargets==2
-                b=bar([perfV(1) perfM(1);perfV(2) perfM(2)],'FaceColor','flat');
-            end
-            b(1).FaceColor = 'flat';
-            b(2).FaceColor = 'flat';
-            b(1).FaceColor = [0 0.4470 0.7410];
-            b(2).FaceColor = [1 0 0];
-            set(gca, 'XTick',1:numTargets)
-            set(gca,'XTick',[])
+%             %            if numTargets==4
+%             subplot(2,3,1);
+%             %            else
+%             %                subplot(2,4,3);
+%             %            end
 %             if numTargets==4
-%                 set(gca, 'XTickLabel', {['left, ',allLetters(1)] ['right, ',allLetters(2)] ['up, ',allLetters(3)] ['down, ',allLetters(4)]})
+%                 b=bar([perfV(1) perfM(1);perfV(2) perfM(2);perfV(3) perfM(3);perfV(4) perfM(4)],'FaceColor','flat');
 %             elseif numTargets==2
-%                 if LRorTB==1
-%                     set(gca, 'XTickLabel', {['left, ',allLetters(1)] ['right, ',allLetters(2)]})
-%                 elseif LRorTB==1
-%                     set(gca, 'XTickLabel', {['up, ',allLetters(3)] ['down, ',allLetters(4)]})
-%                 end
+%                 b=bar([perfV(1) perfM(1);perfV(2) perfM(2)],'FaceColor','flat');
 %             end
-            xLimits=get(gca,'xlim');
-%             for setNo=1:length(setElectrodes)
-%                 if ~isnan(perfV(setNo))
-%                     txt=sprintf('%.2f',perfV(setNo));
-%                     text(setNo-0.3,0.95,txt,'Color','b')
-%                 end
-%                 if ~isnan(perfM(setNo))
-%                     txt=sprintf('%.2f',perfM(setNo));
-%                     text(setNo,0.95,txt,'Color','r')
-%                 end
-%             end
-            ylim([0 1])
-            hold on
-            plot([xLimits(1) xLimits(2)],[1/numTargets 1/numTargets],'k:');
-           xlim([0.6 2.7])
-           set(gca,'Box','off')
-%             title('mean performance, visual (blue) & microstim (red) trials');
-%             xlabel('target condition');
-%             ylabel('average performance across session');
-            %            pathname=fullfile('D:\data',date,['behavioural_performance_per_condition_',date]);
-            %            set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-            %            print(pathname,'-dtiff');
+%             b(1).FaceColor = 'flat';
+%             b(2).FaceColor = 'flat';
+%             b(1).FaceColor = [0 0.4470 0.7410];
+%             b(2).FaceColor = [1 0 0];
+%             set(gca, 'XTick',1:numTargets)
+%             set(gca,'XTick',[])
+%             xLimits=get(gca,'xlim');
+%             ylim([0 1])
+%             hold on
+%             plot([xLimits(1) xLimits(2)],[1/numTargets 1/numTargets],'k:');
+%            xlim([0.6 2.7])
+%            set(gca,'Box','off')
         end
         
         %         figInd1=figure;hold on

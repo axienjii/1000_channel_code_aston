@@ -816,7 +816,7 @@ set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
 print(pathname,'-dtiff');
 
 perfMat=['D:\aston_data\behavioural_performance_first_sets_171218_',num2str(initialPerfTrials),'trials_motion.mat'];
-save(perfMat,'meanAllSetsPerfVisualBin','meanAllSetsPerfMicroBin');
+save(perfMat,'meanAllSetsPerfVisualBin','meanAllSetsPerfMicroBin','allSetsPerfVisualBin','allSetsPerfMicroBin');
 pause=1;
 
 significantByThisTrialMicro=0;
