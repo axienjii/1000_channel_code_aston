@@ -1,9 +1,10 @@
-function analyse_microstim_saccade_combine_sessions_current_aston
+function analyse_microstim_saccade_combine_sessions_current_aston2
 %Written by Xing 11/10/19
 %Calls function, 'analyse_microstim_saccade14_combine_sessions' to extract
 %eye position data and calculate saccade end points, for current
 %thresholding sessions. Calculates mean saccade end point across trials for
 %each channel, and plots mean saccade end point in figure.
+%Modified to run on office PC instead of lab PC.
 
 dates={
     '110918_B3_aston';
@@ -87,8 +88,8 @@ dates={
     '171218_B5-B7_aston';
    };
 
-suprathresholdCurrent=1;%set to 1 to use conditions with high current amplitudes, with no misses accrued. Set to 0 to use conditions with lower current amplitudes instead
-differentCriteria=0;
+suprathresholdCurrent=0;%set to 1 to use conditions with high current amplitudes, with no hits accrued. Set to 0 to use conditions with lower current amplitudes instead
+differentCriteria=1;
 if differentCriteria==1||suprathresholdCurrent==0
     ind=strfind(dates,'221018_B1_aston');
     removeInd=find(not(cellfun('isempty',ind)));
@@ -116,7 +117,7 @@ end
 datesReshape=reshape(dates,1,size(dates,1)*size(dates,2));
 dates=datesReshape(~cellfun('isempty',datesReshape));
 
-readData=1;
+readData=0;
 if readData==1
     for dateInd=1:length(dates)
         try
@@ -132,7 +133,7 @@ localDisk=0;
 if localDisk==1
     rootdir='D:\aston_data\';
 elseif localDisk==0
-    rootdir='X:\aston\';
+    rootdir='T:\aston\';
 end
 
 cols = hsv(16);
@@ -185,11 +186,11 @@ if differentCriteria==1
     localDisk=0;
     if localDisk==1
         rootdir='D:\data\';
-        copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date(1:6),'_data']);
+        copyfile(['T:\aston\',date(1:6),'_data'],[rootdir,date,'\',date(1:6),'_data']);
     elseif localDisk==0
-        rootdir='X:\aston\';
+        rootdir='T:\aston\';
     end
-    load(['X:\aston\',date,'\saccade_endpoints_',date,'.mat'])
+    load(['T:\aston\',date,'\saccade_endpoints_',date,'.mat'])
     electrodeAllTrials1=electrodeAllTrials;
     arrayAllTrials1=arrayAllTrials;
     saccadeEndAllTrials1=saccadeEndAllTrials;
@@ -198,11 +199,11 @@ if differentCriteria==1
     localDisk=0;
     if localDisk==1
         rootdir='D:\data\';
-        copyfile(['X:\aston\',date2(1:6),'_data'],[rootdir,date2,'\',date2(1:6),'_data']);
+        copyfile(['T:\aston\',date2(1:6),'_data'],[rootdir,date2,'\',date2(1:6),'_data']);
     elseif localDisk==0
-        rootdir='X:\aston\';
+        rootdir='T:\aston\';
     end
-    load(['X:\aston\',date2,'\saccade_endpoints_',date2,'.mat'])
+    load(['T:\aston\',date2,'\saccade_endpoints_',date2,'.mat'])
     electrodeAllTrials2=electrodeAllTrials;
     arrayAllTrials2=arrayAllTrials;
     saccadeEndAllTrials2=saccadeEndAllTrials;
@@ -240,12 +241,11 @@ for chNum=1:length(uniqueElectrodeList)
     if ~isempty(allPosIndXChsUnique{chNum})
         array=arrayNums(chNum);
         arrayColInd=find(arrays==array);
-        meanX(chNum)=nanmean(allPosIndXChsUnique{chNum});
-        meanY(chNum)=nanmean(allPosIndYChsUnique{chNum});
-        plot(meanX(chNum),-meanY(chNum),'MarkerFaceColor',cols(array,:),'MarkerEdgeColor',cols(array,:),'Marker','o','MarkerSize',3);
+        meanX=nanmean(allPosIndXChsUnique{chNum});
+        meanY=nanmean(allPosIndYChsUnique{chNum});
+        plot(meanX,-meanY,'MarkerFaceColor',cols(array,:),'MarkerEdgeColor',cols(array,:),'Marker','o','MarkerSize',5);
     end
 end
-% save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
 scatter(0,0,'r','o','filled');%fix spot
 %draw dotted lines indicating [0,0]
 plot([0 0],[-250 200],'k:');
@@ -257,13 +257,11 @@ ellipse(4*pixPerDeg,4*pixPerDeg,0,0,[0.1 0.1 0.1]);
 ellipse(6*pixPerDeg,6*pixPerDeg,0,0,[0.1 0.1 0.1]);
 ellipse(8*pixPerDeg,8*pixPerDeg,0,0,[0.1 0.1 0.1]);
 axis equal
-% xlim([-20 220]);
-% ylim([-200 15]);
 xlim([-10 140]);
 ylim([-120 20]);
 title('saccade endpoints');
 for arrayInd=1:length(arrays)
-%     text(180,0-4*arrayInd,['array',num2str(arrays(arrayInd))],'FontSize',14,'Color',cols(arrays(arrayInd),:));
+    text(180,0-4*arrayInd,['array',num2str(arrays(arrayInd))],'FontSize',14,'Color',cols(arrays(arrayInd),:));
 end
 xlabel('x-coordinates (dva)')
 ylabel('y-coordinates (dva)')
@@ -285,7 +283,7 @@ for chNum=1:length(uniqueElectrodeList)
         array=arrayNums(chNum);
         arrayColInd=find(arrays==array);
         for trialInd=1:length(allPosIndXChsUnique{chNum})
-            plot(allPosIndXChsUnique{chNum}(trialInd),-allPosIndYChsUnique{chNum}(trialInd),'MarkerFaceColor',cols(array,:),'MarkerEdgeColor',cols(array,:),'Marker','o','MarkerSize',3);
+            plot(allPosIndXChsUnique{chNum}(trialInd),-allPosIndYChsUnique{chNum}(trialInd),'MarkerFaceColor',cols(array,:),'MarkerEdgeColor',cols(array,:),'Marker','o','MarkerSize',5);
         end
     end
 end
@@ -314,55 +312,4 @@ set(gca,'XTickLabel',{'0','2','4','6','8','10'});
 set(gca,'YTick',[-6*pixPerDeg -4*pixPerDeg -2*pixPerDeg 0]);
 set(gca,'YTickLabel',{'-6','-4','-2','0'});
 set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-if suprathresholdCurrent==1
-    save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'_max_amp.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
-elseif suprathresholdCurrent==0
-    save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'_mid_amp.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
-end
 pause=1;
-
-%compare saccade eccentricities between high vs medium current amplitudes:
-load('D:\aston_data\saccade_endpoints_110918_B3_aston-201118_B8_max_amp.mat');
-uniqueElectrodeListMax=uniqueElectrodeList;
-uniqueArrayListMax=uniqueArrayList;
-allPosIndXChsUniqueMax=allPosIndXChsUnique;
-allPosIndYChsUniqueMax=allPosIndYChsUnique;
-meanXMax=meanX;
-meanYMax=meanY;
-meanEccMax=sqrt(meanXMax.^2+meanYMax.^2)/pixPerDeg;
-channelIDsMax=[uniqueElectrodeListMax' uniqueArrayListMax'];
-
-load('D:\aston_data\saccade_endpoints_110918_B3_aston-201118_B8_mid_amp.mat');
-uniqueElectrodeListMid=uniqueElectrodeList;
-uniqueArrayListMid=uniqueArrayList;
-allPosIndXChsUniqueMid=allPosIndXChsUnique;
-allPosIndYChsUniqueMid=allPosIndYChsUnique;
-meanXMid=meanX;
-meanYMid=meanY;
-meanEccMid=sqrt(meanXMid.^2+meanYMid.^2)/pixPerDeg;
-channelIDsMid=[uniqueElectrodeListMid' uniqueArrayListMid'];
-
-%find intersecting channels, from high and medium current conditions
-[intersectRows indMax indMid]=intersect(channelIDsMax,channelIDsMid,'rows');
-meanEccMaxFinal=meanEccMax(indMax);
-meanEccMidFinal=meanEccMid(indMid);
-
-figure;
-scatter(meanEccMaxFinal,meanEccMidFinal,2,'ko');
-hold on
-axis equal
-axis square
-set(gca,'XTick',[0 5])
-set(gca,'YTick',[0 5])
-dlm = fitlm(meanEccMaxFinal,meanEccMidFinal,'Intercept',false);
-xVals=0:5;
-yVals=xVals*dlm.Coefficients.Estimate;%as calculated and returned in dlm.Coefficients
-plot(xVals,yVals,'r-');
-ylim([0 5])
-xlim([0 5])
-plot([0 5],[0 5],'k:');
-
-%compare eccentricity of saccades for high vs low current with paired t-test
-[h,p,ci,stats]=ttest(meanEccMaxFinal,meanEccMidFinal);
-sprintf(['Aston, undershoot high-low current stats: t(',num2str(stats.df),') = ',num2str(stats.tstat),', p = %.4f'],p) 
-%Aston, undershoot high-low current stats: t(141) = 4.2127, p = 0.0000

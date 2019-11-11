@@ -24,6 +24,8 @@ sampFreq=30000;
 
 cols=[1 0 0;0 1 1;165/255 42/255 42/255;0 1 0;0 0 1;0 0 0;1 0 1;0.9 0.9 0;128/255 0 128/255];
 arrays=8:16;
+allSetsPerfMicroBin=[];
+allSetsPerfVisualBin=[];
 
 localDisk=0;
 analyseConds=0;
@@ -588,14 +590,16 @@ for calculateVisual=[0 1]
                         perfMicroBin=[perfMicroBin nan*ones(1,initialPerfTrials-length(perfMicroBin))];
                     end
                     if ~isempty(perfMicroBin)
-                        allSetsPerfMicroBin(setNo,:)=perfMicroBin;
+%                         allSetsPerfMicroBin(setNo,:)=perfMicroBin;
+                        allSetsPerfMicroBin=[allSetsPerfMicroBin;perfMicroBin];
                         save(['D:\microPerf_',date,'.mat'],'perfMicroBin');
                     end
                 elseif calculateVisual==1
                     perfVisualBin=perfVisualBin(1:initialPerfTrials);
                     %perfVisualBin=perfVisualBin(end-initialPerfTrials+1:end);
                     if ~isempty(perfVisualBin)
-                        allSetsPerfVisualBin(setNo,:)=perfVisualBin;
+%                         allSetsPerfVisualBin(setNo,:)=perfVisualBin;
+                        allSetsPerfVisualBin=[allSetsPerfVisualBin;perfVisualBin];
                         save(['D:\visualPerf_',date,'.mat'],'perfVisualBin');
                     end
                 end

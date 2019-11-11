@@ -29,6 +29,9 @@ setNos=[1:3 5:12];
 % setNos=[1:5 8:12];%sets 6 and 7 have less than 100 trials, for at least
 % visual-only or microstim-only versions
 
+allSetsPerfMicroBin=[];
+allSetsPerfVisualBin=[];
+
 analyseConds=0;
 for calculateVisual=[0 1]
     for setNo=setNos
@@ -493,14 +496,14 @@ for calculateVisual=[0 1]
                 if calculateVisual==0
                     perfMicroBin=perfMicroBin(1:initialPerfTrials);
                     if ~isempty(perfMicroBin)
-                        allSetsPerfMicroBin(setNo,:)=perfMicroBin;
+                        allSetsPerfMicroBin=[allSetsPerfMicroBin;perfMicroBin];
                         save(['D:\aston_data\microPerf_',date,'.mat'],'perfMicroBin');
                     end
                 elseif calculateVisual==1
                     perfVisualBin=perfVisualBin(1:initialPerfTrials);
                     %perfVisualBin=perfVisualBin(end-initialPerfTrials+1:end);
                     if ~isempty(perfVisualBin)
-                        allSetsPerfVisualBin(setNo,:)=perfVisualBin;
+                        allSetsPerfVisualBin=[allSetsPerfVisualBin;perfVisualBin];
                         save(['D:\aston_data\visualPerf_',date,'.mat'],'perfVisualBin');
                     end
                 end

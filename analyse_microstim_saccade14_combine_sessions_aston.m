@@ -388,7 +388,7 @@ if processRaw==1
                         %                 end
                         cleanUp=1;%remove datapoints that are too close to fixation?
                         if cleanUp==1
-                            if posIndX<5%||posIndY<5
+                            if posIndX<5||posIndY<-80
                                 manualCheck=1;
                                 posIndX=NaN;
                                 posIndY=NaN;

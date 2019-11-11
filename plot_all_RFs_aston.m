@@ -229,6 +229,8 @@ if drawBarArea==1
 end
 colind = hsv(16);
 colind(8,:)=[139/255 69/255 19/255];
+colind=colind([1 2 4 5 3 6 7 8 9 10 12 13 14 15 16 11],:);%rearrange to match locations of arrays on Lick's cortex (for paper)
+colind(16,:)=[0 0 0];
 arrayNums=[];
 goodArrays=1:16;
 % goodArrays=[1 2 3 4 9 10 11 13 14 15 16];
