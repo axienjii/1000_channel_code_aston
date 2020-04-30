@@ -225,12 +225,13 @@ if processRaw==1
            bottomPerfV=length(corrIndsV)/(length(corrIndsV)+length(incorrIndsV));
            
            figure;
-           subplot(2,2,2);
-           subplot(2,4,2:3);
+%            subplot(2,2,2);
+%            subplot(2,4,2:3);
+        subplot(1,2,1);
            hold on
            %draw dotted lines indicating [0,0]
            plot([0 0],[-250 200],'k:');
-           plot([-200 300],[0 0],'k:');
+           plot([-200 150],[0 0],'k:');
 %            plot([-200 300],[200 -300],'k:');
 %            ellipse(Par.PixPerDeg*2,Par.PixPerDeg*2,0,0,[0.1 0.1 0.1]);
            ellipse(Par.PixPerDeg*4,Par.PixPerDeg*4,0,0,[0.1 0.1 0.1]);
@@ -335,7 +336,8 @@ if processRaw==1
         end
         
 %         figInd1=figure;hold on
-        subplot(2,2,3:4);
+%         subplot(2,2,3:4);
+        subplot(1,2,2);
         ylim([0 1]);
         set(gca, 'YTick',[0 0.5 1])
         initialPerfTrials=50;%first set of trials are the most important

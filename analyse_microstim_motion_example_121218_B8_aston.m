@@ -239,11 +239,13 @@ if processRaw==1
            
            figure;
 %            subplot(2,2,2);
-           subplot(2,4,2:3);
+%            subplot(2,4,2:3);
+           subplot(1,2,1);
            hold on
            %draw dotted lines indicating [0,0]
            plot([0 0],[-250 200],'k:');
-           plot([-200 300],[0 0],'k:');
+%            plot([-200 300],[0 0],'k:');
+           plot([-200 150],[0 0],'k:');
            plot([-200 300],[200 -300],'k:');
 %            ellipse(Par.PixPerDeg*2,Par.PixPerDeg*2,0,0,[0.1 0.1 0.1]);
            ellipse(Par.PixPerDeg*4,Par.PixPerDeg*4,0,0,[0.1 0.1 0.1]);
@@ -252,7 +254,7 @@ if processRaw==1
            motionCols=[1 1 0;1 1 0.3;1 1 0.5;1 1 0.7;1 1 0.8;1 1 0.9];
            motionCols=[1 0.5 0;1 0.6 0.3;1 0.7 0.5;1 0.8 0.7;1 0.9 0.8;1 0.1 0.9];
            motionCols=[0 0 0;0.4 0.4 0.4;0.7 0.7 0.7];
-           motionCols=[0 0 1;0 1 1;0 0.8 0];
+           motionCols=[0 0 1;0 1 1;0 1 0];
            for electrodeCount=1:size(setElectrodes,2)
                electrode=setElectrodes(setInd,electrodeCount);
                array=setArrays(setInd,electrodeCount);
@@ -349,7 +351,8 @@ if processRaw==1
         end
         
 %         figInd1=figure;hold on
-        subplot(2,2,3:4);
+%         subplot(2,2,3:4);
+        subplot(1,2,2);
         ylim([0 1]);
         set(gca, 'YTick',[0 0.5 1])
         initialPerfTrials=50;%first set of trials are the most important
@@ -358,6 +361,8 @@ if processRaw==1
         plot(perfVisualTrialNo,perfVisualBin,'b-');
         xLimits=get(gca,'xlim');
         plot([0 xLimits(2)],[0.5 0.5],'k:');
+        ax.XTick=[0 50 100];
+        xlim([0 100])
 %         if ~isempty(perfMicroTrialNo)
 %             if initialPerfTrials-numTrialsPerBin+1<=length(perfMicroTrialNo)
 %                 firstTrialsM=perfMicroTrialNo(initialPerfTrials-numTrialsPerBin+1);

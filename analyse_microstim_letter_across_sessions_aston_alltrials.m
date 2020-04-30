@@ -659,6 +659,8 @@ ax=gca;
 ax.YTick=[0 2 4];
 [h,p,ci,stats]=ttest(goodSetsallSetsPerfMicroAllTrials,0.5)
 sprintf(['t(',num2str(stats.df),') = ',num2str(stats.tstat),', p = %.4f'],p)%t(9) = 3.6066, p = 0.0057
+mean(goodSetsallSetsPerfMicroAllTrials)
+std(goodSetsallSetsPerfMicroAllTrials)
 
 subplot(1,2,2);
 edges=0:0.1:1;
@@ -674,6 +676,8 @@ ax=gca;
 ax.YTick=[0 4 8];
 [h,p,ci,stats]=ttest(goodSetsallSetsPerfVisualAllTrials,0.5)
 sprintf(['t(',num2str(stats.df),') = ',num2str(stats.tstat),', p = %.4f'],p)%t(9) = 36.6576, p = 0.0000
+mean(goodSetsallSetsPerfVisualAllTrials)
+std(goodSetsallSetsPerfVisualAllTrials)
 
 significantByThisTrialMicro=0;
 for trialInd=1:length(meanAllSetsPerfMicroBin)

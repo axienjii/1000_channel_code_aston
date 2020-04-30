@@ -268,15 +268,15 @@ for i=1:length(goodInd)
     end
     if area=='V1'
         areaNum=1;
-        if plotCircles==1
-            plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',colind(arrayCol,:),'Marker','o','MarkerSize',3,'MarkerFaceColor',colind(arrayCol,:));
-        elseif plotCircles==0
-            text(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),num2str(channelNum),'Color',colind(arrayCol,:));
-        end
+%         if plotCircles==1
+%             plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',colind(arrayCol,:),'Marker','o','MarkerSize',3,'MarkerFaceColor',colind(arrayCol,:));
+%         elseif plotCircles==0
+%             text(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),num2str(channelNum),'Color',colind(arrayCol,:));
+%         end
     elseif area=='V4'
         areaNum=4;
         if plotCircles==1
-            plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',colind(arrayCol,:),'Marker','o','MarkerSize',3);
+            plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',colind(arrayCol,:),'Marker','o','MarkerSize',3,'MarkerFaceColor',colind(arrayCol,:));
         elseif plotCircles==0
             text(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),num2str(channelNum),'Color',colind(arrayCol,:));
         end
@@ -332,7 +332,12 @@ titleText=['all good channel RFs, SNR=',num2str(SNRthreshold),', ',num2str(lengt
 % ylim([-300 30]);
 % xlim([-30 300]);
 xlim([-10 140]);
+xlim([-10 240]);
+xlim([-10 320]);
 ylim([-120 20]);
+ylim([-150 20]);
+ylim([-250 20]);
+ylim([-310 20]);
 set(gca,'XTick',[]);
 set(gca,'YTick',[]);
 set(gca,'XTickLabel',[]);
