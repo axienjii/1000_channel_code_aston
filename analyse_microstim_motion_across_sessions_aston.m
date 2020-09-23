@@ -829,6 +829,9 @@ for trialInd=1:length(meanAllSetsPerfMicroBin)
     end
 end
 significantByThisTrialMicro%4th trial onwards
+sum(sum(allSetsPerfMicroBin(:,1:4)))
+length(allSetsPerfMicroBin(:,1))*4
+
 
 significantByThisTrialVisual=0;
 for trialInd=1:length(meanAllSetsPerfVisualBin)
@@ -840,3 +843,5 @@ for trialInd=1:length(meanAllSetsPerfVisualBin)
     end
 end
 significantByThisTrialVisual%2nd trial onwards
+sum(allSetsPerfVisualBin(:,1))
+length(allSetsPerfVisualBin(:,1))

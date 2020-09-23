@@ -1,7 +1,7 @@
 function generate_processed_resting_state_aston(date,allInstanceInd)
 %Written by Xing 16/8/19
 %Load resting state data, extract MUA, LFP, and EEG, and save new processed data files.
-date='140819_B1_aston_resting_state';
+% date='140819_B1_aston_resting_state';
 % date='150819_B1_aston_resting_state';
 % date='160819_B1_aston_resting_state';
 topDir='D:\aston_data';
