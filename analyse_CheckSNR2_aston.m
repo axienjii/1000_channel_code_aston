@@ -31,7 +31,7 @@ switch(date)
     case '260419_B2_aston'
         whichDir=1;
     case '140819_B2_aston'
-        whichDir=1;
+        whichDir=2;
     case '150819_B2_aston'
         whichDir=1;
     case '160819_B2_aston'
@@ -211,7 +211,7 @@ for instanceCount=1:length(allInstanceInd)
         set(gca,'ylim',[min(meanChannelMUA(channelInd,2:end)) max(meanChannelMUA(channelInd,:))]);
         title(num2str(channelInd));
     end
-    plot1024=0;
+    plot1024=1;
     for figInd=1:4
         figure(figInd)
         set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))

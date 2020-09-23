@@ -25,7 +25,7 @@ sampFreq=30000;
 
 cols=[1 0 0;0 1 1;165/255 42/255 42/255;0 1 0;0 0 1;0 0 0;1 0 1;0.9 0.9 0;128/255 0 128/255];
 arrays=8:16;
-setNos=[1:3 5:12];
+setNos=[1:3 5:12];%set 2 data is missing?
 % setNos=[1:5 8:12];%sets 6 and 7 have less than 100 trials, for at least
 % visual-only or microstim-only versions
 
@@ -686,6 +686,8 @@ ax=gca;
 ax.YTick=[0 2 4];
 [h,p,ci,stats]=ttest(goodSetsallSetsPerfMicroAllTrials,0.5)
 sprintf(['t(',num2str(stats.df),') = ',num2str(stats.tstat),', p = %.4f'],p)%t(10) = 2.6107, p = 0.0260
+mean(goodSetsallSetsPerfMicroAllTrials)
+std(goodSetsallSetsPerfMicroAllTrials)
 
 subplot(1,2,2);
 edges=0:0.1:1;
@@ -701,6 +703,8 @@ ax=gca;
 ax.YTick=[0 2 4];
 [h,p,ci,stats]=ttest(goodSetsallSetsPerfVisualAllTrials,0.5)
 sprintf(['t(',num2str(stats.df),') = ',num2str(stats.tstat),', p = %.4f'],p)%t(10) = 6.1496, p = 0.0001
+mean(goodSetsallSetsPerfVisualAllTrials)
+std(goodSetsallSetsPerfVisualAllTrials)
 
 significantByThisTrialMicro=0;
 for trialInd=1:length(meanAllSetsPerfMicroBin)
