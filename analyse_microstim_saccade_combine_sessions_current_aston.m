@@ -116,7 +116,7 @@ end
 datesReshape=reshape(dates,1,size(dates,1)*size(dates,2));
 dates=datesReshape(~cellfun('isempty',datesReshape));
 
-readData=1;
+readData=0;
 if readData==1
     for dateInd=1:length(dates)
         try
@@ -245,7 +245,7 @@ for chNum=1:length(uniqueElectrodeList)
         plot(meanX(chNum),-meanY(chNum),'MarkerFaceColor',cols(array,:),'MarkerEdgeColor',cols(array,:),'Marker','o','MarkerSize',3);
     end
 end
-% save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
+save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
 scatter(0,0,'r','o','filled');%fix spot
 %draw dotted lines indicating [0,0]
 plot([0 0],[-250 200],'k:');
@@ -314,11 +314,11 @@ set(gca,'XTickLabel',{'0','2','4','6','8','10'});
 set(gca,'YTick',[-6*pixPerDeg -4*pixPerDeg -2*pixPerDeg 0]);
 set(gca,'YTickLabel',{'-6','-4','-2','0'});
 set(gcf,'PaperPositionMode','auto','Position',get(0,'Screensize'))
-if suprathresholdCurrent==1
-    save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'_max_amp.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
-elseif suprathresholdCurrent==0
-    save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'_mid_amp.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
-end
+% if suprathresholdCurrent==1
+%     save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'_max_amp.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
+% elseif suprathresholdCurrent==0
+%     save(['D:\aston_data\saccade_endpoints_',dates{1},'-',dates{end},'_mid_amp.mat'],'uniqueElectrodeList','uniqueArrayList','allPosIndXChsUnique','allPosIndYChsUnique','meanX','meanY')
+% end
 pause=1;
 
 %compare saccade eccentricities between high vs medium current amplitudes:

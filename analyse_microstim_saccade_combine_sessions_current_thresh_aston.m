@@ -90,8 +90,8 @@ dates={
     '171218_B5-B7_aston';
    };
 
-% suprathresholdCurrent=0;%set to 1 to use conditions with high current amplitudes, with no hits accrued. Set to 0 to use conditions with lower current amplitudes instead
-differentCriteria=1;
+suprathresholdCurrent=1;%set to 1 to use conditions with high current amplitudes, with no hits accrued. Set to 0 to use conditions with lower current amplitudes instead
+differentCriteria=0;
 if differentCriteria==1
     ind=strfind(dates,'221018_B1_aston');
     removeInd=find(not(cellfun('isempty',ind)));
@@ -221,19 +221,19 @@ arrayNums=intersectRows(:,2);
 for uniqueElectrode=1:length(electrodeNums)
     uniqueElectrodeList(uniqueElectrode)=electrodeNums(uniqueElectrode);
     uniqueArrayList(uniqueElectrode)=arrayNums(uniqueElectrode);
-%     if suprathresholdCurrent==1
+    if suprathresholdCurrent==1
         temp1=find(allElectrodeAllTrialsMax==electrodeNums(uniqueElectrode));
         temp2=find(allArrayAllTrialsMax==arrayNums(uniqueElectrode));
         ind=intersect(temp1,temp2);
         allMaxCurrentUnique(uniqueElectrode)={allMaxCurrentListAllTrials(ind)};
 %         allProportionc50MaxUnique(uniqueElectrode)={allProportionc50Max(ind)};
-%     elseif suprathresholdCurrent==0
+    elseif suprathresholdCurrent==0
         temp1=find(allElectrodeAllTrialsMid==electrodeNums(uniqueElectrode));
         temp2=find(allArrayAllTrialsMid==arrayNums(uniqueElectrode));
         ind=intersect(temp1,temp2);
         allMidCurrentUnique(uniqueElectrode)={allMidCurrentListAllTrials(ind)};
 %         allProportionc50MidUnique(uniqueElectrode)={allProportionc50Mid(ind)};
-%     end
+    end
 end
 indRemove=find(uniqueElectrodeList==0);
 uniqueElectrodeList(indRemove)=[];

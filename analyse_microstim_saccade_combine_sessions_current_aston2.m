@@ -133,7 +133,7 @@ localDisk=0;
 if localDisk==1
     rootdir='D:\aston_data\';
 elseif localDisk==0
-    rootdir='T:\aston\';
+    rootdir='X:\aston\';
 end
 
 cols = hsv(16);
@@ -186,11 +186,11 @@ if differentCriteria==1
     localDisk=0;
     if localDisk==1
         rootdir='D:\data\';
-        copyfile(['T:\aston\',date(1:6),'_data'],[rootdir,date,'\',date(1:6),'_data']);
+        copyfile(['X:\aston\',date(1:6),'_data'],[rootdir,date,'\',date(1:6),'_data']);
     elseif localDisk==0
-        rootdir='T:\aston\';
+        rootdir='X:\aston\';
     end
-    load(['T:\aston\',date,'\saccade_endpoints_',date,'.mat'])
+    load(['X:\aston\',date,'\saccade_endpoints_',date,'.mat'])
     electrodeAllTrials1=electrodeAllTrials;
     arrayAllTrials1=arrayAllTrials;
     saccadeEndAllTrials1=saccadeEndAllTrials;
@@ -199,11 +199,11 @@ if differentCriteria==1
     localDisk=0;
     if localDisk==1
         rootdir='D:\data\';
-        copyfile(['T:\aston\',date2(1:6),'_data'],[rootdir,date2,'\',date2(1:6),'_data']);
+        copyfile(['X:\aston\',date2(1:6),'_data'],[rootdir,date2,'\',date2(1:6),'_data']);
     elseif localDisk==0
-        rootdir='T:\aston\';
+        rootdir='X:\aston\';
     end
-    load(['T:\aston\',date2,'\saccade_endpoints_',date2,'.mat'])
+    load(['X:\aston\',date2,'\saccade_endpoints_',date2,'.mat'])
     electrodeAllTrials2=electrodeAllTrials;
     arrayAllTrials2=arrayAllTrials;
     saccadeEndAllTrials2=saccadeEndAllTrials;
