@@ -131,6 +131,8 @@ goodArrays=1:16;
 % goodArrays=[1 2 3 4 9 10 11 13 14 15 16];
 % colind = hsv(11);
 badQuadrant=[];
+goodIndV1=0;
+goodIndV4=0;
 for i=1:length(goodInd)
     channelRow=goodInd(i);
     instanceInd=ceil(channelRow/128);
@@ -143,8 +145,10 @@ for i=1:length(goodInd)
     arrayNums=[arrayNums arrayNum];
     if strcmp(area,'V1')
         markerCol='k';%V1
+        goodIndV1=goodIndV1+1;
     else
         markerCol='b';%V4
+        goodIndV4=goodIndV4+1;
     end
 %     if channelRow>32&&channelRow<=96||channelRow>128&&channelRow<=128+32||channelRow>128*2-32&&channelRow<=128*2%V4 RFs
 %         plot(channelRFs1000(goodInd(i),1),channelRFs1000(goodInd(i),2),'MarkerEdgeColor',markerCol,'Marker','o');

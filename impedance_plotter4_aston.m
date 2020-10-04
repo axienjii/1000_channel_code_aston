@@ -8,14 +8,14 @@ function impedance_plotter4_aston
 %recording).
 %Corrected the indexing of RF coordinate data, which was previously incorrect in 
 %impedance_plotter.m
-% date='280818';
+date='280818';
 % date='041018';
 % date='201118';
 % date='181218';
 % date='010319';
 % date='170419';
 % date='260419';
-date='160819';
+% date='160819';
 colind = hsv(16);
 colindImp = hsv(1000);%colour-code impedances
 
