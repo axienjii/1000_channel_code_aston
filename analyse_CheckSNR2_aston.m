@@ -37,6 +37,7 @@ switch(date)
     case '160819_B2_aston'
         whichDir=1;
 end
+whichDir=2;
 if whichDir==1%local copy available
     topDir='D:\aston_data';
 elseif whichDir==2%local copy deleted; use server copy
@@ -152,32 +153,38 @@ for instanceCount=1:length(allInstanceInd)
             fileName=fullfile(copyDir,date,['MUA_',instanceName,'.mat']);
             save(fileName,'channelDataMUA');
         end
+    else 
+        fileName=fullfile(topDir,date,['MUA_',instanceName,'.mat']);
+        load(fileName,'channelDataMUA');
+        sampFreq=30000;
         
         %Average across trials and plot activity:
         % load(fileName);
         % figure(1)
         % hold on
         meanChannelMUA=[];
-        for channelInd=1:NS.MetaTags.ChannelCount
+        for channelInd=1:128%NS.MetaTags.ChannelCount
             meanChannelMUA(channelInd,:)=mean(channelDataMUA{channelInd}(:,:),1);
             %     plot(meanChannelMUA(channelInd,:))
             
             MUAm=meanChannelMUA(channelInd,:);%each value corresponds to 1 ms
             %Get noise levels before smoothing
             BaseT = 1:sampFreq*preStimDur/downsampleFreq;
-            Base = nanmean(MUAm(BaseT));
-            BaseS = nanstd(MUAm(BaseT));
+%             Base = nanmean(MUAm(BaseT));
+%             BaseS = nanstd(MUAm(BaseT));
+            Base = MUAm(:,BaseT);
+            BaseS = nanmean(nanstd(Base,[],2));
             
             %Smooth it to get a maximum...
             sm = smooth(MUAm,20);
             [mx,mi] = max(sm);
-            Scale = mx-Base;
+            Scale = mx-nanmean(Base);
             
             %calculate SNR
             SNR=Scale/BaseS;
             channelSNR(channelInd)=SNR;
         end
-        fileName=fullfile(topDir,date,['mean_MUA_',instanceName,'.mat']);
+        fileName=fullfile(topDir,date,['mean_MUA_',instanceName,'_new.mat']);
         save(fileName,'meanChannelMUA','channelSNR');
         if copyRemotely==1
             fileName=fullfile(copyDir,date,['mean_MUA_',instanceName,'.mat']);
@@ -192,7 +199,7 @@ for instanceCount=1:length(allInstanceInd)
     end
     allSNR=[allSNR;channelSNR(1:128)];
     
-    for channelInd=1:NS.MetaTags.ChannelCount
+    for channelInd=1:128%NS.MetaTags.ChannelCount
         figInd=ceil(channelInd/36);
         figure(figInd);hold on
         subplotInd=channelInd-((figInd-1)*36);

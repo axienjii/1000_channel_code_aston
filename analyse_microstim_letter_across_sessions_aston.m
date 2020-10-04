@@ -402,7 +402,7 @@ for calculateVisual=[0 1]
                     end
                     if ~isempty(perfMicroBin)
                         allSetsPerfMicroBin=[allSetsPerfMicroBin;perfMicroBin];
-                        save(['D:\aston_data\perf_mat\microPerf_',date,'_',num2str(initialPerfTrials),'trials.mat'],'perfMicroBin');
+%                         save(['D:\aston_data\perf_mat\microPerf_',date,'_',num2str(initialPerfTrials),'trials.mat'],'perfMicroBin');
                     end
                 elseif calculateVisual==1
                     if length(perfVisualBin)>=initialPerfTrials
@@ -412,7 +412,7 @@ for calculateVisual=[0 1]
                     end
                     if ~isempty(perfVisualBin)
                         allSetsPerfVisualBin=[allSetsPerfVisualBin;perfVisualBin];
-                        save(['D:\aston_data\perf_mat\visualPerf_',date,'_',num2str(initialPerfTrials),'trials.mat'],'perfVisualBin');
+%                         save(['D:\aston_data\perf_mat\visualPerf_',date,'_',num2str(initialPerfTrials),'trials.mat'],'perfVisualBin');
                     end
                 end
                 
@@ -625,6 +625,8 @@ for trialInd=1:length(meanAllSetsPerfMicroBin)
     end
 end
 significantByThisTrialMicro%5th trial onward
+sum(sum(allSetsPerfMicroBin(:,1:5)))
+length(allSetsPerfMicroBin(:,1))*5
 
 significantByThisTrialVisual=0;
 for trialInd=1:length(meanAllSetsPerfVisualBin)
@@ -636,3 +638,5 @@ for trialInd=1:length(meanAllSetsPerfVisualBin)
     end
 end
 significantByThisTrialVisual%1st trial onward
+sum(allSetsPerfVisualBin(:,1))
+length(allSetsPerfVisualBin(:,1))
